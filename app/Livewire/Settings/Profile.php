@@ -3,6 +3,7 @@
 namespace App\Livewire\Settings;
 
 use App\Concerns\ProfileValidationRules;
+use App\Models\User;
 use Flux\Flux;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
@@ -19,22 +20,21 @@ class Profile extends Component
 
     public string $email = '';
 
-    /**
-     * Mount the component.
-     */
     public function mount(): void
     {
-        $this->name = Auth::user()->name;
-        $this->email = Auth::user()->email;
-    }
-
-    /**
-     * Update the profile information for the currently authenticated user.
-     */
-    public function updateProfileInformation(): void
-    {
+        /** @var User $user */
         $user = Auth::user();
 
+        $this->name = $user->name;
+        $this->email = $user->email;
+    }
+
+    public function updateProfileInformation(): void
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        /** @var array{name: string, email: string} $validated */
         $validated = $this->validate($this->profileRules($user->id));
 
         $user->fill($validated);
@@ -45,14 +45,12 @@ class Profile extends Component
 
         $user->save();
 
-        Flux::toast(variant: 'success', text: __('Profile updated.'));
+        Flux::toast(text: __('Profile updated.'), variant: 'success');
     }
 
-    /**
-     * Send an email verification notification to the current user.
-     */
     public function resendVerificationNotification(): void
     {
+        /** @var User $user */
         $user = Auth::user();
 
         if ($user->hasVerifiedEmail()) {
@@ -69,13 +67,19 @@ class Profile extends Component
     #[Computed]
     public function hasUnverifiedEmail(): bool
     {
-        return Auth::user() instanceof MustVerifyEmail && ! Auth::user()->hasVerifiedEmail();
+        /** @var User $user */
+        $user = Auth::user();
+
+        return $user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail();
     }
 
     #[Computed]
     public function showDeleteUser(): bool
     {
-        return ! Auth::user() instanceof MustVerifyEmail
-            || (Auth::user() instanceof MustVerifyEmail && Auth::user()->hasVerifiedEmail());
+        /** @var User $user */
+        $user = Auth::user();
+
+        return ! $user instanceof MustVerifyEmail
+            || $user->hasVerifiedEmail();
     }
 }

@@ -3,9 +3,12 @@
 namespace App\Livewire\Settings;
 
 use App\Concerns\PasswordValidationRules;
+use App\Models\User;
 use Exception;
 use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication;
 use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
@@ -51,29 +54,27 @@ class Security extends Component
     #[Validate('required|string|size:6', onUpdate: false)]
     public string $code = '';
 
-    /**
-     * Mount the component.
-     */
     public function mount(DisableTwoFactorAuthentication $disableTwoFactorAuthentication): void
     {
         $this->canManageTwoFactor = Features::canManageTwoFactorAuthentication();
 
         if ($this->canManageTwoFactor) {
-            if (Fortify::confirmsTwoFactorAuthentication() && is_null(auth()->user()->two_factor_confirmed_at)) {
-                $disableTwoFactorAuthentication(auth()->user());
+            /** @var User $user */
+            $user = Auth::user();
+
+            if (Fortify::confirmsTwoFactorAuthentication() && is_null($user->two_factor_confirmed_at)) {
+                $disableTwoFactorAuthentication($user);
             }
 
-            $this->twoFactorEnabled = auth()->user()->hasEnabledTwoFactorAuthentication();
+            $this->twoFactorEnabled = $user->hasEnabledTwoFactorAuthentication();
             $this->requiresConfirmation = Features::optionEnabled(Features::twoFactorAuthentication(), 'confirm');
         }
     }
 
-    /**
-     * Update the password for the currently authenticated user.
-     */
     public function updatePassword(): void
     {
         try {
+            /** @var array{current_password: string, password: string} $validated */
             $validated = $this->validate([
                 'current_password' => $this->currentPasswordRules(),
                 'password' => $this->passwordRules(),
@@ -84,24 +85,27 @@ class Security extends Component
             throw $e;
         }
 
-        Auth::user()->update([
+        /** @var User $user */
+        $user = Auth::user();
+
+        $user->update([
             'password' => $validated['password'],
         ]);
 
         $this->reset('current_password', 'password', 'password_confirmation');
 
-        Flux::toast(variant: 'success', text: __('Password updated.'));
+        Flux::toast(text: __('Password updated.'), variant: 'success');
     }
 
-    /**
-     * Enable two-factor authentication for the user.
-     */
     public function enable(EnableTwoFactorAuthentication $enableTwoFactorAuthentication): void
     {
-        $enableTwoFactorAuthentication(auth()->user());
+        /** @var User $user */
+        $user = Auth::user();
+
+        $enableTwoFactorAuthentication($user);
 
         if (! $this->requiresConfirmation) {
-            $this->twoFactorEnabled = auth()->user()->hasEnabledTwoFactorAuthentication();
+            $this->twoFactorEnabled = $user->hasEnabledTwoFactorAuthentication();
         }
 
         $this->loadSetupData();
@@ -109,16 +113,14 @@ class Security extends Component
         $this->showModal = true;
     }
 
-    /**
-     * Load the two-factor authentication setup data for the user.
-     */
     private function loadSetupData(): void
     {
-        $user = auth()->user();
+        /** @var User $user */
+        $user = Auth::user();
 
         try {
-            $this->qrCodeSvg = $user?->twoFactorQrCodeSvg();
-            $this->manualSetupKey = decrypt($user->two_factor_secret);
+            $this->qrCodeSvg = $user->twoFactorQrCodeSvg();
+            $this->manualSetupKey = (string) Crypt::decryptString($user->two_factor_secret);
         } catch (Exception) {
             $this->addError('setupData', 'Failed to fetch setup data.');
 
@@ -126,9 +128,6 @@ class Security extends Component
         }
     }
 
-    /**
-     * Show the two-factor verification step if necessary.
-     */
     public function showVerificationIfNecessary(): void
     {
         if ($this->requiresConfirmation) {
@@ -142,23 +141,20 @@ class Security extends Component
         $this->closeModal();
     }
 
-    /**
-     * Confirm two-factor authentication for the user.
-     */
     public function confirmTwoFactor(ConfirmTwoFactorAuthentication $confirmTwoFactorAuthentication): void
     {
         $this->validate();
 
-        $confirmTwoFactorAuthentication(auth()->user(), $this->code);
+        /** @var User $user */
+        $user = Auth::user();
+
+        $confirmTwoFactorAuthentication($user, $this->code);
 
         $this->closeModal();
 
         $this->twoFactorEnabled = true;
     }
 
-    /**
-     * Reset two-factor verification state.
-     */
     public function resetVerification(): void
     {
         $this->reset('code', 'showVerificationStep');
@@ -166,19 +162,16 @@ class Security extends Component
         $this->resetErrorBag();
     }
 
-    /**
-     * Disable two-factor authentication for the user.
-     */
     public function disable(DisableTwoFactorAuthentication $disableTwoFactorAuthentication): void
     {
-        $disableTwoFactorAuthentication(auth()->user());
+        /** @var User $user */
+        $user = Auth::user();
+
+        $disableTwoFactorAuthentication($user);
 
         $this->twoFactorEnabled = false;
     }
 
-    /**
-     * Close the two-factor authentication modal.
-     */
     public function closeModal(): void
     {
         $this->reset(
@@ -192,13 +185,14 @@ class Security extends Component
         $this->resetErrorBag();
 
         if (! $this->requiresConfirmation) {
-            $this->twoFactorEnabled = auth()->user()->hasEnabledTwoFactorAuthentication();
+            /** @var User $user */
+            $user = Auth::user();
+
+            $this->twoFactorEnabled = $user->hasEnabledTwoFactorAuthentication();
         }
     }
 
-    /**
-     * Get the current modal configuration state.
-     */
+    /** @return array{title: string, description: string, buttonText: string} */
     #[Computed]
     public function modalConfig(): array
     {
