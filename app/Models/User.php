@@ -25,8 +25,6 @@ class User extends Authenticatable
     use HasFactory, Notifiable, TwoFactorAuthenticatable;
 
     /**
-     * Get the attributes that should be cast.
-     *
      * @return array<string, string>
      */
     protected function casts(): array
@@ -37,15 +35,12 @@ class User extends Authenticatable
         ];
     }
 
-    /**
-     * Get the user's initials
-     */
     public function initials(): string
     {
         return Str::of($this->name)
             ->explode(' ')
             ->take(2)
-            ->map(fn ($word) => Str::substr($word, 0, 1))
+            ->map(fn (string $word): string => Str::substr($word, 0, 1))
             ->implode('');
     }
 }
