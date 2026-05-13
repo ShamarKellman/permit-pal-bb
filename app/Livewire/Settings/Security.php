@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Settings;
 
 use App\Concerns\PasswordValidationRules;
@@ -112,21 +114,6 @@ class Security extends Component
         $this->showModal = true;
     }
 
-    private function loadSetupData(): void
-    {
-        /** @var User $user */
-        $user = Auth::user();
-
-        try {
-            $this->qrCodeSvg = $user->twoFactorQrCodeSvg();
-            $this->manualSetupKey = (string) Crypt::decryptString($user->two_factor_secret);
-        } catch (Exception) {
-            $this->addError('setupData', 'Failed to fetch setup data.');
-
-            $this->reset('qrCodeSvg', 'manualSetupKey');
-        }
-    }
-
     public function showVerificationIfNecessary(): void
     {
         if ($this->requiresConfirmation) {
@@ -216,5 +203,20 @@ class Security extends Component
             'description' => __('To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app.'),
             'buttonText' => __('Continue'),
         ];
+    }
+
+    private function loadSetupData(): void
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        try {
+            $this->qrCodeSvg = $user->twoFactorQrCodeSvg();
+            $this->manualSetupKey = (string) Crypt::decryptString($user->two_factor_secret);
+        } catch (Exception) {
+            $this->addError('setupData', 'Failed to fetch setup data.');
+
+            $this->reset('qrCodeSvg', 'manualSetupKey');
+        }
     }
 }
