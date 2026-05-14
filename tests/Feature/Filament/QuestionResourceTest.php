@@ -5,14 +5,14 @@ declare(strict_types=1);
 use App\Filament\Resources\QuestionResource\Pages\CreateQuestion;
 use App\Filament\Resources\QuestionResource\Pages\EditQuestion;
 use App\Filament\Resources\QuestionResource\Pages\ListQuestions;
+use App\Models\Admin;
 use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Question;
-use App\Models\User;
 
 use function Pest\Livewire\livewire;
 
-beforeEach(fn () => $this->actingAs(User::factory()->create()));
+beforeEach(fn () => $this->actingAs(Admin::factory()->create(), 'admin'));
 
 it('can list questions', function () {
     $questions = Question::factory()->count(3)->create();
