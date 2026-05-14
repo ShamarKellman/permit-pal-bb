@@ -5,12 +5,12 @@ declare(strict_types=1);
 use App\Filament\Resources\CategoryResource\Pages\CreateCategory;
 use App\Filament\Resources\CategoryResource\Pages\EditCategory;
 use App\Filament\Resources\CategoryResource\Pages\ListCategories;
+use App\Models\Admin;
 use App\Models\Category;
-use App\Models\User;
 
 use function Pest\Livewire\livewire;
 
-beforeEach(fn () => $this->actingAs(User::factory()->create()));
+beforeEach(fn () => $this->actingAs(Admin::factory()->create(), 'admin'));
 
 it('can list categories', function () {
     $categories = Category::factory()->count(3)->create();
