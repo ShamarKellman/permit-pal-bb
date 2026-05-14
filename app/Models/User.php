@@ -6,8 +6,6 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,12 +17,15 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 /**
  * @property string $two_factor_secret
  */
-#[Fillable(['name', 'email', 'password', 'is_admin'])]
+#[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable;
+    use HasFactory;
+
+    use Notifiable;
+    use TwoFactorAuthenticatable;
 
     /**
      * @return array<string, string>
@@ -36,11 +37,6 @@ class User extends Authenticatable implements FilamentUser
             'password' => 'hashed',
             'is_admin' => 'boolean',
         ];
-    }
-
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return $this->is_admin && $this->hasVerifiedEmail();
     }
 
     public function initials(): string

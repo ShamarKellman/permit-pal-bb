@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Livewire\Test;
 
-use App\Models\Category;
+use App\Actions\GenerateCategoryBreakdown;
 use App\Models\TestResponse;
 use App\Models\TestSession;
-use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
@@ -20,6 +19,13 @@ class TestResult extends Component
     #[Locked]
     public ?TestSession $session = null;
 
+    private GenerateCategoryBreakdown $generateCategoryBreakdown;
+
+    public function boot(GenerateCategoryBreakdown $generateCategoryBreakdown): void
+    {
+        $this->generateCategoryBreakdown = $generateCategoryBreakdown;
+    }
+
     public function mount(): void
     {
         $sessionId = session('last_test_session_id');
@@ -29,7 +35,9 @@ class TestResult extends Component
         }
 
         /** @var TestSession|null $session */
-        $session = TestSession::with('responses.question.category')->find($sessionId);
+        $session = TestSession::query()
+            ->with('responses.question.category')
+            ->find($sessionId);
         $this->session = $session;
     }
 
@@ -41,25 +49,27 @@ class TestResult extends Component
             return [];
         }
 
-        return $this->session->responses
-            ->groupBy(fn (TestResponse $response): string => (string) $response->question?->category_id)
-            ->map(function (Collection $group, string $categoryId): array {
-                $correct = (int) $group->filter(fn (TestResponse $response): bool => $response->is_correct)->count();
-                $total = (int) $group->count();
+        $categoryNames = $this->session->responses
+            ->mapWithKeys(fn (TestResponse $response): array => [
+                $response->question?->category_id => $response->question?->category->name ?? 'Unknown',
+            ]);
 
-                /** @var Category|null $foundCategory */
-                $foundCategory = Category::query()->find($categoryId);
-                $categoryName = $foundCategory !== null ? $foundCategory->name : 'Unknown';
+        $rawResponses = $this->session->responses
+            ->filter(fn (TestResponse $response): bool => $response->question?->category_id !== null)
+            ->map(fn (TestResponse $response): array => [
+                'category_id' => (int) $response->question?->category_id,
+                'is_correct' => $response->is_correct,
+            ]);
 
-                return [
-                    'category' => $categoryName,
-                    'correct' => $correct,
-                    'total' => $total,
-                    'percentage' => $total > 0 ? (int) round(($correct / $total) * 100) : 0,
-                ];
-            })
-            ->values()
-            ->all();
+        return array_map(
+            fn (array $breakdown): array => [
+                'category' => $categoryNames[$breakdown['category_id']] ?? 'Unknown',
+                'correct' => $breakdown['correct'],
+                'total' => $breakdown['total'],
+                'percentage' => $breakdown['percentage'],
+            ],
+            $this->generateCategoryBreakdown->categoryBreakdown($rawResponses)
+        );
     }
 
     public function render(): View

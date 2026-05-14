@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\TestSessionResource\Pages;
+use App\Filament\Resources\TestSessionResource\Pages\ListTestSessions;
 use App\Models\TestSession;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -29,15 +29,17 @@ class TestSessionResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')->label('ID')->sortable(),
-                TextColumn::make('user.name')->label('User')->default('Guest'),
+                TextColumn::make('id')
+                    ->label('ID')
+                    ->sortable(),
+                TextColumn::make('user.name')
+                    ->label('User')->default('Guest'),
                 TextColumn::make('score')
                     ->formatStateUsing(fn (int $state, TestSession $record) => "{$state} / {$record->total_questions}"),
                 IconColumn::make('passed')->boolean(),
                 TextColumn::make('completed_at')->dateTime()->sortable(),
             ])
-            ->defaultSort('completed_at', 'desc')
-            ->actions([]);
+            ->defaultSort('completed_at', 'desc');
     }
 
     public static function getRelations(): array
@@ -48,7 +50,7 @@ class TestSessionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTestSessions::route('/'),
+            'index' => ListTestSessions::route('/'),
         ];
     }
 }

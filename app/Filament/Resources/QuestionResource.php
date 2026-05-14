@@ -100,11 +100,11 @@ class QuestionResource extends Resource
                 Filter::make('active')
                     ->query(fn (Builder $query): Builder => $query->where('is_active', true)),
             ])
-            ->actions([
+            ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

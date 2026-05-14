@@ -10,6 +10,7 @@ use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Question;
 
+use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Livewire\livewire;
 
 beforeEach(fn () => $this->actingAs(Admin::factory()->create(), 'admin'));
@@ -38,8 +39,8 @@ it('can create a question with answers', function () {
         ->assertHasNoFormErrors()
         ->assertRedirect();
 
-    Pest\Laravel\assertDatabaseHas(Question::class, ['question_text' => 'What does a red light mean?']);
-    Pest\Laravel\assertDatabaseHas(Answer::class, ['answer_text' => 'Stop', 'is_correct' => true]);
+    assertDatabaseHas(Question::class, ['question_text' => 'What does a red light mean?']);
+    assertDatabaseHas(Answer::class, ['answer_text' => 'Stop', 'is_correct' => true]);
 });
 
 it('can toggle active status', function () {
@@ -51,5 +52,5 @@ it('can toggle active status', function () {
         ->call('save')
         ->assertHasNoFormErrors();
 
-    Pest\Laravel\assertDatabaseHas(Question::class, ['id' => $question->id, 'is_active' => false]);
+    assertDatabaseHas(Question::class, ['id' => $question->id, 'is_active' => false]);
 });

@@ -8,6 +8,7 @@ use App\Filament\Resources\CategoryResource\Pages\ListCategories;
 use App\Models\Admin;
 use App\Models\Category;
 
+use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Livewire\livewire;
 
 beforeEach(fn () => $this->actingAs(Admin::factory()->create(), 'admin'));
@@ -24,7 +25,7 @@ it('can create a category', function () {
         ->assertHasNoFormErrors()
         ->assertRedirect();
 
-    Pest\Laravel\assertDatabaseHas(Category::class, ['slug' => 'road-markings']);
+    assertDatabaseHas(Category::class, ['slug' => 'road-markings']);
 });
 
 it('requires name and slug', function () {
@@ -41,5 +42,5 @@ it('can edit a category', function () {
         ->call('save')
         ->assertHasNoFormErrors();
 
-    Pest\Laravel\assertDatabaseHas(Category::class, ['id' => $category->id, 'name' => 'Updated Name']);
+    assertDatabaseHas(Category::class, ['id' => $category->id, 'name' => 'Updated Name']);
 });

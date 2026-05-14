@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Test;
 
+use App\Actions\CalculateScore;
 use App\Actions\TestGenerator;
 use App\Models\Answer;
 use App\Models\Question;
@@ -38,9 +39,12 @@ class PracticeTest extends Component
 
     private TestGenerator $testGenerator;
 
-    public function boot(TestGenerator $testGenerator): void
+    private CalculateScore $calculateScore;
+
+    public function boot(TestGenerator $testGenerator, CalculateScore $calculateScore): void
     {
         $this->testGenerator = $testGenerator;
+        $this->calculateScore = $calculateScore;
     }
 
     public function mount(): void
@@ -83,17 +87,17 @@ class PracticeTest extends Component
 
     private function saveSession(): void
     {
-        $score = collect($this->responses)->filter(fn (array $r) => $r['is_correct'])->count();
-        $passed = $score >= 15;
+        $responses = collect($this->responses);
+        $result = $this->calculateScore->calculate($responses, $this->totalQuestions);
 
         $session = TestSession::query()->create([
             'user_id' => auth()->id(),
             'session_token' => auth()->check() ? null : Str::uuid()->toString(),
             'started_at' => now()->subMinutes(5),
             'completed_at' => now(),
-            'score' => $score,
-            'total_questions' => $this->totalQuestions,
-            'passed' => $passed,
+            'score' => $result['score'],
+            'total_questions' => $result['total'],
+            'passed' => $result['passed'],
         ]);
 
         foreach ($this->responses as $response) {

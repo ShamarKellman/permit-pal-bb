@@ -69,11 +69,11 @@ class CategoryResource extends Resource
                     ->label('Questions'),
             ])
             ->defaultSort('sort_order')
-            ->actions([
+            ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
