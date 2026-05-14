@@ -26,6 +26,11 @@
     --color-accent: var(--color-neutral-800);
     --color-accent-content: var(--color-neutral-800);
     --color-accent-foreground: var(--color-white);
+
+    --color-primary:     oklch(55% 0.2 250);
+    --color-road-yellow: oklch(85% 0.18 90);
+    --color-stop-red:    oklch(50% 0.22 25);
+    --color-go-green:    oklch(60% 0.2 145);
 }
 
 @layer theme {

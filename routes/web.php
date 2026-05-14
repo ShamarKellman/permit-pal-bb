@@ -8,6 +8,8 @@ Route::view('/', 'welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::view('/study', 'pages.study')->name('study');
+    Route::view('/study/{category:slug}', 'pages.study')->name('study.category');
 });
 
 require __DIR__.'/settings.php';
