@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Pest\Livewire\livewire;
 use Tests\TestCase;
 
 /*
