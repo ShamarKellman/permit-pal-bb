@@ -6,11 +6,12 @@ namespace App\Livewire\Dashboard;
 
 use App\Models\TestSession;
 use Illuminate\Support\Collection;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class ScoreHistory extends Component
 {
-    public function render(): \Illuminate\View\View
+    public function render(): View
     {
         return view('livewire.dashboard.score-history', [
             'sessions' => $this->sessions(),

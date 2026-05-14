@@ -53,6 +53,9 @@ class QuestionResource extends Resource
                     ->columnSpanFull(),
                 FileUpload::make('image_path')
                     ->image()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->maxSize(2048)
+                    ->preventFilePathTampering()
                     ->visibility('public')
                     ->nullable()
                     ->columnSpanFull(),

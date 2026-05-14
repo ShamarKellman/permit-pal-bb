@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Livewire\Test;
 
+use App\Actions\TestGenerator;
 use App\Models\Answer;
+use App\Models\Question;
 use App\Models\TestSession;
-use App\Services\TestGeneratorService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
@@ -26,7 +28,7 @@ class PracticeTest extends Component
     #[Locked]
     public int $totalQuestions = 20;
 
-    /** @var Collection<int, \App\Models\Question> */
+    /** @var Collection<int, Question> */
     #[Locked]
     public Collection $questions;
 
@@ -34,9 +36,16 @@ class PracticeTest extends Component
     #[Locked]
     public array $responses = [];
 
+    private TestGenerator $testGenerator;
+
+    public function boot(TestGenerator $testGenerator): void
+    {
+        $this->testGenerator = $testGenerator;
+    }
+
     public function mount(): void
     {
-        $this->questions = TestGeneratorService::generate($this->totalQuestions);
+        $this->questions = $this->testGenerator->generate($this->totalQuestions);
         $this->totalQuestions = $this->questions->count();
     }
 
@@ -67,7 +76,7 @@ class PracticeTest extends Component
         }
     }
 
-    public function render(): \Illuminate\View\View
+    public function render(): View
     {
         return view('livewire.test.practice-test');
     }

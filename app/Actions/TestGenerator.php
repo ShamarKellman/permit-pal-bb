@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Actions;
 
 use App\Models\Question;
 use Illuminate\Database\Eloquent\Collection;
 
-class TestGeneratorService
+class TestGenerator
 {
     /**
      * @return Collection<int, Question>
      */
-    public static function generate(int $count = 20): Collection
+    public function generate(int $count = 20): Collection
     {
-        return Question::active()
+        return Question::query()
+            ->active()
             ->with('answers')
             ->inRandomOrder()
             ->limit($count)

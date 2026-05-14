@@ -30,7 +30,9 @@ class AppServiceProvider extends ServiceProvider
 
         Model::automaticallyEagerLoadRelationships();
 
-        URL::forceHttps();
+        if ($this->app->isProduction()) {
+            URL::forceHttps();
+        }
 
         DB::prohibitDestructiveCommands(
             app()->isProduction(),

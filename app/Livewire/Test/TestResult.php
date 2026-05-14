@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\TestResponse;
 use App\Models\TestSession;
 use Illuminate\Support\Collection;
+use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
@@ -41,9 +42,9 @@ class TestResult extends Component
         }
 
         return $this->session->responses
-            ->groupBy(fn (TestResponse $r) => (string) $r->question?->category_id)
-            ->map(function (Collection $group, string $categoryId) {
-                $correct = (int) $group->filter(fn (TestResponse $r) => $r->is_correct)->count();
+            ->groupBy(fn (TestResponse $response): string => (string) $response->question?->category_id)
+            ->map(function (Collection $group, string $categoryId): array {
+                $correct = (int) $group->filter(fn (TestResponse $response): bool => $response->is_correct)->count();
                 $total = (int) $group->count();
 
                 /** @var Category|null $foundCategory */
@@ -61,7 +62,7 @@ class TestResult extends Component
             ->all();
     }
 
-    public function render(): \Illuminate\View\View
+    public function render(): View
     {
         return view('livewire.test.test-result');
     }

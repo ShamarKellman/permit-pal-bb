@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 class ScoreCalculatorService
 {
-    private const PASS_THRESHOLD = 15;
+    private const int PASS_THRESHOLD = 15;
 
     /**
      * @param  Collection<int, array{is_correct: bool}>  $responses
@@ -16,7 +16,7 @@ class ScoreCalculatorService
      */
     public static function calculate(Collection $responses, int $total): array
     {
-        $score = $responses->filter(fn (array $r) => $r['is_correct'])->count();
+        $score = $responses->filter(fn (array $responses) => $responses['is_correct'])->count();
 
         return [
             'score' => $score,
@@ -34,7 +34,7 @@ class ScoreCalculatorService
         return $responses
             ->groupBy('category_id')
             ->map(function (Collection $group, int $categoryId) {
-                $correct = $group->filter(fn (array $r) => (bool) $r['is_correct'])->count();
+                $correct = $group->filter(fn (array $responses) => (bool) $responses['is_correct'])->count();
                 $total = $group->count();
 
                 return [
