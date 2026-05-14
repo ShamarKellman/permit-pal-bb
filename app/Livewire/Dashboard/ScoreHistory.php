@@ -22,7 +22,8 @@ class ScoreHistory extends Component
      */
     private function sessions(): Collection
     {
-        return TestSession::where('user_id', auth()->id())
+        return TestSession::query()
+            ->where('user_id', auth()->id())
             ->completed()
             ->latest('completed_at')
             ->limit(10)

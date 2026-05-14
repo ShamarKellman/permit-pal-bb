@@ -18,4 +18,7 @@ return RectorConfig::configure()
     ->withSets([
         LaravelSetList::LARAVEL_130,
         LaravelSetList::LARAVEL_CODE_QUALITY,
+        LaravelSetList::LARAVEL_TYPE_DECLARATIONS,
+        LaravelSetList::LARAVEL_ELOQUENT_MAGIC_METHOD_TO_QUERY_BUILDER,
+        LaravelSetList::LARAVEL_COLLECTION,
     ]);

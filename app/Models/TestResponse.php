@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\TestResponseFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+#[Fillable(['test_session_id', 'question_id', 'answer_id', 'is_correct'])]
 class TestResponse extends Model
 {
-    /** @use HasFactory<\Database\Factories\TestResponseFactory> */
+    /** @use HasFactory<TestResponseFactory> */
     use HasFactory;
-
-    protected $fillable = ['test_session_id', 'question_id', 'answer_id', 'is_correct'];
 
     protected function casts(): array
     {

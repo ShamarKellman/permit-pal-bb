@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Dashboard;
 
 use App\Models\Category;
+use App\Models\Question;
 use App\Models\TestResponse;
 use App\Models\TestSession;
 use Illuminate\Support\Collection;
@@ -24,12 +25,14 @@ class WeakTopics extends Component
      */
     private function weakCategories(): Collection
     {
-        $sessionIds = TestSession::where('user_id', auth()->id())
+        $sessionIds = TestSession::query()
+            ->where('user_id', auth()->id())
             ->completed()
             ->pluck('id');
 
         /** @var Collection<int, array{category: Category, percentage: int}> $result */
-        $result = TestResponse::whereIn('test_session_id', $sessionIds)
+        $result = TestResponse::query()
+            ->whereIn('test_session_id', $sessionIds)
             ->with('question.category')
             ->get()
             ->filter(fn (TestResponse $r) => $r->question !== null && $r->question->category !== null)
@@ -42,7 +45,7 @@ class WeakTopics extends Component
                 /** @var TestResponse $first */
                 $first = $group->first();
 
-                /** @var \App\Models\Question $question */
+                /** @var Question $question */
                 $question = $first->question;
 
                 /** @var Category $category */

@@ -45,7 +45,7 @@ class PracticeTest extends Component
         $this->validate();
 
         $question = $this->questions[$this->currentIndex] ?? null;
-        $answer = Answer::find($this->selectedAnswer);
+        $answer = Answer::query()->find($this->selectedAnswer);
 
         if ($question === null || $answer === null) {
             return;
@@ -77,7 +77,7 @@ class PracticeTest extends Component
         $score = collect($this->responses)->filter(fn ($r) => $r['is_correct'])->count();
         $passed = $score >= 15;
 
-        $session = TestSession::create([
+        $session = TestSession::query()->create([
             'user_id' => auth()->id(),
             'session_token' => auth()->check() ? null : Str::uuid()->toString(),
             'started_at' => now()->subMinutes(5),

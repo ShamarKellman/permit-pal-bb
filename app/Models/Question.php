@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Builders\QuestionBuilder;
+use Database\Factories\QuestionFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,12 +14,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[UseEloquentBuilder(QuestionBuilder::class)]
+#[Fillable(['category_id', 'question_text', 'image_path', 'difficulty', 'is_active'])]
 class Question extends Model
 {
-    /** @use HasFactory<\Database\Factories\QuestionFactory> */
+    /** @use HasFactory<QuestionFactory> */
     use HasFactory;
-
-    protected $fillable = ['category_id', 'question_text', 'image_path', 'difficulty', 'is_active'];
 
     protected function casts(): array
     {
