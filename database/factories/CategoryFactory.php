@@ -23,7 +23,7 @@ class CategoryFactory extends Factory
             'name' => fake()->unique()->words(2, true),
             'slug' => fake()->unique()->slug(2),
             'description' => fake()->sentence(),
-            'icon' => fake()->randomElement(['car', 'sign', 'road', 'shield-check', 'gauge']),
+            'icon' => fake()->randomElement(['book-open', 'shield-check', 'truck', 'check-circle', 'information-circle']),
             'sort_order' => fake()->numberBetween(1, 99),
         ];
     }
