@@ -74,7 +74,7 @@ class PracticeTest extends Component
 
     private function saveSession(): void
     {
-        $score = collect($this->responses)->filter(fn ($r) => $r['is_correct'])->count();
+        $score = collect($this->responses)->filter(fn (array $r) => $r['is_correct'])->count();
         $passed = $score >= 15;
 
         $session = TestSession::query()->create([

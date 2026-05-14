@@ -7,6 +7,7 @@ namespace App\Livewire\Test;
 use App\Models\Category;
 use App\Models\TestResponse;
 use App\Models\TestSession;
+use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
@@ -41,7 +42,7 @@ class TestResult extends Component
 
         return $this->session->responses
             ->groupBy(fn (TestResponse $r) => (string) $r->question?->category_id)
-            ->map(function ($group, $categoryId) {
+            ->map(function (Collection $group, string $categoryId) {
                 $correct = (int) $group->filter(fn (TestResponse $r) => $r->is_correct)->count();
                 $total = (int) $group->count();
 

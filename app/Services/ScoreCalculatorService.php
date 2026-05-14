@@ -34,7 +34,7 @@ class ScoreCalculatorService
         return $responses
             ->groupBy('category_id')
             ->map(function (Collection $group, int $categoryId) {
-                $correct = $group->filter(fn ($r) => (bool) $r['is_correct'])->count();
+                $correct = $group->filter(fn (array $r) => (bool) $r['is_correct'])->count();
                 $total = $group->count();
 
                 return [
