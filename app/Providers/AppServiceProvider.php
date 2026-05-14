@@ -24,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Date::use(CarbonImmutable::class);
 
+        Model::preventLazyLoading(! $this->app->isProduction());
+
         Model::shouldBeStrict();
 
         Model::automaticallyEagerLoadRelationships();
