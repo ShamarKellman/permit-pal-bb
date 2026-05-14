@@ -7,6 +7,7 @@ namespace App\Livewire\Study;
 use App\Models\Question;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -26,8 +27,9 @@ class FlashCard extends Component
     public function mount(string $categorySlug): void
     {
         $this->categorySlug = $categorySlug;
-        $this->questions = Question::active()
-            ->whereHas('category', fn (Builder $q) => $q->where('slug', $categorySlug))
+        $this->questions = Question::query()
+            ->active()
+            ->whereHas('category', fn (Builder $query): Builder => $query->where('slug', $categorySlug))
             ->with('answers')
             ->get();
     }
@@ -59,7 +61,7 @@ class FlashCard extends Component
         }
     }
 
-    public function render(): \Illuminate\View\View
+    public function render(): View
     {
         return view('livewire.study.flash-card');
     }

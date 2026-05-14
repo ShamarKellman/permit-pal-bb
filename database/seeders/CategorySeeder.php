@@ -99,7 +99,7 @@ class CategorySeeder extends Seeder
         ];
 
         foreach ($categories as $category) {
-            Category::updateOrCreate(['slug' => $category['slug']], $category);
+            Category::query()->updateOrCreate(['slug' => $category['slug']], $category);
         }
     }
 }

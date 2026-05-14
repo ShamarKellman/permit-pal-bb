@@ -8,12 +8,10 @@ use App\Models\Category;
 use App\Models\TestResponse;
 use App\Models\TestSession;
 use Livewire\Attributes\Computed;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
-#[Layout('components.layouts.app')]
 #[Title('Test Result')]
 class TestResult extends Component
 {

@@ -16,13 +16,13 @@ class QuestionSeeder extends Seeder
         $data = $this->questions();
 
         foreach ($data as $item) {
-            $category = Category::where('slug', $item['category'])->first();
+            $category = Category::query()->where('slug', $item['category'])->first();
 
             if (! $category) {
                 continue;
             }
 
-            $question = Question::updateOrCreate(
+            $question = Question::query()->updateOrCreate(
                 ['question_text' => $item['question']],
                 [
                     'category_id' => $category->id,
@@ -36,7 +36,7 @@ class QuestionSeeder extends Seeder
             $question->answers()->delete();
 
             foreach ($item['answers'] as $answerData) {
-                Answer::create([
+                Answer::query()->create([
                     'question_id' => $question->id,
                     'answer_text' => $answerData['text'],
                     'is_correct' => $answerData['correct'],
@@ -46,6 +46,19 @@ class QuestionSeeder extends Seeder
         }
     }
 
+    /** @return array<int, array{
+     *     category: string,
+     *     difficulty: string,
+     *     question: string,
+     *     answers: array<int,
+     *          array{
+     *              text: string,
+     *              correct: bool,
+     *              explanation?: string
+     *          }>,
+     *     image?: string
+     * }>
+     */
     private function questions(): array
     {
         return [
@@ -689,6 +702,923 @@ class QuestionSeeder extends Seeder
                     ['text' => 'Between 6:00 am–8:00 am and 2:00 pm–4:00 pm', 'correct' => false, 'explanation' => 'These are not the correct permitted times.'],
                     ['text' => 'Between 6:00 am–10:00 am and 1:00 pm–3:00 pm', 'correct' => false, 'explanation' => 'These are not the correct permitted times.'],
                     ['text' => 'At any time as long as a handler is present',  'correct' => false, 'explanation' => 'There are specific time restrictions for leading large animals on busy roads.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // ROAD SIGNS (PDF additions)
+            // -------------------------------------------------------
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'What do blue circular road signs do?',
+                'answers' => [
+                    ['text' => 'Warn of hazards ahead',               'correct' => false, 'explanation' => 'Triangular signs warn of hazards.'],
+                    ['text' => 'Give positive orders and commands',    'correct' => true,  'explanation' => 'Blue circular signs give positive orders — they tell you what you MUST do.'],
+                    ['text' => 'Give negative orders and prohibitions', 'correct' => false, 'explanation' => 'Red or white circles with red borders give prohibitions.'],
+                    ['text' => 'Give information about places',        'correct' => false, 'explanation' => 'Informational signs are usually rectangular.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'What do red circles or white circles with red borders indicate?',
+                'answers' => [
+                    ['text' => 'Negative orders and prohibitions', 'correct' => true,  'explanation' => 'Red or white circular signs with red borders give prohibitions — they tell you what you must NOT do.'],
+                    ['text' => 'Positive orders and commands',     'correct' => false, 'explanation' => 'Positive orders are given by blue circular signs.'],
+                    ['text' => 'Hazard warnings',                  'correct' => false, 'explanation' => 'Hazard warnings are given by triangular signs.'],
+                    ['text' => 'Directions and information',       'correct' => false, 'explanation' => 'Directional information is given by rectangular signs.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'A triangle with its apex pointing upward and a red border — what does it do?',
+                'answers' => [
+                    ['text' => 'Warns of hazards ahead',     'correct' => true,  'explanation' => 'A triangular sign with the apex pointing upward warns drivers of a hazard ahead.'],
+                    ['text' => 'Is a give way sign',          'correct' => false, 'explanation' => 'A give way sign is a triangle with the apex pointing downward.'],
+                    ['text' => 'Is a stop sign',              'correct' => false, 'explanation' => 'The stop sign is octagonal.'],
+                    ['text' => 'Gives a positive command',   'correct' => false, 'explanation' => 'Commands are given by circular signs.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'What is the give way sign?',
+                'answers' => [
+                    ['text' => 'A triangle with the apex pointing downward',  'correct' => true,  'explanation' => 'The give way sign is an inverted triangle — apex pointing down.'],
+                    ['text' => 'A triangle with the apex pointing upward',    'correct' => false, 'explanation' => 'An upward apex triangle is a hazard warning sign.'],
+                    ['text' => 'A rectangle with an arrow',                   'correct' => false, 'explanation' => 'Rectangles are used for directional or informational signs.'],
+                    ['text' => 'A circular sign with a red border',           'correct' => false, 'explanation' => 'Circular signs with red borders give prohibitions.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'A broken yellow line painted along the road is:',
+                'answers' => [
+                    ['text' => 'A hazard warning line',  'correct' => true,  'explanation' => 'A broken yellow line is a hazard warning line alerting drivers to a potential danger ahead.'],
+                    ['text' => 'A stop line',             'correct' => false, 'explanation' => 'Stop lines are solid white lines across the road.'],
+                    ['text' => 'A give way line',         'correct' => false, 'explanation' => 'Give way lines are broken white lines across the road.'],
+                    ['text' => 'A centre line',           'correct' => false, 'explanation' => 'Centre lines are white lines dividing lanes.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'Areas of yellow stripes painted diagonally on the road are called:',
+                'answers' => [
+                    ['text' => 'Traffic lines',  'correct' => false, 'explanation' => 'Traffic lines is not the correct term for these markings.'],
+                    ['text' => 'Chevrons',        'correct' => true,  'explanation' => 'Yellow diagonal hatching on the road surface are called chevrons. Vehicles must not enter these areas.'],
+                    ['text' => 'Caution lines',   'correct' => false, 'explanation' => 'Caution lines is not the official term.'],
+                    ['text' => 'Rumble strips',   'correct' => false, 'explanation' => 'Rumble strips are raised or textured surfaces, not painted yellow stripes.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'Should vehicles drive into areas marked with yellow or white diagonal chevron stripes on the road?',
+                'answers' => [
+                    ['text' => 'Never',                        'correct' => true,  'explanation' => 'Chevron-marked areas must never be driven on — they separate opposing traffic flows or protect vulnerable areas.'],
+                    ['text' => 'Yes, if the road is clear',    'correct' => false, 'explanation' => 'Chevron areas must not be entered regardless of traffic conditions.'],
+                    ['text' => 'Only in emergencies',          'correct' => false, 'explanation' => 'Chevron areas are not emergency stopping lanes.'],
+                    ['text' => 'Only for short distances',     'correct' => false, 'explanation' => 'There is no permitted distance — chevron areas must not be entered.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'medium',
+                'question' => 'A white triangular sign with a red border and three arrows arranged in a clockwise circle means:',
+                'answers' => [
+                    ['text' => 'Mini-roundabout',    'correct' => false, 'explanation' => 'A mini-roundabout is shown by a circular sign with three arrows, not triangular.'],
+                    ['text' => 'Ring road',           'correct' => false, 'explanation' => 'Ring road signs are rectangular and directional.'],
+                    ['text' => 'Roundabout ahead',    'correct' => true,  'explanation' => 'A triangular sign with three clockwise arrows warns of a roundabout junction ahead.'],
+                    ['text' => 'One-way traffic',     'correct' => false, 'explanation' => 'One-way traffic signs use a single directional arrow.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'medium',
+                'question' => 'A white triangular sign with a red border and a black cross in the middle means:',
+                'answers' => [
+                    ['text' => 'Staggered road junction', 'correct' => false, 'explanation' => 'A staggered junction sign shows an offset cross.'],
+                    ['text' => 'Crossroads ahead',        'correct' => true,  'explanation' => 'A triangular sign with a cross indicates a crossroads junction ahead.'],
+                    ['text' => 'Minor road junction',     'correct' => false, 'explanation' => 'A minor road junction sign shows a T-shape.'],
+                    ['text' => 'No entry from all sides', 'correct' => false, 'explanation' => 'No entry is shown by a red circle with a white horizontal bar.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'A sign showing a red car and a black car side by side means:',
+                'answers' => [
+                    ['text' => 'No overtaking',                    'correct' => true,  'explanation' => 'Two cars side by side (one red, one black) is the no-overtaking sign — you must not pass other moving vehicles.'],
+                    ['text' => 'Overtake only when clear',         'correct' => false, 'explanation' => 'There is no sign specifically permitting overtaking when clear.'],
+                    ['text' => 'Dual carriageway ahead',           'correct' => false, 'explanation' => 'Dual carriageway signs show road markings, not cars.'],
+                    ['text' => 'Cars only allowed in this lane',   'correct' => false, 'explanation' => 'Lane-use restrictions use different symbols.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'Where will you find directional signs with white coloured backgrounds?',
+                'answers' => [
+                    ['text' => 'On the highway',     'correct' => false, 'explanation' => 'Highway directional signs have green backgrounds.'],
+                    ['text' => 'On minor roads',     'correct' => true,  'explanation' => 'Directional signs on minor roads have white backgrounds.'],
+                    ['text' => 'At crossroads only', 'correct' => false, 'explanation' => 'The background colour is not specific to crossroads.'],
+                    ['text' => 'At roundabouts',     'correct' => false, 'explanation' => 'Roundabout direction signs follow the same colour scheme as the road type.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'If a parked car blocks your view when you wish to cross the road, where should you stand?',
+                'answers' => [
+                    ['text' => 'On the inside edge, close to the vehicle',    'correct' => false, 'explanation' => 'Standing close to the car keeps you hidden from traffic.'],
+                    ['text' => 'On the outside edge of the parked vehicle',   'correct' => true,  'explanation' => 'Stand near the outside edge of the vehicle so you can see oncoming traffic without stepping fully into the road.'],
+                    ['text' => 'Somewhere in the middle of the vehicle',      'correct' => false, 'explanation' => 'The middle gives no advantage in visibility.'],
+                    ['text' => 'Step into the road to look both ways',        'correct' => false, 'explanation' => 'Stepping directly into the road is dangerous before you confirm it is clear.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // TRAFFIC LIGHTS & SIGNALS (PDF additions)
+            // -------------------------------------------------------
+            [
+                'category' => 'traffic-lights-signals',
+                'difficulty' => 'easy',
+                'question' => 'What does a solid red traffic light mean?',
+                'answers' => [
+                    ['text' => 'Stop',                                   'correct' => true,  'explanation' => 'A solid red light means stop and wait behind the stop line.'],
+                    ['text' => 'Stop only if the road is clear',         'correct' => false, 'explanation' => 'You must stop at a red light regardless of whether the road is clear.'],
+                    ['text' => 'Give way to traffic on your right',      'correct' => false, 'explanation' => 'Give way rules are separate from traffic light signals.'],
+                    ['text' => 'Proceed with caution',                   'correct' => false, 'explanation' => 'Red means stop — not proceed.'],
+                ],
+            ],
+            [
+                'category' => 'traffic-lights-signals',
+                'difficulty' => 'easy',
+                'question' => 'What does a flashing red traffic light mean?',
+                'answers' => [
+                    ['text' => 'Stop and proceed when it is safe to do so', 'correct' => true,  'explanation' => 'A flashing red light means stop completely, then proceed only when it is safe — similar to a stop sign.'],
+                    ['text' => 'Drive through with caution',               'correct' => false, 'explanation' => 'A flashing red still requires a complete stop.'],
+                    ['text' => 'Use it as a give way',                     'correct' => false, 'explanation' => 'A flashing red requires a full stop, not just a give way.'],
+                    ['text' => 'Stop indefinitely until it turns green',   'correct' => false, 'explanation' => 'Once it is safe to proceed, you may go.'],
+                ],
+            ],
+            [
+                'category' => 'traffic-lights-signals',
+                'difficulty' => 'easy',
+                'question' => 'After a green traffic light, what colour light would you NOT normally expect to see?',
+                'answers' => [
+                    ['text' => 'Red',    'correct' => false, 'explanation' => 'Red follows amber, which follows green.'],
+                    ['text' => 'Amber',  'correct' => false, 'explanation' => 'Amber comes directly after green.'],
+                    ['text' => 'White',  'correct' => true,  'explanation' => 'White is not part of the traffic light sequence. After green comes amber, then red.'],
+                    ['text' => 'None',   'correct' => false, 'explanation' => 'Traffic lights always continue cycling.'],
+                ],
+            ],
+            [
+                'category' => 'traffic-lights-signals',
+                'difficulty' => 'easy',
+                'question' => 'After a solid amber traffic light, which colour would you NOT expect to see next?',
+                'answers' => [
+                    ['text' => 'Red',           'correct' => false, 'explanation' => 'Red follows solid amber in the normal sequence.'],
+                    ['text' => 'Green',          'correct' => true,  'explanation' => 'Green does not follow directly after amber — red comes next, then red with amber, then green.'],
+                    ['text' => 'Red and amber',  'correct' => false, 'explanation' => 'Red and amber together (prepare to go) appears after a plain red.'],
+                    ['text' => 'Flashing amber', 'correct' => false, 'explanation' => 'Flashing amber can appear in certain situations.'],
+                ],
+            ],
+            [
+                'category' => 'traffic-lights-signals',
+                'difficulty' => 'medium',
+                'question' => 'What does a green arrow attached to a traffic light indicate?',
+                'answers' => [
+                    ['text' => 'You must stop',                              'correct' => false, 'explanation' => 'A green arrow means you may proceed.'],
+                    ['text' => 'Move in the direction the arrow points',     'correct' => true,  'explanation' => 'A green filter arrow indicates you may proceed in that direction only, even if the main light is red.'],
+                    ['text' => 'Approach with caution',                     'correct' => false, 'explanation' => 'Green means go — not caution.'],
+                    ['text' => 'Yield to oncoming traffic',                 'correct' => false, 'explanation' => 'A green filter arrow gives you the right to proceed without giving way.'],
+                ],
+            ],
+            [
+                'category' => 'traffic-lights-signals',
+                'difficulty' => 'easy',
+                'question' => 'How should a school crossing warden signal vehicles to stop?',
+                'answers' => [
+                    ['text' => 'By shouting at drivers',                    'correct' => false, 'explanation' => 'Shouting is not a recognised official signal.'],
+                    ['text' => 'By waving both arms',                       'correct' => false, 'explanation' => 'Waving arms is not the official procedure.'],
+                    ['text' => 'By displaying a stop sign',                 'correct' => true,  'explanation' => 'A school crossing warden signals vehicles to stop by holding out an official stop sign.'],
+                    ['text' => 'By blowing a whistle',                     'correct' => false, 'explanation' => 'A whistle alone is not the primary stop signal for school crossing wardens.'],
+                ],
+            ],
+            [
+                'category' => 'traffic-lights-signals',
+                'difficulty' => 'easy',
+                'question' => 'If traffic lights have failed at a junction, how should you proceed?',
+                'answers' => [
+                    ['text' => 'Follow the normal light sequence from memory',  'correct' => false, 'explanation' => 'There is no light to follow when the signals have failed.'],
+                    ['text' => 'Proceed with caution, treating it as an unmarked junction', 'correct' => true, 'explanation' => 'When traffic lights fail, treat the junction as an unmarked junction and proceed with caution, giving way as necessary.'],
+                    ['text' => 'Stop and wait indefinitely',                    'correct' => false, 'explanation' => 'You may proceed once it is safe to do so.'],
+                    ['text' => 'Traffic turning right has priority',            'correct' => false, 'explanation' => 'No single direction has automatic priority when lights fail.'],
+                ],
+            ],
+            [
+                'category' => 'traffic-lights-signals',
+                'difficulty' => 'easy',
+                'question' => 'When a police officer or traffic warden signals for pedestrians to cross, they should cross:',
+                'answers' => [
+                    ['text' => 'Behind the officer',  'correct' => false, 'explanation' => 'Pedestrians should cross in front of the officer.'],
+                    ['text' => 'In front of the officer', 'correct' => true,  'explanation' => 'Once signalled, pedestrians cross in front of the officer, who is facing and controlling the traffic.'],
+                    ['text' => 'Neither — wait for a gap in traffic',  'correct' => false, 'explanation' => 'Once the officer has signalled, it is safe to cross in front of them.'],
+                    ['text' => 'Only after the officer has moved',     'correct' => false, 'explanation' => 'The officer remains in position while pedestrians cross.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // SPEED LIMITS (PDF additions)
+            // -------------------------------------------------------
+            [
+                'category' => 'speed-limits',
+                'difficulty' => 'medium',
+                'question' => 'What is the maximum speed limit on the ABC Highway in Barbados?',
+                'answers' => [
+                    ['text' => '50 km/h', 'correct' => false, 'explanation' => '50 km/h is below the highway limit.'],
+                    ['text' => '60 km/h', 'correct' => false, 'explanation' => '60 km/h is the default rural road limit.'],
+                    ['text' => '70 km/h', 'correct' => false, 'explanation' => '70 km/h is not the posted highway limit.'],
+                    ['text' => '80 km/h', 'correct' => true,  'explanation' => 'The maximum speed limit on the ABC Highway in Barbados is 80 km/h.'],
+                ],
+            ],
+            [
+                'category' => 'speed-limits',
+                'difficulty' => 'hard',
+                'question' => 'What is the approximate shortest stopping distance at a speed of 40 miles per hour?',
+                'answers' => [
+                    ['text' => '12 m (3 car lengths)',   'correct' => false, 'explanation' => 'This is only the thinking distance at 40 mph, not total stopping distance.'],
+                    ['text' => '23 m (6 car lengths)',   'correct' => false, 'explanation' => 'This underestimates the total stopping distance at 40 mph.'],
+                    ['text' => '36 m (9 car lengths)',   'correct' => true,  'explanation' => 'At 40 mph the thinking distance is about 12 m and braking distance about 24 m, giving a total stopping distance of approximately 36 m (120 ft) or 9 car lengths.'],
+                    ['text' => '53 m (13 car lengths)',  'correct' => false, 'explanation' => 'This is closer to the stopping distance at 50 mph.'],
+                ],
+            ],
+            [
+                'category' => 'speed-limits',
+                'difficulty' => 'medium',
+                'question' => 'In wet road conditions, what minimum time gap should you leave between yourself and the vehicle ahead?',
+                'answers' => [
+                    ['text' => '2 seconds', 'correct' => false, 'explanation' => 'Two seconds is the dry-conditions minimum.'],
+                    ['text' => '3 seconds', 'correct' => false, 'explanation' => 'Three seconds is not sufficient in wet conditions.'],
+                    ['text' => '4 seconds', 'correct' => false, 'explanation' => 'This is often cited as a minimum but the Barbados Highway Code recommends at least 5 seconds.'],
+                    ['text' => '5 seconds', 'correct' => true,  'explanation' => 'In wet conditions you should leave a gap of at least 5 seconds to allow for the increased stopping distance.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // ROUNDABOUTS & JUNCTIONS (PDF additions)
+            // -------------------------------------------------------
+            [
+                'category' => 'roundabouts-junctions',
+                'difficulty' => 'medium',
+                'question' => 'Broken lines across the width of a lane at an intersection mean:',
+                'answers' => [
+                    ['text' => 'Give way to all vehicles at the intersection',   'correct' => true,  'explanation' => 'Broken transverse lines across a lane at an intersection indicate a give way point — yield to all crossing traffic.'],
+                    ['text' => 'Give way only to traffic on the right',         'correct' => false, 'explanation' => 'Broken lines give way to all vehicles, not just those on the right.'],
+                    ['text' => 'Stop completely before proceeding',             'correct' => false, 'explanation' => 'A stop line is a solid white line, not broken.'],
+                    ['text' => 'Proceed without giving way',                    'correct' => false, 'explanation' => 'Broken lines at an intersection require you to give way.'],
+                ],
+            ],
+            [
+                'category' => 'roundabouts-junctions',
+                'difficulty' => 'medium',
+                'question' => 'How should you signal when making a left turn at a roundabout?',
+                'answers' => [
+                    ['text' => 'Left, then right, then left',  'correct' => false, 'explanation' => 'This sequence applies when going right around the roundabout.'],
+                    ['text' => 'Signal left throughout',        'correct' => true,  'explanation' => 'When turning left at a roundabout (first exit), you signal left on approach and maintain the left signal throughout.'],
+                    ['text' => 'Signal right',                  'correct' => false, 'explanation' => 'Signalling right at a roundabout indicates you intend to turn right.'],
+                    ['text' => 'No signal required',            'correct' => false, 'explanation' => 'You must always signal at roundabouts to inform other road users of your intentions.'],
+                ],
+            ],
+            [
+                'category' => 'roundabouts-junctions',
+                'difficulty' => 'medium',
+                'question' => 'How should you signal when you want to go straight on at a roundabout?',
+                'answers' => [
+                    ['text' => 'Signal left throughout',          'correct' => false, 'explanation' => 'Signalling left on approach suggests you are taking the first exit.'],
+                    ['text' => 'Signal right on approach',        'correct' => false, 'explanation' => 'Signalling right on approach suggests you are turning right.'],
+                    ['text' => 'No signal on approach; signal left to exit', 'correct' => true,  'explanation' => 'When going straight on, no signal is needed on approach. Signal left as you pass the exit before the one you intend to take.'],
+                    ['text' => 'Signal right then left',          'correct' => false, 'explanation' => 'Right then left signals are used when taking a late exit (going right around).'],
+                ],
+            ],
+            [
+                'category' => 'roundabouts-junctions',
+                'difficulty' => 'medium',
+                'question' => 'How should you signal when you want to turn right at a roundabout?',
+                'answers' => [
+                    ['text' => 'Signal left on approach',            'correct' => false, 'explanation' => 'Left on approach signals a left turn (first exit).'],
+                    ['text' => 'Signal right on approach, then left to exit', 'correct' => true,  'explanation' => 'Signal right on approach to indicate a right turn, then signal left as you approach your exit.'],
+                    ['text' => 'No signal needed',                   'correct' => false, 'explanation' => 'You must always signal your intentions at a roundabout.'],
+                    ['text' => 'Signal left then right',             'correct' => false, 'explanation' => 'This is not the correct sequence for turning right.'],
+                ],
+            ],
+            [
+                'category' => 'roundabouts-junctions',
+                'difficulty' => 'easy',
+                'question' => 'At a four-way stop, who goes first?',
+                'answers' => [
+                    ['text' => 'The first vehicle to stop is the first to go',    'correct' => true,  'explanation' => 'At a four-way stop, the vehicle that arrived and stopped first has the right of way to proceed first.'],
+                    ['text' => 'Traffic going straight has priority',             'correct' => false, 'explanation' => 'Straight-through traffic does not have automatic priority at a four-way stop.'],
+                    ['text' => 'Traffic turning right goes first',                'correct' => false, 'explanation' => 'Direction of travel does not determine priority at a four-way stop.'],
+                    ['text' => 'Stop until another motorist waves you through',   'correct' => false, 'explanation' => 'Order of arrival determines priority, not hand signals from other drivers.'],
+                ],
+            ],
+            [
+                'category' => 'roundabouts-junctions',
+                'difficulty' => 'medium',
+                'question' => 'At an unmarked crossroads, who has priority?',
+                'answers' => [
+                    ['text' => 'Traffic from the right',              'correct' => false, 'explanation' => 'At an unmarked crossroads, no direction has automatic right of way.'],
+                    ['text' => 'The driver of the larger vehicle',    'correct' => false, 'explanation' => 'Vehicle size does not determine priority.'],
+                    ['text' => 'Nobody — all traffic must give way',  'correct' => true,  'explanation' => 'At an unmarked crossroads, no vehicle has priority. All drivers must proceed with caution and be prepared to give way.'],
+                    ['text' => 'Traffic going straight',              'correct' => false, 'explanation' => 'Straight-through traffic has no automatic priority at an unmarked junction.'],
+                ],
+            ],
+            [
+                'category' => 'roundabouts-junctions',
+                'difficulty' => 'medium',
+                'question' => 'You are coming out of a junction to turn left and another motorist is signalling to turn left into your road. What should you do?',
+                'answers' => [
+                    ['text' => 'Wait until the motorist has actually turned',    'correct' => true,  'explanation' => 'Never trust an indicator alone — wait until the other vehicle has actually turned before pulling out.'],
+                    ['text' => 'Trust the indicator and pull out immediately',   'correct' => false, 'explanation' => 'Indicators can be left on by mistake. Always wait for the manoeuvre to begin before pulling out.'],
+                    ['text' => 'Go out cautiously at the same time',            'correct' => false, 'explanation' => 'This is risky — what if the driver passes straight through without turning?'],
+                    ['text' => 'Sound your horn to confirm their intention',     'correct' => false, 'explanation' => 'Sounding your horn does not verify the other driver\'s intentions.'],
+                ],
+            ],
+            [
+                'category' => 'roundabouts-junctions',
+                'difficulty' => 'easy',
+                'question' => 'Why should you take special care when approaching a long vehicle making a turn at a junction?',
+                'answers' => [
+                    ['text' => 'It may stop suddenly',            'correct' => false, 'explanation' => 'While long vehicles do brake differently, the main concern at junctions is their turning radius.'],
+                    ['text' => 'It will probably make a wide turn', 'correct' => true,  'explanation' => 'Long vehicles need extra space to complete a turn and may swing wide — stay well back to give them room.'],
+                    ['text' => 'It is harder to see you',          'correct' => false, 'explanation' => 'Visibility is a concern when following closely, but the turn width is the immediate hazard.'],
+                    ['text' => 'It has right of way over you',     'correct' => false, 'explanation' => 'Long vehicles have no special right of way — but they do need more space.'],
+                ],
+            ],
+            [
+                'category' => 'roundabouts-junctions',
+                'difficulty' => 'medium',
+                'question' => 'You are approaching a mini-roundabout. The long vehicle in front is signalling left but positioned to the right. What should you do?',
+                'answers' => [
+                    ['text' => 'Sound your horn to warn the driver',    'correct' => false, 'explanation' => 'Sounding your horn aggressively is unhelpful and dangerous.'],
+                    ['text' => 'Overtake on the left',                  'correct' => false, 'explanation' => 'Overtaking a long vehicle turning at a roundabout is extremely dangerous.'],
+                    ['text' => 'Follow the same course as the lorry',   'correct' => false, 'explanation' => 'A long vehicle needs the full width to manoeuvre — staying beside it is dangerous.'],
+                    ['text' => 'Keep well back',                        'correct' => true,  'explanation' => 'Long vehicles signal left but swing right to complete a left turn. Stay well back to give them the room they need.'],
+                ],
+            ],
+            [
+                'category' => 'roundabouts-junctions',
+                'difficulty' => 'medium',
+                'question' => 'Where may you overtake on a one-way street?',
+                'answers' => [
+                    ['text' => 'Only on the left-hand side',           'correct' => false, 'explanation' => 'On a one-way street, you are not restricted to the left.'],
+                    ['text' => 'Overtaking is not allowed',            'correct' => false, 'explanation' => 'Overtaking is permitted on one-way streets under certain conditions.'],
+                    ['text' => 'Only on the right-hand side',          'correct' => false, 'explanation' => 'Both sides are permitted on a one-way street.'],
+                    ['text' => 'Either on the right or the left',      'correct' => true,  'explanation' => 'On a one-way street, you may overtake on either side when it is safe to do so, as traffic flows in one direction only.'],
+                ],
+            ],
+            [
+                'category' => 'roundabouts-junctions',
+                'difficulty' => 'medium',
+                'question' => 'When cycling towards a roundabout with a cyclist in the left-hand lane ahead of you, in which direction should you expect them to go?',
+                'answers' => [
+                    ['text' => 'Left only',      'correct' => false, 'explanation' => 'Cyclists in the left lane may exit at any point.'],
+                    ['text' => 'Straight only',  'correct' => false, 'explanation' => 'A cyclist in the left lane is not restricted to going straight.'],
+                    ['text' => 'Any direction',  'correct' => true,  'explanation' => 'Cyclists are permitted to use the left lane to go in any direction at a roundabout — you cannot predict their exit. Give them space.'],
+                    ['text' => 'Right only',     'correct' => false, 'explanation' => 'Cyclists in the left lane do not necessarily turn right.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // OVERTAKING (PDF additions)
+            // -------------------------------------------------------
+            [
+                'category' => 'overtaking',
+                'difficulty' => 'easy',
+                'question' => 'When overtaking a motorcyclist, pedal cyclist or horse rider, how much room should you allow?',
+                'answers' => [
+                    ['text' => 'Less room than a car',       'correct' => false, 'explanation' => 'Vulnerable road users need more room, not less.'],
+                    ['text' => 'More room than for a car',   'correct' => true,  'explanation' => 'Motorcyclists, cyclists and horse riders are vulnerable and can swerve unexpectedly — always leave more room than you would for a car.'],
+                    ['text' => 'The same as for a car',      'correct' => false, 'explanation' => 'A vehicle has a fixed width; vulnerable road users can wobble or swerve, requiring extra clearance.'],
+                    ['text' => 'Only a few centimetres',     'correct' => false, 'explanation' => 'A few centimetres is dangerously close when overtaking any road user.'],
+                ],
+            ],
+            [
+                'category' => 'overtaking',
+                'difficulty' => 'medium',
+                'question' => 'In which of these situations can you safely overtake?',
+                'answers' => [
+                    ['text' => 'At the brow of a hill',       'correct' => false, 'explanation' => 'Overtaking at the brow of a hill is prohibited — you cannot see oncoming traffic.'],
+                    ['text' => 'On a hill (not at the crest)', 'correct' => true,  'explanation' => 'You may overtake on a hill as long as you are not near the crest and have a clear view of the road ahead.'],
+                    ['text' => 'At a road junction',          'correct' => false, 'explanation' => 'Overtaking at a junction is prohibited.'],
+                    ['text' => 'Approaching a dip in the road', 'correct' => false, 'explanation' => 'A dip in the road limits your view ahead — do not overtake.'],
+                ],
+            ],
+            [
+                'category' => 'overtaking',
+                'difficulty' => 'medium',
+                'question' => 'In which situation should you avoid overtaking?',
+                'answers' => [
+                    ['text' => 'Just after a bend',           'correct' => false, 'explanation' => 'You can overtake after a bend if the road ahead is clearly visible.'],
+                    ['text' => 'In a one-way street',         'correct' => false, 'explanation' => 'Overtaking is permitted on a one-way street when safe.'],
+                    ['text' => 'On a 60 km/h road',           'correct' => false, 'explanation' => 'Speed limit alone does not prohibit overtaking.'],
+                    ['text' => 'Approaching a dip in the road', 'correct' => true, 'explanation' => 'A dip in the road reduces your forward visibility — an oncoming vehicle in the dip may not be visible until you are very close.'],
+                ],
+            ],
+            [
+                'category' => 'overtaking',
+                'difficulty' => 'medium',
+                'question' => 'You are driving behind a cyclist and want to turn left at the junction ahead. What should you do?',
+                'answers' => [
+                    ['text' => 'Overtake the cyclist before the junction and then turn',    'correct' => false, 'explanation' => 'Overtaking then immediately turning cuts across the cyclist\'s path and is dangerous.'],
+                    ['text' => 'Pull alongside the cyclist and stay level until after the junction', 'correct' => false, 'explanation' => 'Riding alongside a cyclist while turning risks colliding with them.'],
+                    ['text' => 'Hold back until the cyclist has cleared the junction',      'correct' => true,  'explanation' => 'You should hold back, allow the cyclist to pass the junction, and then make your left turn safely.'],
+                    ['text' => 'Sound your horn so the cyclist knows you are turning',     'correct' => false, 'explanation' => 'Using your horn is not a substitute for giving way to the cyclist.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // PARKING (PDF additions)
+            // -------------------------------------------------------
+            [
+                'category' => 'parking',
+                'difficulty' => 'medium',
+                'question' => 'What is the minimum distance you must not stop within at a roundabout?',
+                'answers' => [
+                    ['text' => '20 metres', 'correct' => false, 'explanation' => '20 metres is more than the required distance.'],
+                    ['text' => '35 metres', 'correct' => false, 'explanation' => '35 metres is not the stated minimum.'],
+                    ['text' => '15 metres', 'correct' => true,  'explanation' => 'You must not park or stop within 15 metres of a roundabout.'],
+                    ['text' => '10 metres', 'correct' => false, 'explanation' => '10 metres is too close — the rule is 15 metres.'],
+                ],
+            ],
+            [
+                'category' => 'parking',
+                'difficulty' => 'easy',
+                'question' => 'When parking at night on the road, you should:',
+                'answers' => [
+                    ['text' => 'Park as close to your destination as possible',  'correct' => false, 'explanation' => 'Convenience does not override road safety requirements.'],
+                    ['text' => 'Choose a well-lit place',                        'correct' => true,  'explanation' => 'Parking in a well-lit area makes your vehicle visible to other road users at night.'],
+                    ['text' => 'Park close to the left with no lights on',       'correct' => false, 'explanation' => 'Vehicles must display park lights at night on the road.'],
+                    ['text' => 'Park on the right-hand side of the road',       'correct' => false, 'explanation' => 'Parking on the right at night with oncoming headlights approaching is dangerous.'],
+                ],
+            ],
+            [
+                'category' => 'parking',
+                'difficulty' => 'easy',
+                'question' => 'How many vehicles may a vehicle tow at one time?',
+                'answers' => [
+                    ['text' => 'Two, if they can be secured',              'correct' => false, 'explanation' => 'Towing two vehicles simultaneously is not permitted.'],
+                    ['text' => 'One at a time',                            'correct' => true,  'explanation' => 'A vehicle may only tow one other vehicle at a time.'],
+                    ['text' => 'Three, if they are all small cars',        'correct' => false, 'explanation' => 'You may not tow three vehicles regardless of their size.'],
+                    ['text' => 'As many as can be linked together safely', 'correct' => false, 'explanation' => 'There is a strict limit of one towed vehicle at a time.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // SEATBELTS & CHILD RESTRAINTS (PDF additions)
+            // -------------------------------------------------------
+            [
+                'category' => 'seatbelts-child-restraints',
+                'difficulty' => 'easy',
+                'question' => 'Is it safe to allow children to sit behind the rear seats of a hatchback car?',
+                'answers' => [
+                    ['text' => 'Yes, if you can see them clearly in the rear-view mirror', 'correct' => false, 'explanation' => 'Mirror visibility does not make the seating position safe.'],
+                    ['text' => 'Yes, if they are under 11 years old',                      'correct' => false, 'explanation' => 'Age does not justify placing a child in an unsafe seating position.'],
+                    ['text' => 'No, only if all other seats are full',                     'correct' => false, 'explanation' => 'There are no seats behind the rear seats of a hatchback — this area is the boot.'],
+                    ['text' => 'No, not in any circumstances',                             'correct' => true,  'explanation' => 'Children must never sit in the boot/load area behind the rear seats of a hatchback — it offers no crash protection.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // PEDESTRIANS & CYCLISTS (PDF additions)
+            // -------------------------------------------------------
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'easy',
+                'question' => 'After getting off a bus, when is it safe to cross the road?',
+                'answers' => [
+                    ['text' => 'Cross immediately in front of the bus',       'correct' => false, 'explanation' => 'Crossing in front of a stationary bus means drivers in the oncoming lane cannot see you.'],
+                    ['text' => 'Cross immediately behind the bus',            'correct' => false, 'explanation' => 'The bus may be about to move, and oncoming traffic cannot see you stepping out.'],
+                    ['text' => 'Wait until the bus moves off, then cross',   'correct' => true,  'explanation' => 'Wait for the bus to move away so you have a clear view of all traffic before crossing.'],
+                    ['text' => 'Ask the driver to signal when it is safe',   'correct' => false, 'explanation' => 'The driver\'s responsibility ends once you have alighted.'],
+                ],
+            ],
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'easy',
+                'question' => 'Why is a cyclist most vulnerable on the road?',
+                'answers' => [
+                    ['text' => 'They are easy for drivers to see',         'correct' => false, 'explanation' => 'Cyclists being easy to see would make them less vulnerable, not more.'],
+                    ['text' => 'They are difficult for other road users to see', 'correct' => true, 'explanation' => 'Cyclists have a small profile and can easily be missed — especially in blind spots, at junctions, or in poor light.'],
+                    ['text' => 'They cannot produce hand signals',         'correct' => false, 'explanation' => 'Cyclists are required to and do give hand signals.'],
+                    ['text' => 'They travel faster than cars',             'correct' => false, 'explanation' => 'Cyclists generally travel slower than motor vehicles, which is a separate vulnerability.'],
+                ],
+            ],
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'easy',
+                'question' => 'At road junctions, which road user is considered the least vulnerable?',
+                'answers' => [
+                    ['text' => 'Cyclists',        'correct' => false, 'explanation' => 'Cyclists are highly vulnerable at junctions.'],
+                    ['text' => 'Motorcyclists',   'correct' => false, 'explanation' => 'Motorcyclists are very vulnerable at junctions.'],
+                    ['text' => 'Pedestrians',     'correct' => false, 'explanation' => 'Pedestrians are among the most vulnerable at junctions.'],
+                    ['text' => 'Car drivers',     'correct' => true,  'explanation' => 'Car drivers are the least vulnerable at junctions because they are protected by the vehicle\'s bodywork, airbags and seatbelts.'],
+                ],
+            ],
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'easy',
+                'question' => 'You are about to reverse into a side road when a pedestrian wants to cross behind you. What should you do?',
+                'answers' => [
+                    ['text' => 'Wave to the pedestrian to stop',                    'correct' => false, 'explanation' => 'You should give way — not try to stop the pedestrian.'],
+                    ['text' => 'Give way to the pedestrian',                        'correct' => true,  'explanation' => 'You must give way to any pedestrian crossing the road behind your reversing vehicle.'],
+                    ['text' => 'Reverse before the pedestrian starts to cross',    'correct' => false, 'explanation' => 'This is dangerous — reversing near a pedestrian risks a collision.'],
+                    ['text' => 'Wave to the pedestrian to cross quickly',           'correct' => false, 'explanation' => 'Do not rush pedestrians — simply wait for them to cross.'],
+                ],
+            ],
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'medium',
+                'question' => 'There is no pedestrian crossing near where you want to cross the road at night. Where should you cross safely?',
+                'answers' => [
+                    ['text' => 'At any junction',       'correct' => false, 'explanation' => 'A junction improves sightlines but a lighted area is the key safety factor at night.'],
+                    ['text' => 'In a lighted area',     'correct' => true,  'explanation' => 'At night, cross in a well-lit area so drivers can see you clearly.'],
+                    ['text' => 'Anywhere convenient',   'correct' => false, 'explanation' => 'Crossing without regard to lighting at night is dangerous.'],
+                    ['text' => 'On a straight section of road', 'correct' => false, 'explanation' => 'A straight road helps, but a lighted area is the primary safety requirement at night.'],
+                ],
+            ],
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'easy',
+                'question' => 'What should you do when police, ambulance or fire brigade emergency vehicles with sirens and flashing lights are near you?',
+                'answers' => [
+                    ['text' => 'Slow down slightly',                'correct' => false, 'explanation' => 'Simply slowing down is often insufficient — you must create a clear path.'],
+                    ['text' => 'Stop and pull off the road',        'correct' => true,  'explanation' => 'You must pull over to the left and stop to allow emergency vehicles to pass safely.'],
+                    ['text' => 'Keep to your left lane only',       'correct' => false, 'explanation' => 'If there is room to pull completely off the road, you should do so.'],
+                    ['text' => 'Continue at your normal speed',     'correct' => false, 'explanation' => 'Maintaining speed when an emergency vehicle is approaching hinders its progress.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // LEARNER DRIVERS (PDF additions)
+            // -------------------------------------------------------
+            [
+                'category' => 'learner-drivers',
+                'difficulty' => 'medium',
+                'question' => 'What is the minimum age a person must be to become a driving instructor in Barbados?',
+                'answers' => [
+                    ['text' => '19 years', 'correct' => false, 'explanation' => '19 is not the minimum age required.'],
+                    ['text' => '20 years', 'correct' => true,  'explanation' => 'A person must be at least 20 years old to become a driving instructor in Barbados.'],
+                    ['text' => '25 years', 'correct' => false, 'explanation' => '25 is not the minimum age required.'],
+                    ['text' => '18 years', 'correct' => false, 'explanation' => '18 is the minimum age for truck learners, not driving instructors.'],
+                ],
+            ],
+            [
+                'category' => 'learner-drivers',
+                'difficulty' => 'medium',
+                'question' => 'What is the minimum age for a supervisor accompanying a learner driver on the road?',
+                'answers' => [
+                    ['text' => '19 years', 'correct' => false, 'explanation' => '19 is not the minimum age for a supervisor.'],
+                    ['text' => '25 years', 'correct' => false, 'explanation' => '25 is not the stated minimum — it is lower.'],
+                    ['text' => '21 years', 'correct' => true,  'explanation' => 'The supervisor accompanying a learner driver must be at least 21 years old.'],
+                    ['text' => '28 years', 'correct' => false, 'explanation' => '28 is higher than the required minimum.'],
+                ],
+            ],
+            [
+                'category' => 'learner-drivers',
+                'difficulty' => 'medium',
+                'question' => 'If you are teaching someone to drive in Barbados, how long must you have held a valid licence?',
+                'answers' => [
+                    ['text' => '1 year',  'correct' => false, 'explanation' => '1 year is not sufficient experience to supervise a learner.'],
+                    ['text' => '2 years', 'correct' => false, 'explanation' => '2 years is not the required period.'],
+                    ['text' => '5 years', 'correct' => false, 'explanation' => '5 years is longer than the required period.'],
+                    ['text' => '3 years', 'correct' => true,  'explanation' => 'You must have held a valid Barbados driver\'s licence for at least 3 years before you may supervise a learner driver.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // VEHICLE LIGHTING (PDF additions)
+            // -------------------------------------------------------
+            [
+                'category' => 'vehicle-lighting',
+                'difficulty' => 'easy',
+                'question' => 'You are travelling at night and dazzled by headlights coming towards you. What should you do?',
+                'answers' => [
+                    ['text' => 'Pull down your sun visor',                  'correct' => false, 'explanation' => 'A sun visor does not protect against oncoming headlight glare effectively at night.'],
+                    ['text' => 'Slow down or stop',                         'correct' => true,  'explanation' => 'If dazzled by headlights, slow down or stop if necessary — your vision is temporarily impaired.'],
+                    ['text' => 'Switch on your main beam headlights',       'correct' => false, 'explanation' => 'Switching to main beam dazzles the oncoming driver, making the situation worse.'],
+                    ['text' => 'Put your hand over your eyes',              'correct' => false, 'explanation' => 'Covering your eyes while driving is extremely dangerous.'],
+                ],
+            ],
+            [
+                'category' => 'vehicle-lighting',
+                'difficulty' => 'medium',
+                'question' => 'You may use hazard warning lights when:',
+                'answers' => [
+                    ['text' => 'Driving slowly in heavy traffic',                        'correct' => false, 'explanation' => 'Hazard lights should not be used while moving in traffic — they confuse other drivers.'],
+                    ['text' => 'Driving without headlights in darkness',                 'correct' => false, 'explanation' => 'Hazard lights are not a substitute for headlights.'],
+                    ['text' => 'Your vehicle has broken down and temporarily obstructs traffic', 'correct' => true,  'explanation' => 'Hazard warning lights are intended for use when your vehicle is stationary and creating a temporary obstruction.'],
+                    ['text' => 'In bad weather while moving',                            'correct' => false, 'explanation' => 'Hazard lights while moving can prevent other drivers from seeing your directional indicators.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // SAFE DRIVING PRACTICES (PDF additions)
+            // -------------------------------------------------------
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'Before moving off, what routine should you follow?',
+                'answers' => [
+                    ['text' => 'Mirror, look, signal, manoeuvre',    'correct' => true,  'explanation' => 'Before moving off you should check your mirrors, look around for hazards, signal your intention, then manoeuvre.'],
+                    ['text' => 'Signal, then manoeuvre',             'correct' => false, 'explanation' => 'You must check mirrors and look around before signalling.'],
+                    ['text' => 'Manoeuvre, then look',               'correct' => false, 'explanation' => 'You must look before you manoeuvre, not after.'],
+                    ['text' => 'Look, then mirror, then manoeuvre',  'correct' => false, 'explanation' => 'The correct order is mirror first, then look, then signal, then manoeuvre.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'In good conditions, what is a safe following distance?',
+                'answers' => [
+                    ['text' => 'One car length for every 10 km/h of speed',   'correct' => true,  'explanation' => 'A safe rule of thumb is one car length for every 10 km/h — so at 60 km/h, keep at least 6 car lengths.'],
+                    ['text' => 'One car length at any speed',                  'correct' => false, 'explanation' => 'One car length is only adequate at very low speeds.'],
+                    ['text' => 'Two car lengths at any speed',                 'correct' => false, 'explanation' => 'Following distance must increase with speed.'],
+                    ['text' => 'Six car lengths at any speed',                 'correct' => false, 'explanation' => 'Following distance must relate to speed, not be fixed.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'medium',
+                'question' => 'What is the maximum distance at which music from a vehicle may be heard?',
+                'answers' => [
+                    ['text' => '10 metres',  'correct' => false, 'explanation' => '10 metres is not the maximum stated distance.'],
+                    ['text' => '100 metres', 'correct' => false, 'explanation' => '100 metres is far too loud and would constitute excessive noise.'],
+                    ['text' => '50 metres',  'correct' => true,  'explanation' => 'Music from a vehicle should not be audible beyond 50 metres.'],
+                    ['text' => '25 metres',  'correct' => false, 'explanation' => '25 metres is not the stated maximum.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'Third party insurance does NOT cover:',
+                'answers' => [
+                    ['text' => 'Injury to another person',          'correct' => false, 'explanation' => 'Third party insurance covers injury to other persons.'],
+                    ['text' => 'Damage to someone else\'s property', 'correct' => false, 'explanation' => 'Third party insurance covers damage to third party property.'],
+                    ['text' => 'Damage to your own car',            'correct' => true,  'explanation' => 'Third party insurance only covers the other party. It does NOT cover damage to your own vehicle.'],
+                    ['text' => 'Damage to the other vehicle',       'correct' => false, 'explanation' => 'Third party insurance covers damage to the other party\'s vehicle.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'Who is responsible for the demerit point system in Barbados?',
+                'answers' => [
+                    ['text' => 'The Court',                 'correct' => false, 'explanation' => 'Courts handle prosecution but do not administer the demerit system.'],
+                    ['text' => 'The Police',                'correct' => false, 'explanation' => 'Police enforce the law but do not administer demerit points.'],
+                    ['text' => 'The Licensing Authority',   'correct' => true,  'explanation' => 'The Barbados Licensing Authority is responsible for administering the demerit point system.'],
+                    ['text' => 'The Ministry of Transport', 'correct' => false, 'explanation' => 'The Ministry sets policy, but the BLA administers the demerit system.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'What are demerit points?',
+                'answers' => [
+                    ['text' => 'Points earned for good driving',                          'correct' => false, 'explanation' => 'Demerit points are not a reward — they are a penalty.'],
+                    ['text' => 'Points awarded for passing the driving test',             'correct' => false, 'explanation' => 'The driving test does not award demerit points.'],
+                    ['text' => 'Points accumulated by drivers for committing traffic offences', 'correct' => true, 'explanation' => 'Demerit points are penalty points added to a driver\'s record for traffic offences. Accumulating too many can result in licence suspension.'],
+                    ['text' => 'Points deducted from your insurance premium',             'correct' => false, 'explanation' => 'Demerit points are a licensing penalty, not an insurance calculation.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'If someone wants to overtake you, what should you do?',
+                'answers' => [
+                    ['text' => 'Speed up to prevent them overtaking',              'correct' => false, 'explanation' => 'Preventing another driver from overtaking is dangerous and illegal.'],
+                    ['text' => 'Drop back and make a gap for the overtaking driver', 'correct' => true,  'explanation' => 'If it is safe to do so, drop back and create a gap that makes it easier for the overtaking driver to complete the manoeuvre.'],
+                    ['text' => 'Move closer to the car in front',                  'correct' => false, 'explanation' => 'Moving closer to the vehicle ahead reduces the space available for the overtaking manoeuvre.'],
+                    ['text' => 'Wave and signal to the driver',                    'correct' => false, 'explanation' => 'Waving can be misinterpreted — the safest action is to drop back and maintain a steady course.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'The faster you drive, the more stopping distance and time you need. True or false?',
+                'answers' => [
+                    ['text' => 'True',   'correct' => true,  'explanation' => 'Stopping distance increases significantly with speed — doubling your speed more than doubles your stopping distance.'],
+                    ['text' => 'False',  'correct' => false, 'explanation' => 'This is true — higher speed means greater momentum and longer braking distance.'],
+                    ['text' => 'Only on wet roads',          'correct' => false, 'explanation' => 'The relationship between speed and stopping distance applies on all road surfaces.'],
+                    ['text' => 'Only above 60 km/h',         'correct' => false, 'explanation' => 'Stopping distance increases proportionally at all speeds.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'medium',
+                'question' => 'Following a large goods vehicle too closely is dangerous because:',
+                'answers' => [
+                    ['text' => 'Your field of vision is reduced',        'correct' => true,  'explanation' => 'Driving close behind a large vehicle dramatically reduces your ability to see the road ahead, hazards, and traffic signs.'],
+                    ['text' => 'Slipstreaming reduces wind resistance',  'correct' => false, 'explanation' => 'While slipstreaming can reduce drag, the primary danger is reduced visibility.'],
+                    ['text' => 'Your engine will overheat',              'correct' => false, 'explanation' => 'Engine overheating is not caused by following another vehicle.'],
+                    ['text' => 'Your brakes need constant cooling',      'correct' => false, 'explanation' => 'Brake cooling is a concern on long descents, not from following a vehicle.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'Why should you make sure you cancel your indicator after turning?',
+                'answers' => [
+                    ['text' => 'To avoid flattening the battery',             'correct' => false, 'explanation' => 'An indicator uses minimal power and will not flatten the battery.'],
+                    ['text' => 'To avoid misleading other road users',        'correct' => true,  'explanation' => 'A cancelled indicator tells other road users your turn is complete. Leaving it on misleads drivers and pedestrians about your next intended action.'],
+                    ['text' => 'To avoid dazzling other road users',          'correct' => false, 'explanation' => 'Indicators are not bright enough to dazzle.'],
+                    ['text' => 'To avoid damaging the indicator relay',       'correct' => false, 'explanation' => 'Modern indicator relays are not damaged by extended use.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'What does "defensive driving" mean?',
+                'answers' => [
+                    ['text' => 'Being alert and always thinking ahead',     'correct' => true,  'explanation' => 'Defensive driving means anticipating hazards, observing all around you, and always planning your response in advance.'],
+                    ['text' => 'Always driving slowly and gently',          'correct' => false, 'explanation' => 'Defensive driving is about awareness, not necessarily slow speed.'],
+                    ['text' => 'Always letting other drivers go first',     'correct' => false, 'explanation' => 'Yielding unnecessarily can itself cause confusion and accidents.'],
+                    ['text' => 'Pulling over for faster traffic',           'correct' => false, 'explanation' => 'Pulling over for faster traffic is courteous but is not the definition of defensive driving.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'How does alcohol affect your driving?',
+                'answers' => [
+                    ['text' => 'It speeds up your reactions',       'correct' => false, 'explanation' => 'Alcohol slows reaction times — it does not speed them up.'],
+                    ['text' => 'It increases your awareness',       'correct' => false, 'explanation' => 'Alcohol impairs awareness and judgement.'],
+                    ['text' => 'It improves your co-ordination',    'correct' => false, 'explanation' => 'Alcohol significantly reduces co-ordination and motor skills.'],
+                    ['text' => 'It reduces your concentration',     'correct' => true,  'explanation' => 'Alcohol reduces concentration, slows reaction times, impairs judgement and reduces co-ordination — all of which make driving dangerous.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'medium',
+                'question' => 'The most important factor in avoiding running into the car in front is:',
+                'answers' => [
+                    ['text' => 'Making sure your brakes are efficient',          'correct' => false, 'explanation' => 'Good brakes help but cannot compensate for following too closely.'],
+                    ['text' => 'Always driving at a steady speed',               'correct' => false, 'explanation' => 'A steady speed alone does not prevent rear-end collisions.'],
+                    ['text' => 'Keeping the correct separation distance',        'correct' => true,  'explanation' => 'Maintaining a safe gap gives you enough time and distance to stop if the vehicle ahead brakes suddenly.'],
+                    ['text' => 'Having tyres that meet legal requirements',      'correct' => false, 'explanation' => 'Good tyres improve braking but are not the primary factor — separation distance is.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'To move off safely from a parked position, what should you do last?',
+                'answers' => [
+                    ['text' => 'Signal if other drivers need to slow down',      'correct' => false, 'explanation' => 'Signalling is important but is not the final check before moving.'],
+                    ['text' => 'Give a hand signal as well as using your indicator', 'correct' => false, 'explanation' => 'A hand signal is optional, not the final safety check.'],
+                    ['text' => 'Use your mirrors and look around for a final check', 'correct' => true,  'explanation' => 'Before finally moving off, use your mirrors and look around — especially in your blind spots — for a final check that it is safe.'],
+                    ['text' => 'Rev the engine to warm it up',                   'correct' => false, 'explanation' => 'Revving the engine is unnecessary and not a safety check.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'A driver attends a social event. What precaution should they take?',
+                'answers' => [
+                    ['text' => 'Drink plenty of coffee before driving',             'correct' => false, 'explanation' => 'Coffee does not sufficiently reduce blood alcohol to safe driving levels.'],
+                    ['text' => 'Avoid busy roads after drinking alcohol',            'correct' => false, 'explanation' => 'Alcohol impairs driving on all roads, not just busy ones.'],
+                    ['text' => 'Avoid drinking alcohol completely',                  'correct' => true,  'explanation' => 'The only safe option if driving is to avoid alcohol completely. Any amount of alcohol affects your ability to drive safely.'],
+                    ['text' => 'Avoid drinking on an empty stomach',                'correct' => false, 'explanation' => 'Eating food slows alcohol absorption but does not make drinking and driving safe.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'What should you use your horn for?',
+                'answers' => [
+                    ['text' => 'To alert others to your presence',    'correct' => true,  'explanation' => 'The horn is a warning device — use it to alert other road users to your presence when necessary for safety.'],
+                    ['text' => 'To claim your right of way',          'correct' => false, 'explanation' => 'Sounding your horn does not grant you right of way.'],
+                    ['text' => 'To greet other road users',           'correct' => false, 'explanation' => 'Using your horn to greet others is a misuse of the device.'],
+                    ['text' => 'To signal your annoyance',            'correct' => false, 'explanation' => 'Using your horn to express anger or frustration is prohibited.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'medium',
+                'question' => 'Why is pressing the clutch down for long periods a bad habit?',
+                'answers' => [
+                    ['text' => 'It reduces the car\'s speed when going downhill',    'correct' => false, 'explanation' => 'Holding the clutch on a downhill reduces engine braking but does not directly cause loss of control.'],
+                    ['text' => 'It causes the engine to wear out more quickly',       'correct' => false, 'explanation' => 'Engine wear is not the primary reason.'],
+                    ['text' => 'It reduces the driver\'s control of the vehicle',     'correct' => true,  'explanation' => 'With the clutch depressed, the engine is disconnected from the drive wheels, reducing engine braking and making the car harder to control, especially on bends or when slowing.'],
+                    ['text' => 'It causes the engine to use more fuel',               'correct' => false, 'explanation' => 'Holding the clutch does not directly cause increased fuel consumption.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'medium',
+                'question' => 'You are at a junction with limited visibility. What should you do?',
+                'answers' => [
+                    ['text' => 'Inch forward, looking to the right only',  'correct' => false, 'explanation' => 'You must check both directions at any junction.'],
+                    ['text' => 'Inch forward, looking to the left only',   'correct' => false, 'explanation' => 'You must check both directions, not just left.'],
+                    ['text' => 'Inch forward, looking both ways',          'correct' => true,  'explanation' => 'At a junction with poor visibility, creep forward slowly while looking carefully in both directions until you can safely see if it is clear to proceed.'],
+                    ['text' => 'Be ready to move off quickly',             'correct' => false, 'explanation' => 'Moving quickly at a blind junction is extremely dangerous.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'You are driving in traffic at the speed limit and the driver behind is trying to overtake. What should you do?',
+                'answers' => [
+                    ['text' => 'Move closer to the car ahead to prevent them passing',    'correct' => false, 'explanation' => 'Blocking an overtaking vehicle is dangerous and illegal.'],
+                    ['text' => 'Wave the driver behind to overtake when you think it is safe', 'correct' => false, 'explanation' => 'It is not your responsibility to direct others to overtake — you could misjudge the conditions.'],
+                    ['text' => 'Keep a steady course and allow the driver to overtake',   'correct' => true,  'explanation' => 'Maintain your speed and road position. The driver behind is responsible for completing the overtake safely.'],
+                    ['text' => 'Accelerate to get away from the driver behind',           'correct' => false, 'explanation' => 'Speeding up to prevent an overtake is dangerous and illegal.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'medium',
+                'question' => 'Which side of the road should a marching band travel on?',
+                'answers' => [
+                    ['text' => 'Right side, facing oncoming traffic',   'correct' => false, 'explanation' => 'Individual pedestrians walk on the right, but organised groups march on the left.'],
+                    ['text' => 'Left side, with traffic',               'correct' => true,  'explanation' => 'An organised marching band or procession should keep to the left side of the road, in the same direction as traffic flow.'],
+                    ['text' => 'Centre of the road',                    'correct' => false, 'explanation' => 'The centre of the road is not a safe position for any road user.'],
+                    ['text' => 'Either side, depending on visibility',  'correct' => false, 'explanation' => 'There is a defined rule — left side for organised marches.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'Tinted spectacles should not be worn:',
+                'answers' => [
+                    ['text' => 'At night only',                                      'correct' => false, 'explanation' => 'Tinted spectacles should also be avoided in any conditions of poor visibility.'],
+                    ['text' => 'At night or in conditions of poor visibility',       'correct' => true,  'explanation' => 'Tinted lenses reduce the amount of light reaching your eyes — at night or in poor visibility they significantly reduce your ability to see clearly.'],
+                    ['text' => 'In poor visibility only',                            'correct' => false, 'explanation' => 'Night-time is also included — both conditions apply.'],
+                    ['text' => 'Only on motorways',                                  'correct' => false, 'explanation' => 'The restriction applies in all conditions of poor visibility or darkness, not just motorways.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'You have signalled a bus to stop but it is raining. What should you do?',
+                'answers' => [
+                    ['text' => 'Board as quickly as possible',                      'correct' => false, 'explanation' => 'Rushing onto a bus in wet conditions increases the risk of slipping.'],
+                    ['text' => 'Wait until the bus has fully stopped before boarding', 'correct' => true, 'explanation' => 'Always wait until the bus has come to a complete stop before attempting to board, even in wet weather.'],
+                    ['text' => 'Step into the road to make the driver stop sooner', 'correct' => false, 'explanation' => 'Stepping into the road to stop a bus is extremely dangerous.'],
+                    ['text' => 'Wave the bus past and wait for the next one',       'correct' => false, 'explanation' => 'There is no need to miss the bus — simply wait for it to stop fully.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'medium',
+                'question' => 'If a disabled vehicle must be towed without a tow truck, who may drive the disabled vehicle?',
+                'answers' => [
+                    ['text' => 'Only a licensed driver',                            'correct' => true,  'explanation' => 'Only a person holding a valid driver\'s licence may operate a vehicle being towed on the road.'],
+                    ['text' => 'Only the owner of the disabled vehicle',            'correct' => false, 'explanation' => 'The owner does not need to drive it — any licensed driver may.'],
+                    ['text' => 'Only a driver licenced for at least three years',   'correct' => false, 'explanation' => 'There is no minimum duration of licence specified — just that the driver must be licensed.'],
+                    ['text' => 'Anyone who knows how to drive',                     'correct' => false, 'explanation' => 'Knowing how to drive is not the same as holding a valid licence.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'You should not start a journey if:',
+                'answers' => [
+                    ['text' => 'You did not first drink some black coffee',   'correct' => false, 'explanation' => 'Coffee is not a legal or safety requirement before driving.'],
+                    ['text' => 'You cannot consult your doctor first',         'correct' => false, 'explanation' => 'A doctor\'s consultation is not required before every journey.'],
+                    ['text' => 'You are feeling tired',                        'correct' => true,  'explanation' => 'Driving when tired is extremely dangerous. Fatigue impairs reactions, concentration and judgement — do not start a journey if you feel tired.'],
+                    ['text' => 'The weather is poor',                          'correct' => false, 'explanation' => 'Poor weather does not automatically mean you should not travel, though you must adjust your driving.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'If you are the first to arrive at the scene of an accident, which of these should you NOT do?',
+                'answers' => [
+                    ['text' => 'Leave as soon as another motorist arrives',       'correct' => true,  'explanation' => 'You should not leave just because another person arrives. Stay until the emergency services arrive and give all the help you can.'],
+                    ['text' => 'Switch off the vehicle engine(s)',                'correct' => false, 'explanation' => 'Switching off engines is correct — it reduces fire risk.'],
+                    ['text' => 'Call emergency services',                         'correct' => false, 'explanation' => 'Calling emergency services is one of the first things you should do.'],
+                    ['text' => 'Warn approaching traffic',                        'correct' => false, 'explanation' => 'Warning other traffic is important to prevent further collisions.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // ANIMALS ON THE ROAD (PDF additions)
+            // -------------------------------------------------------
+            [
+                'category' => 'animals-on-the-road',
+                'difficulty' => 'medium',
+                'question' => 'When leading a horse on the road, which side should you keep it on?',
+                'answers' => [
+                    ['text' => 'Keep it on your left, between you and the traffic',   'correct' => false, 'explanation' => 'Placing the horse between yourself and traffic puts the animal in the direct path of vehicles.'],
+                    ['text' => 'Keep it on your right, with you between it and traffic', 'correct' => true,  'explanation' => 'You should keep the horse on your right so that you are between the horse and oncoming traffic, protecting both yourself and the animal.'],
+                    ['text' => 'Let it walk freely on either side',                   'correct' => false, 'explanation' => 'An animal allowed to wander freely is an unpredictable hazard.'],
+                    ['text' => 'Always walk it on the right-hand side of the road',   'correct' => false, 'explanation' => 'The position relative to the handler matters — keep horse on your right.'],
                 ],
             ],
 

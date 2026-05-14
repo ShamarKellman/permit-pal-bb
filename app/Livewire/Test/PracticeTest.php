@@ -9,13 +9,11 @@ use App\Models\TestSession;
 use App\Services\TestGeneratorService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-#[Layout('components.layouts.app')]
 #[Title('Practice Test')]
 class PracticeTest extends Component
 {
