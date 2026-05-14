@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Answer extends Model
 {
+    /** @use HasFactory<\Database\Factories\AnswerFactory> */
+    use HasFactory;
+
     protected $fillable = ['question_id', 'answer_text', 'is_correct', 'explanation'];
 
     protected function casts(): array

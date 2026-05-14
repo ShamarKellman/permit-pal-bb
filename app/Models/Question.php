@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Builders\QuestionBuilder;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,6 +14,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[UseEloquentBuilder(QuestionBuilder::class)]
 class Question extends Model
 {
+    /** @use HasFactory<\Database\Factories\QuestionFactory> */
+    use HasFactory;
+
     protected $fillable = ['category_id', 'question_text', 'image_path', 'difficulty', 'is_active'];
 
     protected function casts(): array

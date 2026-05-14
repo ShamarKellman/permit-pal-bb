@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Builders\TestSessionBuilder;
 use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,6 +15,9 @@ use Illuminate\Support\Facades\Cache;
 #[UseEloquentBuilder(TestSessionBuilder::class)]
 class TestSession extends Model
 {
+    /** @use HasFactory<\Database\Factories\TestSessionFactory> */
+    use HasFactory;
+
     protected $fillable = [
         'user_id', 'session_token', 'started_at',
         'completed_at', 'score', 'total_questions', 'passed',
