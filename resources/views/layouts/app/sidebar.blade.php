@@ -15,6 +15,12 @@
                     <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
+                    <flux:sidebar.item href="{{ route('study') }}" :current="request()->routeIs('study*')" icon="book-open" wire:navigate>
+                        {{ __('Study') }}
+                    </flux:sidebar.item>
+                    <flux:sidebar.item href="{{ route('test') }}" :current="request()->routeIs('test*')" icon="clipboard-document-list" wire:navigate>
+                        {{ __('Practice Test') }}
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
