@@ -2,9 +2,14 @@
 
 declare(strict_types=1);
 
+use App\Livewire\Test\PracticeTest as PracticeTestComponent;
+use App\Livewire\Test\TestResult as TestResultComponent;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
+
+Route::get('/test', PracticeTestComponent::class)->name('test');
+Route::get('/test/result', TestResultComponent::class)->name('test.result');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
