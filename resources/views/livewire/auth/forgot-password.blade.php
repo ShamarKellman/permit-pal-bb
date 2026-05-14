@@ -7,6 +7,9 @@
 
         <form method="POST" action="{{ route('password.email') }}" class="flex flex-col gap-6">
             @csrf
+            <div style="position:absolute;left:-9999px;height:0;overflow:hidden" aria-hidden="true">
+                <input type="text" name="website" value="" autocomplete="off" tabindex="-1">
+            </div>
 
             <!-- Email Address -->
             <flux:input

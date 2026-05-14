@@ -11,8 +11,6 @@ use Illuminate\Validation\Rule;
 trait ProfileValidationRules
 {
     /**
-     * Get the validation rules used to validate user profiles.
-     *
      * @return array<string, array<int, ValidationRule|array<mixed>|string>>
      *
      * @phpstan-return array<string, array<int, mixed>>
@@ -26,8 +24,6 @@ trait ProfileValidationRules
     }
 
     /**
-     * Get the validation rules used to validate user names.
-     *
      * @return array<int, ValidationRule|array<mixed>|string>
      */
     protected function nameRules(): array
@@ -36,18 +32,22 @@ trait ProfileValidationRules
     }
 
     /**
-     * Get the validation rules used to validate user emails.
-     *
      * @return array<int, ValidationRule|array<mixed>|string>
      *
      * @phpstan-return array<int, mixed>
      */
     protected function emailRules(?int $userId = null): array
     {
+        $emailRule = Rule::email()->rfcCompliant(strict: true);
+
+        if (app()->isProduction()) {
+            $emailRule->validateMxRecord();
+        }
+
         return [
             'required',
             'string',
-            'email',
+            $emailRule,
             'max:255',
             $userId === null
                 ? Rule::unique(User::class)

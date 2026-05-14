@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Middleware\Honeypot;
 use App\Http\Middleware\SecureHeaders;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -38,7 +39,7 @@ return Application::configure(basePath: dirname(__DIR__))
             '2a06:98c0::/29',
             '2c0f:f248::/32',
         ]);
-        $middleware->web(append: [SecureHeaders::class]);
+        $middleware->web(append: [Honeypot::class, SecureHeaders::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
