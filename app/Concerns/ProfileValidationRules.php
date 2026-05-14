@@ -14,6 +14,8 @@ trait ProfileValidationRules
      * Get the validation rules used to validate user profiles.
      *
      * @return array<string, array<int, ValidationRule|array<mixed>|string>>
+     *
+     * @phpstan-return array<string, array<int, mixed>>
      */
     protected function profileRules(?int $userId = null): array
     {
@@ -37,6 +39,8 @@ trait ProfileValidationRules
      * Get the validation rules used to validate user emails.
      *
      * @return array<int, ValidationRule|array<mixed>|string>
+     *
+     * @phpstan-return array<int, mixed>
      */
     protected function emailRules(?int $userId = null): array
     {
