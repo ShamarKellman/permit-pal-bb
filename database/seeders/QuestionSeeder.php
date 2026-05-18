@@ -1356,12 +1356,12 @@ class QuestionSeeder extends Seeder
             [
                 'category' => 'safe-driving-practices',
                 'difficulty' => 'medium',
-                'question' => 'What is the maximum distance at which music from a vehicle may be heard?',
+                'question' => 'Radio sounds or harsh noise from a vehicle should not be audible beyond what distance?',
                 'answers' => [
-                    ['text' => '10 metres',  'correct' => false, 'explanation' => '10 metres is not the maximum stated distance.'],
-                    ['text' => '100 metres', 'correct' => false, 'explanation' => '100 metres is far too loud and would constitute excessive noise.'],
-                    ['text' => '50 metres',  'correct' => true,  'explanation' => 'Music from a vehicle should not be audible beyond 50 metres.'],
-                    ['text' => '25 metres',  'correct' => false, 'explanation' => '25 metres is not the stated maximum.'],
+                    ['text' => '10 metres (11 yards)', 'correct' => true,  'explanation' => 'The Barbados Highway Code states that radio sounds or harsh noise must not be heard more than 10 metres (11 yards) away from your vehicle.'],
+                    ['text' => '25 metres',             'correct' => false, 'explanation' => '25 metres is more than the permitted 10 metres.'],
+                    ['text' => '50 metres',             'correct' => false, 'explanation' => '50 metres is far beyond the permitted 10 metre limit.'],
+                    ['text' => '5 metres',              'correct' => false, 'explanation' => '5 metres is not the stated maximum — it is 10 metres (11 yards).'],
                 ],
             ],
             [
@@ -1619,6 +1619,598 @@ class QuestionSeeder extends Seeder
                     ['text' => 'Keep it on your right, with you between it and traffic', 'correct' => true,  'explanation' => 'You should keep the horse on your right so that you are between the horse and oncoming traffic, protecting both yourself and the animal.'],
                     ['text' => 'Let it walk freely on either side',                   'correct' => false, 'explanation' => 'An animal allowed to wander freely is an unpredictable hazard.'],
                     ['text' => 'Always walk it on the right-hand side of the road',   'correct' => false, 'explanation' => 'The position relative to the handler matters — keep horse on your right.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // ROAD SIGNS (Quizlet PDF additions)
+            // -------------------------------------------------------
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'What does a circular sign with a red border showing a left-turn arrow crossed out mean?',
+                'answers' => [
+                    ['text' => 'No left turn',   'correct' => true,  'explanation' => 'A circular red-border sign with a crossed-out left-turn arrow prohibits vehicles from turning left.'],
+                    ['text' => 'No right turn',  'correct' => false, 'explanation' => 'No right turn would show a right-turn arrow crossed out.'],
+                    ['text' => 'Turn left ahead', 'correct' => false, 'explanation' => 'Turn left ahead is a blue circular mandatory sign, not a red-bordered prohibition.'],
+                    ['text' => 'No U turns',      'correct' => false, 'explanation' => 'No U-turn shows a U-shaped arrow crossed out.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'What does a circular sign with a red border showing a right-turn arrow crossed out mean?',
+                'answers' => [
+                    ['text' => 'No right turn',  'correct' => true,  'explanation' => 'A circular red-border sign with a crossed-out right-turn arrow prohibits vehicles from turning right.'],
+                    ['text' => 'No left turn',   'correct' => false, 'explanation' => 'No left turn would show a left-turn arrow crossed out.'],
+                    ['text' => 'Turn right ahead', 'correct' => false, 'explanation' => 'Turn right ahead is a blue circular mandatory sign, not a red-bordered prohibition.'],
+                    ['text' => 'No entry',        'correct' => false, 'explanation' => 'No entry is a red circle with a white horizontal bar.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'What does a circular sign with a red border showing a U-shaped arrow crossed out mean?',
+                'answers' => [
+                    ['text' => 'No U turns',     'correct' => true,  'explanation' => 'A circular red-border sign with a U-shaped arrow crossed out prohibits U-turns.'],
+                    ['text' => 'No overtaking',  'correct' => false, 'explanation' => 'No overtaking shows two cars side by side, not a U-shaped arrow.'],
+                    ['text' => 'No left turn',   'correct' => false, 'explanation' => 'No left turn shows a left-turn arrow crossed out.'],
+                    ['text' => 'No right turn',  'correct' => false, 'explanation' => 'No right turn shows a right-turn arrow crossed out.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'medium',
+                'question' => 'What does a circular sign with a red border showing both a motorcycle above a car mean?',
+                'answers' => [
+                    ['text' => 'No motor vehicles',   'correct' => true,  'explanation' => 'A circular red-border sign showing a motorcycle above a car prohibits all motor vehicles from entering.'],
+                    ['text' => 'Motor vehicles only', 'correct' => false, 'explanation' => 'A motor vehicles only sign would be blue, not red-bordered.'],
+                    ['text' => 'No cycling',           'correct' => false, 'explanation' => 'No cycling shows only a bicycle symbol in a red circle.'],
+                    ['text' => 'No overtaking',        'correct' => false, 'explanation' => 'No overtaking shows two cars side by side — one red, one black.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'What does a triangular warning sign with a T-shape inside mean?',
+                'answers' => [
+                    ['text' => 'T-junction ahead',    'correct' => true,  'explanation' => 'A triangular sign with a T-shape warns of a T-junction ahead — the main road meets a side road.'],
+                    ['text' => 'Crossroads ahead',    'correct' => false, 'explanation' => 'Crossroads ahead shows a cross (+) shape inside the triangle.'],
+                    ['text' => 'Staggered junction',  'correct' => false, 'explanation' => 'A staggered junction sign shows an offset cross inside the triangle.'],
+                    ['text' => 'Side road junction',  'correct' => false, 'explanation' => 'A side road sign shows a junction with one side arm offset.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'medium',
+                'question' => 'A triangular warning sign with an offset cross (one arm shifted to the side) indicates:',
+                'answers' => [
+                    ['text' => 'Staggered junction ahead', 'correct' => true,  'explanation' => 'An offset cross in a warning triangle indicates a staggered junction — the side roads do not align directly opposite each other.'],
+                    ['text' => 'Crossroads ahead',         'correct' => false, 'explanation' => 'A crossroads sign shows a straight cross, not an offset one.'],
+                    ['text' => 'T-junction ahead',         'correct' => false, 'explanation' => 'A T-junction sign shows a T-shape, not a cross.'],
+                    ['text' => 'Roundabout ahead',         'correct' => false, 'explanation' => 'A roundabout sign shows three arrows in a circle.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'medium',
+                'question' => 'A triangular warning sign showing traffic merging in from the right side means:',
+                'answers' => [
+                    ['text' => 'Merging traffic ahead', 'correct' => true,  'explanation' => 'This sign warns that traffic from a side road or slip road will be merging into your lane from the right.'],
+                    ['text' => 'Side road junction',    'correct' => false, 'explanation' => 'A side road sign indicates a junction, not necessarily merging.'],
+                    ['text' => 'Dual carriageway ends', 'correct' => false, 'explanation' => 'Dual carriageway ending shows two parallel lanes converging into one.'],
+                    ['text' => 'Road narrows',          'correct' => false, 'explanation' => 'Road narrows shows the road width reducing symmetrically from both or one side.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'What does a triangular warning sign with a curved arrow (bend shape) inside mean?',
+                'answers' => [
+                    ['text' => 'Bend ahead',         'correct' => true,  'explanation' => 'A triangular sign with a curved arrow warns of a bend ahead in the road.'],
+                    ['text' => 'Double bend',         'correct' => false, 'explanation' => 'A double bend sign shows an S-shaped arrow that reverses direction.'],
+                    ['text' => 'Roundabout ahead',    'correct' => false, 'explanation' => 'A roundabout sign shows three circling arrows.'],
+                    ['text' => 'Slippery road ahead', 'correct' => false, 'explanation' => 'Slippery road shows a skidding car, not a bend arrow.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'What does a triangular warning sign with an S-shaped arrow inside mean?',
+                'answers' => [
+                    ['text' => 'Double bend ahead',  'correct' => true,  'explanation' => 'An S-shaped arrow in a warning triangle indicates two bends in quick succession — a double bend.'],
+                    ['text' => 'Single bend ahead',  'correct' => false, 'explanation' => 'A single bend sign shows a simple curved arrow, not an S-shape.'],
+                    ['text' => 'Road narrows',        'correct' => false, 'explanation' => 'Road narrows shows the road width decreasing, not bends.'],
+                    ['text' => 'Winding road',        'correct' => false, 'explanation' => 'A double bend sign specifically warns of two bends — not a general winding road.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'A triangular warning sign showing two lines converging equally from both sides indicates:',
+                'answers' => [
+                    ['text' => 'Road narrows ahead',          'correct' => true,  'explanation' => 'Two lines converging equally from both sides in a warning triangle means the road narrows from both sides ahead.'],
+                    ['text' => 'Road narrows on one side',    'correct' => false, 'explanation' => 'When the road narrows on one side only, just one line converges inward.'],
+                    ['text' => 'Dual carriageway ends',       'correct' => false, 'explanation' => 'Dual carriageway ending shows two lanes merging into one, not both sides of the road closing in.'],
+                    ['text' => 'Merging traffic',             'correct' => false, 'explanation' => 'Merging traffic shows a side road joining, not the road itself narrowing.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'A triangular warning sign with a bumpy (uneven) surface symbol inside means:',
+                'answers' => [
+                    ['text' => 'Uneven road ahead',   'correct' => true,  'explanation' => 'A humpy or bumpy surface symbol in a warning triangle warns of an uneven road surface ahead — reduce speed.'],
+                    ['text' => 'Road hump ahead',     'correct' => false, 'explanation' => 'A road hump sign shows a single smooth rounded hump, not a rough surface.'],
+                    ['text' => 'Slippery road',       'correct' => false, 'explanation' => 'Slippery road shows a car with skid marks, not bumps.'],
+                    ['text' => 'Road works ahead',    'correct' => false, 'explanation' => 'Road works shows a worker with a shovel, not road surface bumps.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'medium',
+                'question' => 'What does a blue circular sign with a red diagonal stripe mean?',
+                'answers' => [
+                    ['text' => 'No waiting',               'correct' => true,  'explanation' => 'A blue circular sign with a red diagonal stripe means no waiting — you may not stop and wait on that section of road.'],
+                    ['text' => 'No stopping on carriageway', 'correct' => false, 'explanation' => 'No stopping is shown by a blue circle with a red X, not a single diagonal stripe.'],
+                    ['text' => 'No overtaking',            'correct' => false, 'explanation' => 'No overtaking shows two cars side by side in a red-border circle.'],
+                    ['text' => 'End of speed limit',       'correct' => false, 'explanation' => 'End of speed limit is a white circle with a single diagonal black stripe.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'medium',
+                'question' => 'What does a blue circular sign with a red X crossed through it mean?',
+                'answers' => [
+                    ['text' => 'No stopping on carriageway', 'correct' => true,  'explanation' => 'A blue circle with a red X prohibits stopping on the carriageway at any time.'],
+                    ['text' => 'No waiting',                 'correct' => false, 'explanation' => 'No waiting uses a blue circle with a single red diagonal stripe, not an X.'],
+                    ['text' => 'No entry',                   'correct' => false, 'explanation' => 'No entry is a red circle with a white horizontal bar.'],
+                    ['text' => 'No U turns',                 'correct' => false, 'explanation' => 'No U turns shows a U-shaped arrow crossed out in a red-border circle.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'What does a blue circular sign with a white downward-left diagonal arrow mean?',
+                'answers' => [
+                    ['text' => 'Keep left',     'correct' => true,  'explanation' => 'A blue circle with a downward-left white arrow is a mandatory instruction to keep to the left side of an obstruction (e.g. a bollard or roundabout).'],
+                    ['text' => 'Turn left ahead', 'correct' => false, 'explanation' => 'Turn left ahead shows a bent left-curving arrow, not a diagonal one.'],
+                    ['text' => 'No left turn',  'correct' => false, 'explanation' => 'No left turn has a red border and shows a left-turn arrow crossed out.'],
+                    ['text' => 'Keep right',    'correct' => false, 'explanation' => 'Keep right would show a downward-right diagonal arrow.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'A blue circular sign with a white upward arrow means:',
+                'answers' => [
+                    ['text' => 'Ahead only — proceed straight on', 'correct' => true,  'explanation' => 'A blue circle with a white upward arrow is a mandatory sign ordering drivers to proceed straight ahead only.'],
+                    ['text' => 'One way traffic',                  'correct' => false, 'explanation' => 'One way traffic is typically a rectangular blue sign, not a circular one.'],
+                    ['text' => 'Road clear ahead',                 'correct' => false, 'explanation' => 'There is no road-clear-ahead sign.'],
+                    ['text' => 'Highway entrance',                 'correct' => false, 'explanation' => 'Highway entrance signs are rectangular and directional.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'What does a blue circular sign with a white left-curving arrow mean?',
+                'answers' => [
+                    ['text' => 'Turn left ahead',  'correct' => true,  'explanation' => 'A blue circle with a white left-curving arrow is a mandatory sign ordering drivers to turn left at the next point.'],
+                    ['text' => 'No left turn',     'correct' => false, 'explanation' => 'No left turn has a red border and shows a crossed-out left-turn arrow.'],
+                    ['text' => 'Keep left',        'correct' => false, 'explanation' => 'Keep left shows a downward-left diagonal arrow, not a curving turn arrow.'],
+                    ['text' => 'Road bends left',  'correct' => false, 'explanation' => 'Road bend warnings are triangular signs, not blue circles.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'What does a rectangular blue sign with a white upward arrow indicate?',
+                'answers' => [
+                    ['text' => 'One way traffic',   'correct' => true,  'explanation' => 'A rectangular blue sign with a white upward arrow marks a one-way street — traffic flows in one direction only.'],
+                    ['text' => 'Ahead only',         'correct' => false, 'explanation' => 'Ahead only is a circular blue sign, not rectangular.'],
+                    ['text' => 'No entry',           'correct' => false, 'explanation' => 'No entry is a red circle with a white horizontal bar.'],
+                    ['text' => 'Highway ahead',      'correct' => false, 'explanation' => 'Highway signs use different colours and are directional, not a white-arrow-on-blue rectangle.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'medium',
+                'question' => 'What does a white circular sign with a single black diagonal stripe mean?',
+                'answers' => [
+                    ['text' => 'End of speed limit', 'correct' => true,  'explanation' => 'A white circle with a single diagonal stripe indicates the end of a speed restriction — normal speed limits now apply.'],
+                    ['text' => 'No waiting',          'correct' => false, 'explanation' => 'No waiting uses a blue circular sign with a red diagonal stripe.'],
+                    ['text' => 'No overtaking',       'correct' => false, 'explanation' => 'No overtaking shows two cars side by side in a red-border circle.'],
+                    ['text' => 'Road closed',         'correct' => false, 'explanation' => 'Road closed signs use different designs.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'medium',
+                'question' => 'A triangular warning sign showing two lanes of traffic converging into one indicates:',
+                'answers' => [
+                    ['text' => 'Dual carriageway ends ahead', 'correct' => true,  'explanation' => 'Two parallel lanes converging into one in a warning triangle means the dual carriageway ends — prepare to merge into a single road.'],
+                    ['text' => 'Road narrows ahead',          'correct' => false, 'explanation' => 'Road narrows shows both sides of the road converging, not necessarily a dual carriageway ending.'],
+                    ['text' => 'Merging traffic',             'correct' => false, 'explanation' => 'Merging traffic shows a side road joining, not a dual carriageway ending.'],
+                    ['text' => 'Two-way traffic ahead',       'correct' => false, 'explanation' => 'Two-way traffic signs show two opposing arrows, not merging lanes.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'In Barbados, what shape is the pedestrian crossing sign (at the crossing itself)?',
+                'answers' => [
+                    ['text' => 'Yellow diamond with a pedestrian figure', 'correct' => true,  'explanation' => 'In Barbados, the pedestrian crossing sign is a yellow diamond shape with a pedestrian figure — different from the triangular UK-style sign.'],
+                    ['text' => 'Red triangle with a pedestrian figure',   'correct' => false, 'explanation' => 'A triangular pedestrian figure sign is used as a warning of a crossing ahead, not the crossing marker itself.'],
+                    ['text' => 'Blue rectangle with a pedestrian figure', 'correct' => false, 'explanation' => 'Blue rectangles are informational, not used for pedestrian crossing warnings.'],
+                    ['text' => 'Red circle with a pedestrian figure',     'correct' => false, 'explanation' => 'Red circles give prohibitions, not crossing warnings.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'What does a triangular warning sign containing a traffic light symbol mean?',
+                'answers' => [
+                    ['text' => 'Traffic signals ahead',      'correct' => true,  'explanation' => 'A warning triangle containing a traffic light symbol warns drivers that traffic signals are ahead — be prepared to stop.'],
+                    ['text' => 'Traffic light is faulty',    'correct' => false, 'explanation' => 'A faulty light is not indicated by a road sign — it would be obvious from the malfunctioning signal itself.'],
+                    ['text' => 'Stop and check for signals', 'correct' => false, 'explanation' => 'This is a warning sign, not an instruction to stop.'],
+                    ['text' => 'Controlled junction',        'correct' => false, 'explanation' => 'The specific sign for approaching traffic lights is "traffic signals ahead", not "controlled junction".'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'medium',
+                'question' => 'A triangular warning sign containing only an exclamation mark (!) means:',
+                'answers' => [
+                    ['text' => 'Other danger ahead — hazard not covered by another sign', 'correct' => true,  'explanation' => 'A warning triangle with only an exclamation mark indicates a danger not covered by specific signs — look out for local hazards.'],
+                    ['text' => 'Speed cameras ahead',   'correct' => false, 'explanation' => 'Speed cameras have their own specific sign design.'],
+                    ['text' => 'Hazardous chemicals',   'correct' => false, 'explanation' => 'Hazardous materials use specific diamond-shaped symbols, not a plain exclamation mark in a triangle.'],
+                    ['text' => 'Stop and look',         'correct' => false, 'explanation' => 'This is a warning sign, not a mandatory stop instruction.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'What does a rectangular red sign reading "REDUCE SPEED NOW" mean?',
+                'answers' => [
+                    ['text' => 'You must slow down immediately',   'correct' => true,  'explanation' => '"Reduce Speed Now" is a mandatory instruction to slow down — often used before hazards, schools, or congested areas.'],
+                    ['text' => 'The speed limit has changed',      'correct' => false, 'explanation' => 'A speed limit change uses a circular speed limit sign, not "Reduce Speed Now".'],
+                    ['text' => 'Road works are ahead',             'correct' => false, 'explanation' => 'Road works have their own warning sign (worker with shovel in a triangle).'],
+                    ['text' => 'The road ahead is closed',         'correct' => false, 'explanation' => 'Road closure signs use different designs and wording.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'A triangular warning sign showing a worker with a shovel indicates:',
+                'answers' => [
+                    ['text' => 'Road works ahead',      'correct' => true,  'explanation' => 'A worker with a shovel inside a warning triangle is the standard road works ahead sign — slow down and watch for workers and changed road conditions.'],
+                    ['text' => 'Rough road ahead',      'correct' => false, 'explanation' => 'An uneven road sign shows bumps, not a worker figure.'],
+                    ['text' => 'Diversion ahead',       'correct' => false, 'explanation' => 'Diversion signs are rectangular with directional arrows.'],
+                    ['text' => 'Pedestrians ahead',     'correct' => false, 'explanation' => 'A pedestrian warning shows a walking figure without a shovel.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'A triangular warning sign showing a car with skid marks leaving the road means:',
+                'answers' => [
+                    ['text' => 'Slippery road ahead',  'correct' => true,  'explanation' => 'A skidding car in a warning triangle warns of a slippery road surface ahead — reduce speed and drive with extra care.'],
+                    ['text' => 'Accident blackspot',   'correct' => false, 'explanation' => 'Accident blackspot signs have a different specific design.'],
+                    ['text' => 'Road humps ahead',     'correct' => false, 'explanation' => 'Road humps show a rounded hump, not a skidding car.'],
+                    ['text' => 'Uneven road',          'correct' => false, 'explanation' => 'Uneven road shows bumps, not a skidding vehicle.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'easy',
+                'question' => 'A triangular warning sign with a single rounded hump inside means:',
+                'answers' => [
+                    ['text' => 'Road hump ahead',      'correct' => true,  'explanation' => 'A rounded hump in a warning triangle indicates a road hump (speed bump) ahead — slow down to avoid damage.'],
+                    ['text' => 'Uneven road ahead',    'correct' => false, 'explanation' => 'Uneven road shows multiple bumps, not a single smooth hump.'],
+                    ['text' => 'Slippery road ahead',  'correct' => false, 'explanation' => 'Slippery road shows a skidding car, not a hump.'],
+                    ['text' => 'Sharp deviation',      'correct' => false, 'explanation' => 'Sharp deviation shows chevron arrows, not a hump.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'medium',
+                'question' => 'A triangular warning sign showing a car falling off a cliff edge into water warns of:',
+                'answers' => [
+                    ['text' => 'Quayside or river bank ahead', 'correct' => true,  'explanation' => 'This sign warns that the road edge drops into water — a quayside, river bank, or similar hazard is nearby.'],
+                    ['text' => 'Flood risk ahead',             'correct' => false, 'explanation' => 'A flood risk sign would show a flooded road, not a car falling into water.'],
+                    ['text' => 'Steep descent',                'correct' => false, 'explanation' => 'A steep descent sign shows an incline with a percentage gradient.'],
+                    ['text' => 'Bridge ahead',                 'correct' => false, 'explanation' => 'Bridge signs are rectangular or directional, not triangular car-into-water warnings.'],
+                ],
+            ],
+            [
+                'category' => 'road-signs',
+                'difficulty' => 'medium',
+                'question' => 'What does an area enclosed by a solid yellow line on the road mean?',
+                'answers' => [
+                    ['text' => 'Do not enter the area except in an emergency', 'correct' => true,  'explanation' => 'A solid yellow box/line enclosing an area means vehicles must not enter or stop inside it, except in an emergency.'],
+                    ['text' => 'No parking in this area',                      'correct' => false, 'explanation' => 'No parking is shown by specific parking restriction signs, not a yellow box.'],
+                    ['text' => 'A pedestrian zone',                            'correct' => false, 'explanation' => 'Pedestrian zones have their own specific signs and markings.'],
+                    ['text' => 'A bus stop area',                              'correct' => false, 'explanation' => 'Bus stops have their own specific markings — not a solid yellow enclosure.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // PEDESTRIANS & CYCLISTS (Quizlet PDF additions)
+            // -------------------------------------------------------
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'easy',
+                'question' => 'When walking in particularly heavy traffic, how should pedestrians arrange themselves?',
+                'answers' => [
+                    ['text' => 'In single file',                     'correct' => true,  'explanation' => 'In particularly heavy traffic, pedestrians should walk in single file to minimise the space they occupy on the road.'],
+                    ['text' => 'Two abreast',                        'correct' => false, 'explanation' => 'Walking two abreast in heavy traffic takes up more road space and is less safe.'],
+                    ['text' => 'Side by side in groups',             'correct' => false, 'explanation' => 'Grouping side by side in heavy traffic is dangerous — single file is required.'],
+                    ['text' => 'Spread across the full road width',  'correct' => false, 'explanation' => 'Spreading across the road in heavy traffic is extremely dangerous.'],
+                ],
+            ],
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'easy',
+                'question' => 'In dark or poor light conditions, what should a pedestrian do to be more visible (especially when there is no sidewalk)?',
+                'answers' => [
+                    ['text' => 'Wear or carry something white, light-coloured or reflective', 'correct' => true,  'explanation' => 'In poor light or darkness, pedestrians should wear or carry white, light-coloured or reflective items so drivers can see them more easily.'],
+                    ['text' => 'Walk faster to spend less time on the road',                  'correct' => false, 'explanation' => 'Walking faster does not improve visibility to drivers.'],
+                    ['text' => 'Walk on the left side of the road',                           'correct' => false, 'explanation' => 'Wearing white/reflective clothing is the key safety measure — the correct side for pedestrians remains the right (facing traffic).'],
+                    ['text' => 'Carry a loud whistle',                                        'correct' => false, 'explanation' => 'A whistle does not improve visibility — wearing reflective or light clothing does.'],
+                ],
+            ],
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'medium',
+                'question' => 'What should participants in organised road walks do in general?',
+                'answers' => [
+                    ['text' => 'Keep to the left, with lookouts at the front and back carrying a warning paddle or sign', 'correct' => true,  'explanation' => 'Organised walks should keep to the left side of the road, with lookouts at both front and rear of the group carrying a warning paddle or sign.'],
+                    ['text' => 'Walk on the right side to face oncoming traffic',                                         'correct' => false, 'explanation' => 'Individual pedestrians walk on the right, but organised groups should keep to the left.'],
+                    ['text' => 'Walk in the centre of the road',                                                          'correct' => false, 'explanation' => 'The centre of the road is not safe for organised walks.'],
+                    ['text' => 'Walk only on footpaths',                                                                  'correct' => false, 'explanation' => 'Footpaths may not always be available — these rules apply when using the road.'],
+                ],
+            ],
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'medium',
+                'question' => 'At night, what lighting is required for an organised road walk?',
+                'answers' => [
+                    ['text' => 'Front lookout carries a white light, rear lookout carries a red light, outer rank wears reflective clothing', 'correct' => true,  'explanation' => 'The front lookout carries a white light, the rear lookout a bright red light, the outer rank wears reflective clothes, and additional lights should be carried.'],
+                    ['text' => 'All participants carry white lights',                                                                          'correct' => false, 'explanation' => 'Different lights are required for different positions — white at front, red at back.'],
+                    ['text' => 'Only the group leader needs a torch',                                                                          'correct' => false, 'explanation' => 'Multiple lights are required to make the whole group visible from front and rear.'],
+                    ['text' => 'Organised walks should not take place at night',                                                               'correct' => false, 'explanation' => 'Night walks are permitted but specific lighting requirements must be followed.'],
+                ],
+            ],
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'easy',
+                'question' => 'Which of these is the safest place for a pedestrian to cross the road?',
+                'answers' => [
+                    ['text' => 'A pedestrian crossing',      'correct' => true,  'explanation' => 'Pedestrian crossings, traffic islands, traffic lights, and where a police officer or traffic warden is present are the safest places to cross.'],
+                    ['text' => 'Between parked cars',        'correct' => false, 'explanation' => 'Crossing between parked cars is risky — drivers cannot see you until it is too late.'],
+                    ['text' => 'In the middle of the road away from crossings', 'correct' => false, 'explanation' => 'Crossing away from designated points is dangerous.'],
+                    ['text' => 'At a bend',                  'correct' => false, 'explanation' => 'Crossing at a bend is dangerous — oncoming drivers cannot see you in time.'],
+                ],
+            ],
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'medium',
+                'question' => 'If there is no safe crossing place, what should a pedestrian do before crossing?',
+                'answers' => [
+                    ['text' => 'Choose a place with clear visibility in all directions and avoid crossing near parked vehicles', 'correct' => true,  'explanation' => 'When no formal crossing exists, choose a spot where you can clearly see all approaching traffic and where drivers can see you — avoid areas blocked by parked vehicles.'],
+                    ['text' => 'Cross quickly anywhere to minimise time on the road',                                           'correct' => false, 'explanation' => 'Rushing across without checking visibility is dangerous regardless of speed.'],
+                    ['text' => 'Always walk to the nearest junction',                                                           'correct' => false, 'explanation' => 'Junctions are not automatically safe crossing points — clear sightlines matter most.'],
+                    ['text' => 'Wait for another pedestrian to cross first',                                                    'correct' => false, 'explanation' => 'Following another pedestrian does not guarantee it is safe for you.'],
+                ],
+            ],
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'medium',
+                'question' => 'If you must cross between parked vehicles, where should you stop first?',
+                'answers' => [
+                    ['text' => 'At the outside edge of the vehicles, so you can see traffic and be seen by drivers', 'correct' => true,  'explanation' => 'Stop at the outside edge of the parked vehicles — this allows you to look all around for traffic and to be visible to drivers before stepping into the road.'],
+                    ['text' => 'Step straight out from between the vehicles',                                         'correct' => false, 'explanation' => 'Stepping straight out is dangerous — drivers cannot see you until you are already in the road.'],
+                    ['text' => 'Cross quickly from the middle of the gap',                                            'correct' => false, 'explanation' => 'Moving quickly without first checking from the edge gives you no information about approaching traffic.'],
+                    ['text' => 'Crouch low to stay out of sight',                                                     'correct' => false, 'explanation' => 'Being seen by drivers is exactly what you want — crouching makes you less visible and more at risk.'],
+                ],
+            ],
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'easy',
+                'question' => 'What does the "Don\'t Walk" symbol at a pedestrian crossing mean?',
+                'answers' => [
+                    ['text' => 'Do not cross when this sign is shown',    'correct' => true,  'explanation' => 'The "Don\'t Walk" symbol (usually a raised hand or red figure) means pedestrians must not cross — wait until the Walk symbol appears.'],
+                    ['text' => 'Cross quickly before traffic moves',      'correct' => false, 'explanation' => 'The "Don\'t Walk" signal means wait — do not cross.'],
+                    ['text' => 'Pedestrians should slow their pace',      'correct' => false, 'explanation' => '"Don\'t Walk" means stop, not slow down.'],
+                    ['text' => 'The crossing is out of order',            'correct' => false, 'explanation' => '"Don\'t Walk" is a normal part of the crossing cycle — it does not indicate a fault.'],
+                ],
+            ],
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'easy',
+                'question' => 'What does the "Walk" symbol at a pedestrian crossing indicate?',
+                'answers' => [
+                    ['text' => 'A pedestrian may cross with care',             'correct' => true,  'explanation' => 'The "Walk" symbol (usually a green walking figure) indicates pedestrians may cross — but always check traffic has stopped before stepping out.'],
+                    ['text' => 'All vehicles have stopped — cross immediately', 'correct' => false, 'explanation' => 'Even with the Walk signal showing, check that all traffic has actually stopped before crossing.'],
+                    ['text' => 'The crossing is busy — wait your turn',        'correct' => false, 'explanation' => '"Walk" means it is your turn to cross, not to wait.'],
+                    ['text' => 'Emergency vehicles may be approaching',        'correct' => false, 'explanation' => '"Walk" is a general crossing signal — it does not specifically refer to emergency vehicles.'],
+                ],
+            ],
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'medium',
+                'question' => 'The "Don\'t Walk" sign at a pedestrian crossing begins to flash. What does this mean?',
+                'answers' => [
+                    ['text' => 'Do not start crossing; if already crossing, you will have time to finish safely', 'correct' => true,  'explanation' => 'A flashing "Don\'t Walk" means the lights will soon change — do not begin to cross, but if you have already started, you will have enough time to finish safely.'],
+                    ['text' => 'Stop immediately in the middle of the road', 'correct' => false, 'explanation' => 'If already crossing, continue to the other side — stopping in the middle is dangerous.'],
+                    ['text' => 'Cross quickly before the lights change',     'correct' => false, 'explanation' => 'If you have not yet stepped out, do not start crossing — time is almost up.'],
+                    ['text' => 'The crossing is unsafe for all users',       'correct' => false, 'explanation' => 'Those already crossing have time to finish safely — the signal warns those about to cross not to start.'],
+                ],
+            ],
+            [
+                'category' => 'pedestrians-cyclists',
+                'difficulty' => 'easy',
+                'question' => 'What should a pedestrian do if an emergency vehicle approaches with lights flashing?',
+                'answers' => [
+                    ['text' => 'Do not step onto the road — remain on the pavement', 'correct' => true,  'explanation' => 'Pedestrians should not step onto the road if an emergency vehicle is approaching with lights and sirens — remain safely on the pavement until it has passed.'],
+                    ['text' => 'Cross quickly before the vehicle arrives',            'correct' => false, 'explanation' => 'Rushing across in front of an emergency vehicle is extremely dangerous.'],
+                    ['text' => 'Wave the emergency vehicle past',                     'correct' => false, 'explanation' => 'Emergency vehicles do not need pedestrians to wave them through — stay off the road.'],
+                    ['text' => 'Walk parallel to the road instead',                  'correct' => false, 'explanation' => 'The safest action is to remain on the pavement until the emergency vehicle has passed.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // SAFE DRIVING PRACTICES (Quizlet PDF additions)
+            // -------------------------------------------------------
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'How often is it recommended that you take a break when driving?',
+                'answers' => [
+                    ['text' => '15 minutes every two hours',  'correct' => true,  'explanation' => 'It is recommended to take at least a 15-minute break for every two hours of driving to prevent fatigue.'],
+                    ['text' => '30 minutes every hour',       'correct' => false, 'explanation' => '30 minutes per hour is more frequent than recommended — 15 minutes every two hours is the guideline.'],
+                    ['text' => '10 minutes every three hours', 'correct' => false, 'explanation' => 'Three-hour intervals without a break is too long and risks dangerous fatigue.'],
+                    ['text' => '5 minutes every hour',        'correct' => false, 'explanation' => '5 minutes per hour is not the standard recommendation.'],
+                ],
+            ],
+            [
+                'category' => 'safe-driving-practices',
+                'difficulty' => 'easy',
+                'question' => 'In which of these conditions should you NOT drive?',
+                'answers' => [
+                    ['text' => 'When drowsy/unwell or under the influence of alcohol or drugs', 'correct' => true,  'explanation' => 'You must not drive when drowsy, unwell, or under the influence of alcohol or drugs — all of these seriously impair your ability to drive safely.'],
+                    ['text' => 'When it is raining',         'correct' => false, 'explanation' => 'Rain alone does not prohibit driving — adjust your speed and style to the conditions.'],
+                    ['text' => 'When driving at night',      'correct' => false, 'explanation' => 'Night driving is permitted — use your headlights and reduce speed as needed.'],
+                    ['text' => 'When carrying a passenger',  'correct' => false, 'explanation' => 'Carrying passengers is permitted and does not disqualify you from driving.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // SPEED LIMITS (Quizlet PDF additions — kph stopping distances)
+            // -------------------------------------------------------
+            [
+                'category' => 'speed-limits',
+                'difficulty' => 'medium',
+                'question' => 'What is the total stopping distance for a car travelling at 30 km/h?',
+                'answers' => [
+                    ['text' => '12 metres', 'correct' => true,  'explanation' => 'At 30 km/h the total stopping distance (reaction + braking) is approximately 12 metres.'],
+                    ['text' => '6 metres',  'correct' => false, 'explanation' => '6 metres is only the thinking distance — total stopping distance at 30 km/h is 12 metres.'],
+                    ['text' => '24 metres', 'correct' => false, 'explanation' => '24 metres is the stopping distance at 50 km/h, not 30 km/h.'],
+                    ['text' => '18 metres', 'correct' => false, 'explanation' => '18 metres is not a standard stopping distance figure in the Barbados Highway Code.'],
+                ],
+            ],
+            [
+                'category' => 'speed-limits',
+                'difficulty' => 'medium',
+                'question' => 'What is the total stopping distance for a car travelling at 50 km/h?',
+                'answers' => [
+                    ['text' => '24 metres', 'correct' => true,  'explanation' => 'At 50 km/h the total stopping distance is approximately 24 metres.'],
+                    ['text' => '12 metres', 'correct' => false, 'explanation' => '12 metres is the stopping distance at 30 km/h.'],
+                    ['text' => '36 metres', 'correct' => false, 'explanation' => '36 metres is the stopping distance at 60 km/h.'],
+                    ['text' => '18 metres', 'correct' => false, 'explanation' => '18 metres is not a standard stopping distance in the Barbados Highway Code.'],
+                ],
+            ],
+            [
+                'category' => 'speed-limits',
+                'difficulty' => 'medium',
+                'question' => 'What is the total stopping distance for a car travelling at 60 km/h?',
+                'answers' => [
+                    ['text' => '36 metres', 'correct' => true,  'explanation' => 'At 60 km/h the total stopping distance is approximately 36 metres.'],
+                    ['text' => '24 metres', 'correct' => false, 'explanation' => '24 metres is the stopping distance at 50 km/h.'],
+                    ['text' => '55 metres', 'correct' => false, 'explanation' => '55 metres is the stopping distance at 80 km/h.'],
+                    ['text' => '48 metres', 'correct' => false, 'explanation' => '48 metres is not a standard stopping distance in the Barbados Highway Code.'],
+                ],
+            ],
+            [
+                'category' => 'speed-limits',
+                'difficulty' => 'medium',
+                'question' => 'What is the total stopping distance for a car travelling at 80 km/h?',
+                'answers' => [
+                    ['text' => '55 metres', 'correct' => true,  'explanation' => 'At 80 km/h the total stopping distance is approximately 55 metres — nearly the length of two cricket pitches.'],
+                    ['text' => '36 metres', 'correct' => false, 'explanation' => '36 metres is the stopping distance at 60 km/h.'],
+                    ['text' => '40 metres', 'correct' => false, 'explanation' => '40 metres is not the correct stopping distance at 80 km/h.'],
+                    ['text' => '70 metres', 'correct' => false, 'explanation' => '70 metres is more than the stopping distance at 80 km/h.'],
+                ],
+            ],
+            [
+                'category' => 'speed-limits',
+                'difficulty' => 'easy',
+                'question' => 'What does the total stopping distance consist of?',
+                'answers' => [
+                    ['text' => 'Reaction distance plus braking distance', 'correct' => true,  'explanation' => 'Total stopping distance = reaction distance (travelled while your brain processes and your foot reaches the brake) + braking distance (travelled while the brakes bring the vehicle to a stop).'],
+                    ['text' => 'Braking distance only',                   'correct' => false, 'explanation' => 'Total stopping distance includes both reaction distance and braking distance.'],
+                    ['text' => 'Thinking time only',                      'correct' => false, 'explanation' => 'Thinking (reaction) time contributes to distance, but braking distance must also be added.'],
+                    ['text' => 'Speed multiplied by time',                'correct' => false, 'explanation' => 'Stopping distance specifically = reaction distance + braking distance.'],
+                ],
+            ],
+
+            // -------------------------------------------------------
+            // TRAFFIC LIGHTS & SIGNALS (Quizlet PDF additions)
+            // -------------------------------------------------------
+            [
+                'category' => 'traffic-lights-signals',
+                'difficulty' => 'medium',
+                'question' => 'At a traffic light, what does a red signal showing a directional arrow mean?',
+                'answers' => [
+                    ['text' => 'You are prohibited from entering the intersection in the direction of the arrow', 'correct' => true,  'explanation' => 'A red signal with a directional arrow prohibits you from entering the intersection and travelling in the direction the arrow points.'],
+                    ['text' => 'Turn in the direction of the arrow when safe',                                    'correct' => false, 'explanation' => 'Red means stop — with or without an arrow, you may not proceed in that direction.'],
+                    ['text' => 'Proceed in the direction of the arrow only',                                     'correct' => false, 'explanation' => 'A green arrow permits movement — a red arrow prohibits it.'],
+                    ['text' => 'Give way to traffic in the direction of the arrow',                              'correct' => false, 'explanation' => 'A red arrow means stop — not simply give way.'],
+                ],
+            ],
+            [
+                'category' => 'traffic-lights-signals',
+                'difficulty' => 'medium',
+                'question' => 'What does a flashing amber arrow signal at traffic lights mean?',
+                'answers' => [
+                    ['text' => 'Proceed with caution only in the direction indicated by the arrow', 'correct' => true,  'explanation' => 'A flashing amber arrow means you may proceed in the direction of the arrow only, but with caution — watch for other traffic and pedestrians.'],
+                    ['text' => 'Stop and wait',                           'correct' => false, 'explanation' => 'A flashing amber arrow means proceed with caution — not stop.'],
+                    ['text' => 'Proceed in any direction with caution',   'correct' => false, 'explanation' => 'The arrow restricts you to its indicated direction — not any direction.'],
+                    ['text' => 'The traffic light is malfunctioning',     'correct' => false, 'explanation' => 'A flashing amber arrow is a deliberate signal, not a sign of malfunction.'],
+                ],
+            ],
+            [
+                'category' => 'traffic-lights-signals',
+                'difficulty' => 'medium',
+                'question' => 'What is the correct hand signal for turning right or moving out to the right?',
+                'answers' => [
+                    ['text' => 'Extend right arm and hand horizontally with palm turned to the front', 'correct' => true,  'explanation' => 'The right turn/move right signal requires extending the right arm and hand horizontally with the palm facing forward.'],
+                    ['text' => 'Extend right arm and wave it upward',                                  'correct' => false, 'explanation' => 'The correct signal is a horizontal extension with palm to the front, not an upward wave.'],
+                    ['text' => 'Carry right arm forward and over the roof of the vehicle',             'correct' => false, 'explanation' => 'Carrying the arm forward and over is the left turn hand signal.'],
+                    ['text' => 'Extend right arm with palm down and move it up and down',              'correct' => false, 'explanation' => 'Moving the arm up and down with palm down is the slow down/stop signal.'],
+                ],
+            ],
+            [
+                'category' => 'traffic-lights-signals',
+                'difficulty' => 'medium',
+                'question' => 'What is the correct hand signal for turning left?',
+                'answers' => [
+                    ['text' => 'Extend right arm horizontally, then carry it forward and over the top of the vehicle with palm facing down', 'correct' => true,  'explanation' => 'For a left turn, extend the right arm and hand horizontally, then carry them forward towards the nearside or upward and over the top of the vehicle with palm facing downward.'],
+                    ['text' => 'Extend right arm with palm turned to the front',       'correct' => false, 'explanation' => 'Palm to the front is the right turn/moving off signal, not left.'],
+                    ['text' => 'Extend left arm horizontally out of the window',       'correct' => false, 'explanation' => 'All hand signals in Barbados use the right arm.'],
+                    ['text' => 'Point left with the right index finger',               'correct' => false, 'explanation' => 'The correct signal uses the full right arm, not just a pointing finger.'],
+                ],
+            ],
+            [
+                'category' => 'traffic-lights-signals',
+                'difficulty' => 'medium',
+                'question' => 'What is the correct hand signal for slowing down or stopping?',
+                'answers' => [
+                    ['text' => 'Extend right arm horizontally with palm facing down, moving it up and down slowly and repeatedly', 'correct' => true,  'explanation' => 'The slow down/stop signal: extend the right arm horizontally, turn the palm downward, and move the arm up and down slowly and repeatedly.'],
+                    ['text' => 'Extend right arm with palm to the front',  'correct' => false, 'explanation' => 'Palm to the front is the right turn or moving off signal.'],
+                    ['text' => 'Hold right arm straight up',               'correct' => false, 'explanation' => 'Arm straight up is not a standard Barbados Highway Code hand signal.'],
+                    ['text' => 'Wave the right arm from side to side',     'correct' => false, 'explanation' => 'Side-to-side waving is not a defined hand signal for slowing down.'],
+                ],
+            ],
+            [
+                'category' => 'traffic-lights-signals',
+                'difficulty' => 'easy',
+                'question' => 'What is the correct hand signal for moving off from a stationary position?',
+                'answers' => [
+                    ['text' => 'Extend right arm and hand horizontally with palm turned to the front', 'correct' => true,  'explanation' => 'Moving off from a stationary position uses the same signal as turning right — extend the right arm horizontally with palm facing forward.'],
+                    ['text' => 'Extend right arm with palm facing down and move it up and down',       'correct' => false, 'explanation' => 'Palm down and up-and-down movement is the slow down/stop signal.'],
+                    ['text' => 'Carry right arm forward and over the top of the vehicle',              'correct' => false, 'explanation' => 'Carrying the arm over the vehicle is the left turn signal.'],
+                    ['text' => 'Give a thumbs up out of the window',                                   'correct' => false, 'explanation' => 'A thumbs up is not a recognised hand signal in the Barbados Highway Code.'],
                 ],
             ],
 
