@@ -46,6 +46,10 @@
     {{ $slot }}
 </main>
 
+<footer class="border-t border-zinc-900 py-6 px-6 text-center">
+    <p class="text-zinc-700 text-xs max-w-lg mx-auto">This website is not a replacement for purchasing the official Highway Code from the Barbados Licensing Authority (BLA). It is a study aid only.</p>
+</footer>
+
 @persist('toast')
 <flux:toast.group>
     <flux:toast />

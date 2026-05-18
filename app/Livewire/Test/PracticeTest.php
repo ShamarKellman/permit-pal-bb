@@ -7,6 +7,7 @@ namespace App\Livewire\Test;
 use App\Actions\CalculateScore;
 use App\Actions\TestGenerator;
 use App\Models\Answer;
+use App\Models\Category;
 use App\Models\Question;
 use App\Models\TestSession;
 use Illuminate\Support\Collection;
@@ -14,12 +15,19 @@ use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
+use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 #[Title('Practice Test')]
 class PracticeTest extends Component
 {
+    #[Url(except: '')]
+    public string $categorySlug = '';
+
+    #[Locked]
+    public ?string $categoryName = null;
+
     #[Validate('required|exists:answers,id')]
     public ?int $selectedAnswer = null;
 
@@ -49,7 +57,18 @@ class PracticeTest extends Component
 
     public function mount(): void
     {
-        $this->questions = $this->testGenerator->generate($this->totalQuestions);
+        $categoryId = null;
+
+        if ($this->categorySlug !== '' && preg_match('/^[a-z0-9-]{1,100}$/', $this->categorySlug)) {
+            $category = Category::query()->where('slug', $this->categorySlug)->first();
+
+            if ($category !== null) {
+                $categoryId = $category->id;
+                $this->categoryName = $category->name;
+            }
+        }
+
+        $this->questions = $this->testGenerator->generate($this->totalQuestions, $categoryId);
         $this->totalQuestions = $this->questions->count();
     }
 

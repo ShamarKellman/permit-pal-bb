@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Livewire\Test\PracticeTest;
 use App\Models\Answer;
+use App\Models\Category;
 use App\Models\Question;
 
 use function Pest\Livewire\livewire;
@@ -47,4 +48,34 @@ it('redirects to test result after answering all questions', function () {
     }
 
     $component->assertRedirect(route('test.result'));
+});
+
+it('filters questions by category slug from url', function () {
+    $category = Category::factory()->create(['slug' => 'road-signs']);
+
+    Question::factory()->count(10)
+        ->for($category)
+        ->has(Answer::factory()->count(3))
+        ->has(Answer::factory()->correct()->count(1))
+        ->create();
+
+    $component = livewire(PracticeTest::class, ['categorySlug' => 'road-signs']);
+
+    $questions = $component->get('questions');
+    $questions->each(fn ($q) => expect($q->category_id)->toBe($category->id));
+    expect($component->get('categoryName'))->toBe($category->name);
+});
+
+it('ignores unknown category slug and loads all questions', function () {
+    $component = livewire(PracticeTest::class, ['categorySlug' => 'does-not-exist']);
+
+    expect($component->get('categoryName'))->toBeNull();
+    expect($component->get('questions'))->toHaveCount(20);
+});
+
+it('ignores category slug with invalid format', function () {
+    $component = livewire(PracticeTest::class, ['categorySlug' => '<script>alert(1)</script>']);
+
+    expect($component->get('categoryName'))->toBeNull();
+    expect($component->get('questions'))->toHaveCount(20);
 });

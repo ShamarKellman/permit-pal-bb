@@ -16,4 +16,9 @@ class QuestionBuilder extends Builder
     {
         return $this->where('is_active', true);
     }
+
+    public function forCategory(int $categoryId): self
+    {
+        return $this->where('category_id', $categoryId);
+    }
 }
