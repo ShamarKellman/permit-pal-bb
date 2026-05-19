@@ -58,7 +58,7 @@ jobs:
       - name: Setup SSH agent
         uses: webfactory/ssh-agent@v0.9.1
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
 
       - name: Setup SSH
         run: ssh-keyscan -p ${{ secrets.DEPLOY_SSH_PORT }} ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
