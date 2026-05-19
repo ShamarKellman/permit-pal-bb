@@ -57,5 +57,7 @@
 @endpersist
 
 @fluxScripts
+
+@include('partials.analytics')
 </body>
 </html>
