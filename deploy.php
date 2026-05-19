@@ -13,11 +13,12 @@ set('keep_releases', 3);
 set('composer_options', '--prefer-dist --no-interaction --optimize-autoloader --no-dev');
 
 host('production')
-    ->set('hostname', getenv('DEPLOY_HOST') ?: '')
-    ->set('remote_user', getenv('DEPLOY_USER') ?: '')
+    ->setHostname(getenv('DEPLOY_HOST') ?: '')
+    ->setRemoteUser(getenv('DEPLOY_USER') ?: '')
     ->set('http_user', getenv('DEPLOY_HTTP_USER') ?: '')
-    ->set('port', (int) (getenv('DEPLOY_SSH_PORT') ?: 22))
-    ->set('deploy_path', getenv('DEPLOY_PATH') ?: '/var/www/bhc');
+    ->setPort((int) (getenv('DEPLOY_SSH_PORT') ?: 22))
+    ->setDeployPath(getenv('DEPLOY_PATH') ?: '/var/www/bhc')
+    ->setIdentityFile(getenv('DEPLOY_SSH_FILE') ?: '~/.ssh/id_rsa');
 
 set('shared_files', ['.env']);
 set('shared_dirs', ['storage']);

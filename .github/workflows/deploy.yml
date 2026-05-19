@@ -69,4 +69,5 @@ jobs:
           DEPLOY_HTTP_USER: ${{ secrets.DEPLOY_HTTP_USER }}
           DEPLOY_SSH_PORT: ${{ secrets.DEPLOY_SSH_PORT }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          DEPLOY_SSH_FILE: ${{ secrets.DEPLOY_SSH_FILE }}
         run: php vendor/bin/dep deploy production --no-interaction -vvv
