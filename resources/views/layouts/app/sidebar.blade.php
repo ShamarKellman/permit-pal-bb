@@ -8,11 +8,11 @@
             <flux:sidebar.header class="border-b border-zinc-800 pb-4">
                 <a href="{{ route('dashboard') }}" wire:navigate class="flex items-center gap-3 px-1 py-1">
                     <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-road-yellow shrink-0">
-                        <span class="font-display text-zinc-950 text-xs leading-none tracking-wide">BHC</span>
+                        <x-app-logo-icon class="size-5 text-zinc-950" />
                     </div>
                     <div>
-                        <div class="font-display text-base tracking-wide text-white leading-none">Barbados</div>
-                        <div class="font-display text-xs tracking-wide text-zinc-500 leading-none mt-0.5">Highway Code</div>
+                        <div class="font-display text-base tracking-wide text-white leading-none">Permit</div>
+                        <div class="font-display text-xs tracking-wide text-zinc-500 leading-none mt-0.5">Pal</div>
                     </div>
                 </a>
                 <flux:sidebar.collapse class="lg:hidden ml-auto" />
@@ -54,9 +54,9 @@
 
             <div class="flex items-center gap-2 mx-auto">
                 <div class="flex items-center justify-center w-7 h-7 rounded-md bg-road-yellow">
-                    <span class="font-display text-zinc-950 text-xs leading-none">BHC</span>
+                    <x-app-logo-icon class="size-4 text-zinc-950" />
                 </div>
-                <span class="font-display text-sm tracking-wide text-white">Barbados Highway Code</span>
+                <span class="font-display text-sm tracking-wide text-white">Permit Pal</span>
             </div>
 
             <flux:dropdown position="top" align="end">

@@ -8,9 +8,9 @@
     <div class="mx-auto max-w-4xl px-6 py-4 flex items-center justify-between">
         <a href="{{ route('home') }}" wire:navigate class="flex items-center gap-2 group">
             <div class="flex items-center justify-center w-8 h-8 rounded bg-road-yellow">
-                <span class="font-display text-zinc-950 text-sm leading-none">BHC</span>
+                <x-app-logo-icon class="size-5 text-zinc-950" />
             </div>
-            <span class="font-display text-lg tracking-wide text-white">Barbados Highway Code</span>
+            <span class="font-display text-lg tracking-wide text-white">Permit Pal</span>
         </a>
 
         <nav class="flex items-center gap-3">
@@ -45,6 +45,10 @@
 <main class="py-10 px-6">
     {{ $slot }}
 </main>
+
+<footer class="border-t border-zinc-900 py-6 px-6 text-center">
+    <p class="text-zinc-700 text-xs max-w-lg mx-auto">This website is not a replacement for purchasing the official Highway Code from the Barbados Licensing Authority (BLA). It is a study aid only.</p>
+</footer>
 
 @persist('toast')
 <flux:toast.group>

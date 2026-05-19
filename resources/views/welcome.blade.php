@@ -2,36 +2,6 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
     <head>
         @include('partials.head')
-        <style>
-            .road-dash {
-                background: repeating-linear-gradient(
-                    to bottom,
-                    var(--color-road-yellow) 0px,
-                    var(--color-road-yellow) 40px,
-                    transparent 40px,
-                    transparent 70px
-                );
-            }
-            .hero-glow {
-                background: radial-gradient(ellipse 80% 50% at 50% -10%, oklch(55% 0.2 250 / 0.15), transparent);
-            }
-            .card-hover { transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
-            .card-hover:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 20px 40px -12px oklch(85% 0.18 90 / 0.12);
-                border-color: oklch(85% 0.18 90 / 0.35);
-            }
-            @keyframes fade-up {
-                from { opacity: 0; transform: translateY(24px); }
-                to   { opacity: 1; transform: translateY(0); }
-            }
-            .fade-up { animation: fade-up 0.6s ease forwards; }
-            .fade-up-1 { animation-delay: 0.05s; opacity: 0; }
-            .fade-up-2 { animation-delay: 0.2s;  opacity: 0; }
-            .fade-up-3 { animation-delay: 0.35s; opacity: 0; }
-            .fade-up-4 { animation-delay: 0.5s;  opacity: 0; }
-            .fade-up-5 { animation-delay: 0.65s; opacity: 0; }
-        </style>
     </head>
     <body class="min-h-screen bg-zinc-950 text-white antialiased overflow-x-hidden">
 
@@ -40,9 +10,9 @@
             <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <div class="flex items-center justify-center w-9 h-9 rounded-lg bg-road-yellow">
-                        <span class="font-display text-zinc-950 text-sm leading-none tracking-wide">BHC</span>
+                        <x-app-logo-icon class="size-6 text-zinc-950" />
                     </div>
-                    <span class="font-display text-xl tracking-wide hidden sm:block">Barbados Highway Code</span>
+                    <span class="font-display text-xl tracking-wide hidden sm:block">Permit Pal</span>
                 </div>
                 <nav class="flex items-center gap-2">
                     @auth
@@ -65,7 +35,7 @@
             <div class="relative text-center max-w-5xl mx-auto">
                 <div class="fade-up fade-up-1 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-road-yellow/25 bg-road-yellow/8 text-road-yellow text-sm font-medium mb-8">
                     <span class="w-2 h-2 rounded-full bg-road-yellow animate-pulse inline-block"></span>
-                    Official Barbados Highway Code Preparation
+                    Unofficial Barbados Permit Test Preparation
                 </div>
 
                 <h1 class="fade-up fade-up-2 font-display text-[clamp(3.5rem,10vw,8rem)] leading-[0.92] tracking-wide uppercase mb-6">
@@ -178,8 +148,9 @@
         </section>
 
         {{-- FOOTER --}}
-        <footer class="border-t border-zinc-900 py-8 px-6 text-center">
-            <p class="text-zinc-600 text-sm">Barbados Highway Code — Practice Test Preparation</p>
+        <footer class="border-t border-zinc-900 py-8 px-6 text-center space-y-2">
+            <p class="text-zinc-600 text-sm">Permit Pal — Barbados Permit Test Preparation</p>
+            <p class="text-zinc-700 text-xs max-w-lg mx-auto">This website is not a replacement for purchasing the official Highway Code from the Barbados Licensing Authority (BLA). It is a study aid only.</p>
         </footer>
 
         @fluxScripts

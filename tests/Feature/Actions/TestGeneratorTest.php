@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Actions\TestGenerator;
 use App\Models\Answer;
+use App\Models\Category;
 use App\Models\Question;
 
 it('eager loads answers', function () {
@@ -24,4 +25,28 @@ it('only includes active questions', function () {
     $questions = new TestGenerator()->generate(5);
     expect($questions)->toHaveCount(5);
     $questions->each(fn ($q) => expect($q->is_active)->toBeTrue());
+});
+
+it('filters questions by category', function () {
+    $target = Category::factory()->create();
+    $other = Category::factory()->create();
+
+    Question::factory()->count(5)->for($target)->has(Answer::factory()->count(4))->create();
+    Question::factory()->count(5)->for($other)->has(Answer::factory()->count(4))->create();
+
+    $questions = new TestGenerator()->generate(10, $target->id);
+    expect($questions)->toHaveCount(5);
+    $questions->each(fn ($q) => expect($q->category_id)->toBe($target->id));
+});
+
+it('returns all categories when no category filter given', function () {
+    $cat1 = Category::factory()->create();
+    $cat2 = Category::factory()->create();
+
+    Question::factory()->count(5)->for($cat1)->has(Answer::factory()->count(4))->create();
+    Question::factory()->count(5)->for($cat2)->has(Answer::factory()->count(4))->create();
+
+    $questions = new TestGenerator()->generate(10);
+    $categoryIds = $questions->pluck('category_id')->unique()->values();
+    expect($categoryIds)->toHaveCount(2);
 });
