@@ -8,9 +8,9 @@
     <div class="mx-auto max-w-4xl px-6 py-4 flex items-center justify-between">
         <a href="{{ route('home') }}" wire:navigate class="flex items-center gap-2 group">
             <div class="flex items-center justify-center w-8 h-8 rounded bg-road-yellow">
-                <span class="font-display text-zinc-950 text-sm leading-none">BHC</span>
+                <x-app-logo-icon class="size-5 text-zinc-950" />
             </div>
-            <span class="font-display text-lg tracking-wide text-white">Barbados Highway Code</span>
+            <span class="font-display text-lg tracking-wide text-white">Permit Pal</span>
         </a>
 
         <nav class="flex items-center gap-3">

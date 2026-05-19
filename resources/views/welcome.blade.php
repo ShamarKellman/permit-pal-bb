@@ -10,9 +10,9 @@
             <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <div class="flex items-center justify-center w-9 h-9 rounded-lg bg-road-yellow">
-                        <span class="font-display text-zinc-950 text-sm leading-none tracking-wide">BHC</span>
+                        <x-app-logo-icon class="size-6 text-zinc-950" />
                     </div>
-                    <span class="font-display text-xl tracking-wide hidden sm:block">Barbados Highway Code</span>
+                    <span class="font-display text-xl tracking-wide hidden sm:block">Permit Pal</span>
                 </div>
                 <nav class="flex items-center gap-2">
                     @auth
@@ -35,7 +35,7 @@
             <div class="relative text-center max-w-5xl mx-auto">
                 <div class="fade-up fade-up-1 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-road-yellow/25 bg-road-yellow/8 text-road-yellow text-sm font-medium mb-8">
                     <span class="w-2 h-2 rounded-full bg-road-yellow animate-pulse inline-block"></span>
-                    Unofficial Barbados Highway Code Preparation
+                    Unofficial Barbados Permit Test Preparation
                 </div>
 
                 <h1 class="fade-up fade-up-2 font-display text-[clamp(3.5rem,10vw,8rem)] leading-[0.92] tracking-wide uppercase mb-6">
@@ -149,7 +149,7 @@
 
         {{-- FOOTER --}}
         <footer class="border-t border-zinc-900 py-8 px-6 text-center space-y-2">
-            <p class="text-zinc-600 text-sm">Barbados Highway Code — Practice Test Preparation</p>
+            <p class="text-zinc-600 text-sm">Permit Pal — Barbados Permit Test Preparation</p>
             <p class="text-zinc-700 text-xs max-w-lg mx-auto">This website is not a replacement for purchasing the official Highway Code from the Barbados Licensing Authority (BLA). It is a study aid only.</p>
         </footer>
 
