@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
+use App\Models\QuestionReport;
 use Illuminate\View\View;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Validate;
@@ -25,7 +26,19 @@ class ReportConcern extends Component
     public function submit(): void
     {
         $this->validate();
-        // stub - database logic intentionally empty
+
+        QuestionReport::query()->create([
+            'question_id' => $this->questionId,
+            'user_id' => auth()->id(),
+            'report_type' => $this->reportType,
+            'description' => $this->description !== '' ? $this->description : null,
+            'status' => 'pending',
+        ]);
+
+        $this->submitted = true;
+        $this->reportType = '';
+        $this->description = '';
+        $this->dispatch('report-submitted');
     }
 
     public function render(): View
