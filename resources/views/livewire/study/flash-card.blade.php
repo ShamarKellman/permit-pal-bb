@@ -67,6 +67,12 @@
                 Next
             </flux:button>
         </div>
+
+        <livewire:report-concern
+            :question-id="$this->currentQuestion->id"
+            :wire:key="'report-' . $this->currentQuestion->id"
+        />
+
     @else
         <div class="text-center py-20">
             <div class="font-display text-4xl text-zinc-700 mb-3">No Questions</div>
