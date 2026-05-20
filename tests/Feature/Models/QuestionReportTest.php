@@ -7,6 +7,7 @@ use App\Enums\ReportType;
 use App\Models\Question;
 use App\Models\QuestionReport;
 use App\Models\User;
+use Carbon\CarbonImmutable;
 
 it('belongs to a question', function () {
     $report = QuestionReport::factory()->create();
@@ -36,7 +37,7 @@ it('casts status to ReportStatus enum', function () {
 
 it('casts resolved_at to carbon', function () {
     $report = QuestionReport::factory()->resolved()->create();
-    expect($report->resolved_at)->toBeInstanceOf(Carbon\CarbonImmutable::class);
+    expect($report->resolved_at)->toBeInstanceOf(CarbonImmutable::class);
 });
 
 it('question has many reports', function () {

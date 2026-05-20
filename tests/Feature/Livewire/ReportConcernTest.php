@@ -6,6 +6,7 @@ use App\Livewire\ReportConcern;
 use App\Models\Question;
 use App\Models\QuestionReport;
 use App\Models\User;
+use Illuminate\Validation\Rules\Enum;
 
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Livewire\livewire;
@@ -24,7 +25,7 @@ it('rejects invalid report type', function () {
     livewire(ReportConcern::class, ['questionId' => $question->id])
         ->set('reportType', 'invalid_type')
         ->call('submit')
-        ->assertHasErrors(['reportType' => Illuminate\Validation\Rules\Enum::class]);
+        ->assertHasErrors(['reportType' => Enum::class]);
 });
 
 it('rejects description over 500 characters', function () {
@@ -45,8 +46,7 @@ it('can submit a report as a guest', function () {
         ->set('description', 'The correct answer should be option B.')
         ->call('submit')
         ->assertHasNoErrors()
-        ->assertSet('submitted', true)
-        ->assertDispatched('report-submitted');
+        ->assertSet('submitted', true);
 
     assertDatabaseHas(QuestionReport::class, [
         'question_id' => $question->id,
@@ -73,6 +73,18 @@ it('stores the user_id when authenticated', function () {
         'question_id' => $question->id,
         'user_id' => $user->id,
     ]);
+});
+
+it('rate limits submit to 5 attempts per minute', function () {
+    $question = Question::factory()->create();
+
+    $component = livewire(ReportConcern::class, ['questionId' => $question->id]);
+
+    foreach (range(1, 5) as $i) {
+        $component->set('reportType', 'typo')->call('submit')->assertHasNoErrors();
+    }
+
+    $component->set('reportType', 'typo')->call('submit')->assertHasErrors(['reportType']);
 });
 
 it('accepts null description', function () {

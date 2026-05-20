@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Enums\ReportStatus;
+use App\Enums\ReportType;
 use App\Filament\Resources\QuestionReportResource\Pages\ListQuestionReports;
 use App\Filament\Resources\QuestionReportResource\Pages\ViewQuestionReport;
 use App\Models\Admin;
@@ -28,8 +30,8 @@ it('can view a question report', function () {
     livewire(ViewQuestionReport::class, ['record' => $report->id])
         ->assertOk()
         ->assertSchemaStateSet([
-            'report_type' => 'wrong_answer',
-            'status' => 'pending',
+            'report_type' => ReportType::WrongAnswer,
+            'status' => ReportStatus::Pending,
         ]);
 });
 
@@ -65,7 +67,7 @@ it('can mark a report as resolved', function () {
         'status' => 'resolved',
     ]);
 
-    expect(QuestionReport::find($report->id)->resolved_at)->not->toBeNull();
+    expect(QuestionReport::query()->find($report->id)->resolved_at)->not->toBeNull();
 });
 
 it('does not show markResolved for already-resolved reports', function () {

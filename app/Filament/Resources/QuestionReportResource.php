@@ -48,18 +48,9 @@ class QuestionReportResource extends Resource
                     ->label('Question')
                     ->columnSpanFull(),
                 TextEntry::make('report_type')
-                    ->badge()
-                    ->state(fn (QuestionReport $record): string => $record->report_type->value)
-                    ->formatStateUsing(fn (string $state): string => ReportType::from($state)->label()),
+                    ->badge(),
                 TextEntry::make('status')
-                    ->badge()
-                    ->state(fn (QuestionReport $record): string => $record->status->value)
-                    ->color(fn (string $state): string => match ($state) {
-                        'pending' => 'warning',
-                        'reviewed' => 'info',
-                        'resolved' => 'success',
-                        default => 'gray',
-                    }),
+                    ->badge(),
                 TextEntry::make('description')
                     ->placeholder('No description provided.')
                     ->columnSpanFull(),
@@ -84,38 +75,24 @@ class QuestionReportResource extends Resource
                     ->limit(50)
                     ->searchable(),
                 TextColumn::make('report_type')
-                    ->badge()
-                    ->formatStateUsing(fn (ReportType $state): string => $state->label()),
+                    ->badge(),
                 TextColumn::make('status')
-                    ->badge()
-                    ->color(fn (ReportStatus $state): string => match ($state) {
-                        ReportStatus::Pending => 'warning',
-                        ReportStatus::Reviewed => 'info',
-                        ReportStatus::Resolved => 'success',
-                    }),
+                    ->badge(),
                 TextColumn::make('description')->limit(40)->placeholder('—'),
                 TextColumn::make('created_at')->since()->sortable(),
             ])
             ->filters([
                 SelectFilter::make('status')
-                    ->options(
-                        collect(ReportStatus::cases())
-                            ->mapWithKeys(fn (ReportStatus $case): array => [$case->value => ucfirst($case->value)])
-                            ->all()
-                    ),
+                    ->options(ReportStatus::class),
                 SelectFilter::make('report_type')
-                    ->options(
-                        collect(ReportType::cases())
-                            ->mapWithKeys(fn (ReportType $case): array => [$case->value => $case->label()])
-                            ->all()
-                    ),
+                    ->options(ReportType::class),
             ])
             ->recordActions([
                 ViewAction::make(),
                 Action::make('markReviewed')
                     ->label('Mark Reviewed')
                     ->icon(Heroicon::OutlinedCheck)
-                    ->visible(fn (QuestionReport $record): bool => $record->status === ReportStatus::Pending)
+                    ->visible(fn (QuestionReport $record): bool => $record->status === ReportStatus::Pending->value)
                     ->action(function (QuestionReport $record): void {
                         $record->update(['status' => ReportStatus::Reviewed->value]);
 
@@ -128,10 +105,10 @@ class QuestionReportResource extends Resource
                     ->label('Mark Resolved')
                     ->icon(Heroicon::OutlinedCheckCircle)
                     ->color('success')
-                    ->visible(fn (QuestionReport $record): bool => $record->status !== ReportStatus::Resolved)
+                    ->visible(fn (QuestionReport $record): bool => $record->status !== ReportStatus::Resolved->value)
                     ->action(function (QuestionReport $record): void {
                         $record->update([
-                            'status' => ReportStatus::Resolved->value,
+                            'status' => ReportStatus::Resolved,
                             'resolved_at' => now(),
                         ]);
 
