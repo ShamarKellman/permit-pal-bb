@@ -36,4 +36,10 @@ class Question extends Model
     {
         return $this->hasMany(Answer::class);
     }
+
+    /** @return HasMany<QuestionReport, $this> */
+    public function reports(): HasMany
+    {
+        return $this->hasMany(QuestionReport::class);
+    }
 }
