@@ -32,4 +32,9 @@ class QuestionReportFactory extends Factory
             'resolved_at' => now(),
         ]);
     }
+
+    public function reviewed(): static
+    {
+        return $this->state(['status' => 'reviewed']);
+    }
 }

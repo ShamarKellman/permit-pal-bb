@@ -37,7 +37,7 @@ class QuestionReportResource extends Resource
 
     public static function getNavigationBadgeColor(): string|array|null
     {
-        return static::getModel()::query()->where('status', 'pending')->exists() ? 'warning' : null;
+        return static::getNavigationBadge() !== null ? 'warning' : null;
     }
 
     public static function infolist(Schema $schema): Schema
