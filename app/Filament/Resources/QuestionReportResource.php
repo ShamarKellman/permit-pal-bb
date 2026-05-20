@@ -53,7 +53,13 @@ class QuestionReportResource extends Resource
                     ->formatStateUsing(fn (string $state): string => ReportType::from($state)->label()),
                 TextEntry::make('status')
                     ->badge()
-                    ->state(fn (QuestionReport $record): string => $record->status->value),
+                    ->state(fn (QuestionReport $record): string => $record->status->value)
+                    ->color(fn (string $state): string => match ($state) {
+                        'pending' => 'warning',
+                        'reviewed' => 'info',
+                        'resolved' => 'success',
+                        default => 'gray',
+                    }),
                 TextEntry::make('description')
                     ->placeholder('No description provided.')
                     ->columnSpanFull(),
@@ -92,18 +98,17 @@ class QuestionReportResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('status')
-                    ->options([
-                        'pending' => 'Pending',
-                        'reviewed' => 'Reviewed',
-                        'resolved' => 'Resolved',
-                    ]),
+                    ->options(
+                        collect(ReportStatus::cases())
+                            ->mapWithKeys(fn (ReportStatus $case): array => [$case->value => ucfirst($case->value)])
+                            ->all()
+                    ),
                 SelectFilter::make('report_type')
-                    ->options([
-                        'wrong_answer' => 'Wrong Answer',
-                        'typo' => 'Typo or Spelling Error',
-                        'unclear_question' => 'Unclear Question',
-                        'other' => 'Other',
-                    ]),
+                    ->options(
+                        collect(ReportType::cases())
+                            ->mapWithKeys(fn (ReportType $case): array => [$case->value => $case->label()])
+                            ->all()
+                    ),
             ])
             ->recordActions([
                 ViewAction::make(),

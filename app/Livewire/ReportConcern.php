@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
+use App\Enums\ReportType;
 use App\Models\QuestionReport;
+use Illuminate\Validation\Rules\Enum;
 use Illuminate\View\View;
 use Livewire\Attributes\Locked;
-use Livewire\Attributes\Validate;
+use Livewire\Attributes\Throttle;
 use Livewire\Component;
 
 class ReportConcern extends Component
@@ -15,14 +17,21 @@ class ReportConcern extends Component
     #[Locked]
     public int $questionId;
 
-    #[Validate('required|in:wrong_answer,typo,unclear_question,other')]
     public string $reportType = '';
 
-    #[Validate('nullable|string|max:500')]
     public string $description = '';
 
     public bool $submitted = false;
 
+    public function rules(): array
+    {
+        return [
+            'reportType' => ['required', new Enum(ReportType::class)],
+            'description' => ['nullable', 'string', 'max:500'],
+        ];
+    }
+
+    #[Throttle(5, 60)]
     public function submit(): void
     {
         $this->validate();

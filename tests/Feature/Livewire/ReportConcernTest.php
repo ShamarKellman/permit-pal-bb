@@ -24,7 +24,7 @@ it('rejects invalid report type', function () {
     livewire(ReportConcern::class, ['questionId' => $question->id])
         ->set('reportType', 'invalid_type')
         ->call('submit')
-        ->assertHasErrors(['reportType' => 'in']);
+        ->assertHasErrors(['reportType' => Illuminate\Validation\Rules\Enum::class]);
 });
 
 it('rejects description over 500 characters', function () {
@@ -45,7 +45,8 @@ it('can submit a report as a guest', function () {
         ->set('description', 'The correct answer should be option B.')
         ->call('submit')
         ->assertHasNoErrors()
-        ->assertSet('submitted', true);
+        ->assertSet('submitted', true)
+        ->assertDispatched('report-submitted');
 
     assertDatabaseHas(QuestionReport::class, [
         'question_id' => $question->id,
