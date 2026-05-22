@@ -13,6 +13,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
@@ -48,8 +49,15 @@ class CategoryResource extends Resource
                     ->unique(ignoreRecord: true),
                 Textarea::make('description')
                     ->columnSpanFull(),
-                TextInput::make('icon')
-                    ->helperText('Flux icon name, e.g. car, shield-check'),
+                Select::make('icon')
+                    ->options(
+                        collect(Heroicon::cases())
+                            ->filter(fn (Heroicon $case): bool => ! str_starts_with($case->value, 'o-'))
+                            ->mapWithKeys(fn (Heroicon $case): array => [$case->value => Str::headline($case->name)])
+                            ->all()
+                    )
+                    ->searchable()
+                    ->required(),
                 TextInput::make('sort_order')
                     ->numeric()
                     ->default(0),

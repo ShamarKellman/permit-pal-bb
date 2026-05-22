@@ -20,7 +20,7 @@ it('can list categories', function () {
 
 it('can create a category', function () {
     livewire(CreateCategory::class)
-        ->fillForm(['name' => 'Road Markings', 'slug' => 'road-markings', 'sort_order' => 13])
+        ->fillForm(['name' => 'Road Markings', 'slug' => 'road-markings', 'sort_order' => 13, 'icon' => 'shield-check'])
         ->call('create')
         ->assertHasNoFormErrors()
         ->assertRedirect();
