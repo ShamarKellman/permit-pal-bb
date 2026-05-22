@@ -6,6 +6,7 @@ use App\Livewire\Study\CategoryBrowser;
 use App\Models\Category;
 use App\Models\Question;
 use Database\Seeders\CategorySeeder;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Cache;
 
 use function Pest\Livewire\livewire;
@@ -46,16 +47,16 @@ it('renders without error for each individual seeder-defined icon', function (st
 
     livewire(CategoryBrowser::class)->assertOk();
 })->with([
-    'exclamation-triangle',
-    'signal',
-    'bolt',
-    'arrow-right-circle',
-    'arrows-right-left',
-    'map',
-    'shield-check',
-    'user',
-    'academic-cap',
-    'light-bulb',
-    'truck',
-    'tag',
+    Heroicon::ExclamationTriangle->value,
+    Heroicon::Signal->value,
+    Heroicon::Bolt->value,
+    Heroicon::ArrowRightCircle->value,
+    Heroicon::ArrowsRightLeft->value,
+    Heroicon::Map->value,
+    Heroicon::ShieldCheck->value,
+    Heroicon::User->value,
+    Heroicon::AcademicCap->value,
+    Heroicon::LightBulb->value,
+    Heroicon::Truck->value,
+    Heroicon::Tag->value,
 ]);

@@ -22,7 +22,7 @@ it('throws ValueError when an invalid icon is stored and the model is retrieved'
         'updated_at' => now(),
     ]);
 
-    expect(fn () => Category::query()->find($id)->icon)
+    expect(fn () => Category::query()->findOrFail($id)->icon)
         ->toThrow(ValueError::class);
 });
 

@@ -51,14 +51,11 @@ class CategoryResource extends Resource
                     ->columnSpanFull(),
                 Select::make('icon')
                     ->options(
-                        collect(Heroicon::cases())
-                            ->filter(fn (Heroicon $case): bool => ! str_starts_with($case->value, 'o-')
-                                && file_exists(base_path("vendor/livewire/flux/stubs/resources/views/flux/icon/{$case->value}.blade.php")))
-                            ->mapWithKeys(fn (Heroicon $case): array => [$case->value => Str::headline($case->name)])
+                        collect(Category::validIconValues())
+                            ->mapWithKeys(fn (string $value): array => [$value => Str::headline(str_replace('-', ' ', $value))])
                             ->all()
                     )
-                    ->searchable()
-                    ->required(),
+                    ->searchable(),
                 TextInput::make('sort_order')
                     ->numeric()
                     ->default(0),
