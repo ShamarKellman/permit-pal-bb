@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Database\Factories\CategoryFactory;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +16,11 @@ class Category extends Model
 {
     /** @use HasFactory<CategoryFactory> */
     use HasFactory;
+
+    /** @var array<string, string> */
+    protected $casts = [
+        'icon' => Heroicon::class,
+    ];
 
     /** @return HasMany<Question, $this> */
     public function questions(): HasMany
