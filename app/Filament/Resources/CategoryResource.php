@@ -52,7 +52,8 @@ class CategoryResource extends Resource
                 Select::make('icon')
                     ->options(
                         collect(Heroicon::cases())
-                            ->filter(fn (Heroicon $case): bool => ! str_starts_with($case->value, 'o-'))
+                            ->filter(fn (Heroicon $case): bool => ! str_starts_with($case->value, 'o-')
+                                && file_exists(base_path("vendor/livewire/flux/stubs/resources/views/flux/icon/{$case->value}.blade.php")))
                             ->mapWithKeys(fn (Heroicon $case): array => [$case->value => Str::headline($case->name)])
                             ->all()
                     )
