@@ -92,7 +92,7 @@ class QuestionReportResource extends Resource
                 Action::make('markReviewed')
                     ->label('Mark Reviewed')
                     ->icon(Heroicon::OutlinedCheck)
-                    ->visible(fn (QuestionReport $record): bool => $record->status === ReportStatus::Pending->value)
+                    ->visible(fn (QuestionReport $record): bool => $record->status === ReportStatus::Pending)
                     ->action(function (QuestionReport $record): void {
                         $record->update(['status' => ReportStatus::Reviewed->value]);
 
@@ -105,7 +105,7 @@ class QuestionReportResource extends Resource
                     ->label('Mark Resolved')
                     ->icon(Heroicon::OutlinedCheckCircle)
                     ->color('success')
-                    ->visible(fn (QuestionReport $record): bool => $record->status !== ReportStatus::Resolved->value)
+                    ->visible(fn (QuestionReport $record): bool => $record->status !== ReportStatus::Resolved)
                     ->action(function (QuestionReport $record): void {
                         $record->update([
                             'status' => ReportStatus::Resolved,
