@@ -12,17 +12,22 @@ it('casts icon string to Heroicon enum on retrieval', function () {
     expect($category->fresh()->icon)->toBe(Heroicon::ShieldCheck);
 });
 
-it('throws ValueError when an invalid icon is stored and the icon attribute is accessed', function () {
-    // Insert raw invalid value directly to bypass enum cast on write
-    DB::table('categories')->insert([
-        'name' => 'Invalid Icon Category',
-        'slug' => 'invalid-icon-category',
+it('throws ValueError when an invalid icon is stored and the model is retrieved', function () {
+    $id = DB::table('categories')->insertGetId([
+        'name' => 'Test',
+        'slug' => 'test-icon-invalid',
         'icon' => 'triangle-alert',
+        'sort_order' => 99,
         'created_at' => now(),
         'updated_at' => now(),
     ]);
 
-    expect(function () {
-        Category::query()->latest('id')->first()->icon; // @phpstan-ignore-line
-    })->toThrow(ValueError::class);
+    expect(fn () => Category::query()->find($id)->icon)
+        ->toThrow(ValueError::class);
+});
+
+it('returns null when icon is null', function () {
+    $category = Category::factory()->create(['icon' => null]);
+
+    expect($category->fresh()->icon)->toBeNull();
 });

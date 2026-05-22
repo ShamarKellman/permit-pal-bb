@@ -17,7 +17,7 @@ class Category extends Model
     /** @use HasFactory<CategoryFactory> */
     use HasFactory;
 
-    /** @var array<string, string> */
+    /** @var array<string, class-string> */
     protected $casts = [
         'icon' => Heroicon::class,
     ];
