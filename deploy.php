@@ -17,8 +17,7 @@ host('production')
     ->setRemoteUser(getenv('DEPLOY_USER') ?: '')
     ->set('http_user', getenv('DEPLOY_HTTP_USER') ?: '')
     ->setPort((int) (getenv('DEPLOY_SSH_PORT') ?: 22))
-    ->setDeployPath(getenv('DEPLOY_PATH') ?: '/var/www/bhc')
-    ->setIdentityFile(getenv('DEPLOY_SSH_FILE') ?: '~/.ssh/id_rsa');
+    ->setDeployPath(getenv('DEPLOY_PATH') ?: '/var/www/bhc');
 
 set('shared_files', ['.env']);
 set('shared_dirs', ['storage']);
