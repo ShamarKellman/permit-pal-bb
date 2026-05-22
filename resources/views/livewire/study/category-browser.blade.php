@@ -6,7 +6,7 @@
            class="group flex flex-col gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 transition-all duration-200 hover:border-road-yellow/40 hover:bg-zinc-900 hover:-translate-y-1 hover:shadow-xl hover:shadow-road-yellow/5">
             <div class="flex items-start justify-between">
                 <div class="w-10 h-10 rounded-xl bg-road-yellow/10 border border-road-yellow/15 flex items-center justify-center shrink-0">
-                    <flux:icon :icon="$category->icon ?? 'book-open'" class="size-5 text-road-yellow" />
+                    <flux:icon :icon="$category->icon?->value ?? 'book-open'" class="size-5 text-road-yellow" />
                 </div>
                 <span class="text-xs text-zinc-600 border border-zinc-700 rounded-full px-2.5 py-1 font-medium">
                     {{-- @phpstan-ignore-next-line --}}

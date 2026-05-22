@@ -66,6 +66,8 @@
             @enderror
         </div>
 
+        <livewire:report-concern :question-id="$question->id" :wire:key="'report-' . $question->id" />
+
         <div class="flex justify-end">
             <button
                 wire:click="submitAnswer"
