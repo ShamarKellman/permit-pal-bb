@@ -5,6 +5,8 @@ declare(strict_types=1);
 use App\Livewire\Study\CategoryBrowser;
 use App\Models\Category;
 use App\Models\Question;
+use Database\Seeders\CategorySeeder;
+use Illuminate\Support\Facades\Cache;
 
 use function Pest\Livewire\livewire;
 
@@ -30,3 +32,30 @@ it('orders categories by sort_order', function () {
     $html = livewire(CategoryBrowser::class)->html();
     expect(mb_strpos($html, 'Alpha Topic'))->toBeLessThan(mb_strpos($html, 'Zebra Topic'));
 });
+
+it('renders without error when categories use seeder icon names', function () {
+    Cache::flush();
+    (new CategorySeeder)->run();
+
+    livewire(CategoryBrowser::class)->assertOk();
+});
+
+it('renders without error for each individual seeder-defined icon', function (string $icon) {
+    Cache::flush();
+    Category::factory()->create(['icon' => $icon]);
+
+    livewire(CategoryBrowser::class)->assertOk();
+})->with([
+    'exclamation-triangle',
+    'signal',
+    'bolt',
+    'arrow-right-circle',
+    'arrows-right-left',
+    'map',
+    'shield-check',
+    'user',
+    'academic-cap',
+    'light-bulb',
+    'truck',
+    'tag',
+]);
