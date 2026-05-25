@@ -46,6 +46,74 @@
             @endforeach
         </div>
 
+        {{-- Question Review --}}
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="font-display text-2xl tracking-wide uppercase text-zinc-300">Question Review</h2>
+                <div class="flex items-center gap-1 rounded-lg border border-zinc-800 bg-zinc-900/60 p-1">
+                    @foreach (['all' => 'All', 'correct' => 'Correct', 'incorrect' => 'Incorrect'] as $value => $label)
+                        <button
+                            wire:click="setFilter('{{ $value }}')"
+                            class="px-3 py-1.5 rounded-md text-xs font-semibold transition-colors
+                                {{ $filter === $value
+                                    ? 'bg-zinc-700 text-white'
+                                    : 'text-zinc-500 hover:text-zinc-300' }}"
+                        >
+                            {{ $label }}
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                @forelse ($this->questionReview as $index => $row)
+                    <div wire:key="review-{{ $index }}"
+                         class="rounded-xl border bg-zinc-900/60 p-5 {{ $row['is_correct'] ? 'border-go-green/20' : 'border-stop-red/20' }}">
+
+                        {{-- Question number + text --}}
+                        <div class="flex items-start gap-3 mb-3">
+                            <span class="shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold
+                                {{ $row['is_correct'] ? 'bg-go-green/15 text-go-green' : 'bg-stop-red/15 text-stop-red' }}">
+                                {{ $index + 1 }}
+                            </span>
+                            <p class="text-sm text-zinc-200 leading-relaxed">{{ $row['question_text'] }}</p>
+                        </div>
+
+                        {{-- Answers --}}
+                        <div class="ml-9 space-y-2">
+                            {{-- User's answer --}}
+                            <div class="flex items-center gap-2">
+                                @if ($row['is_correct'])
+                                    <svg class="w-4 h-4 shrink-0 text-go-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                    <span class="text-sm text-go-green font-medium">{{ $row['user_answer'] }}</span>
+                                @else
+                                    <svg class="w-4 h-4 shrink-0 text-stop-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                    <span class="text-sm text-stop-red font-medium line-through opacity-70">{{ $row['user_answer'] }}</span>
+                                @endif
+                            </div>
+
+                            {{-- Correct answer (only shown when user was wrong) --}}
+                            @if (! $row['is_correct'])
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-4 h-4 shrink-0 text-go-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                    <span class="text-sm text-go-green font-medium">{{ $row['correct_answer'] }}</span>
+                                </div>
+                            @endif
+
+                            {{-- Explanation --}}
+                            @if ($row['explanation'])
+                                <p class="text-xs text-zinc-500 leading-relaxed pt-1 border-t border-zinc-800">
+                                    {{ $row['explanation'] }}
+                                </p>
+                            @endif
+                        </div>
+                    </div>
+                @empty
+                    <p class="text-sm text-zinc-600 text-center py-6">No questions match this filter.</p>
+                @endforelse
+            </div>
+        </div>
+
         {{-- CTAs --}}
         <div class="flex flex-col sm:flex-row gap-3">
             <a href="{{ route('test') }}"
