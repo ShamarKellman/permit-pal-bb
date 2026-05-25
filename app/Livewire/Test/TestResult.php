@@ -92,9 +92,9 @@ class TestResult extends Component
             $correctAnswer = $response->question?->answers->firstWhere('is_correct', true);
 
             return [
-                'question_text' => $response->question?->question_text ?? '',
-                'user_answer' => $response->answer?->answer_text ?? '',
-                'correct_answer' => $correctAnswer?->answer_text ?? '',
+                'question_text' => $response->question->question_text ?? '',
+                'user_answer' => $response->answer->answer_text ?? '',
+                'correct_answer' => $correctAnswer->answer_text ?? '',
                 'is_correct' => $response->is_correct,
                 'explanation' => $correctAnswer?->explanation,
             ];
