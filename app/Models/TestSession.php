@@ -35,7 +35,7 @@ class TestSession extends Model
 
     public static function recentPassRate(int $days = 30): int
     {
-        return Cache::remember("pass_rate_{$days}", 600, function () use ($days) {
+        return (int) Cache::remember("pass_rate_{$days}", 600, function () use ($days) {
             $cutoff = now()->subDays($days);
 
             $total = static::completed()

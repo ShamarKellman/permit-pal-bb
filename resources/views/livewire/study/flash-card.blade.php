@@ -20,16 +20,16 @@
             x-data="{ flipped: @entangle('isFlipped') }"
             x-on:click="$wire.flip()"
             class="relative mt-6 h-72 cursor-pointer select-none"
-            style="perspective: 1200px"
+            style="perspective: 1200px; -webkit-perspective: 1200px"
         >
             <div
                 class="relative size-full transition-transform duration-500"
-                style="transform-style: preserve-3d"
-                :style="flipped ? 'transform: rotateY(180deg)' : ''"
+                style="transform-style: preserve-3d; -webkit-transform-style: preserve-3d"
+                :style="flipped ? 'transform: rotateY(180deg); -webkit-transform: rotateY(180deg)' : ''"
             >
                 {{-- Front --}}
                 <div class="absolute inset-0 flex flex-col items-center justify-center rounded-2xl border border-zinc-700 bg-zinc-900 p-8 text-center shadow-xl"
-                     style="backface-visibility: hidden">
+                     style="backface-visibility: hidden; -webkit-backface-visibility: hidden">
                     <div class="w-8 h-8 rounded-lg bg-road-yellow/10 border border-road-yellow/20 flex items-center justify-center mb-4">
                         <svg class="w-4 h-4 text-road-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
@@ -40,7 +40,7 @@
 
                 {{-- Back --}}
                 <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-2xl border border-road-yellow/30 bg-zinc-900 p-8 text-center shadow-xl"
-                     style="backface-visibility: hidden; transform: rotateY(180deg)">
+                     style="backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: rotateY(180deg); -webkit-transform: rotateY(180deg)">
                     @php $correct = $this->currentQuestion->answers->firstWhere('is_correct', true); @endphp
                     @if ($correct)
                         <div class="w-8 h-8 rounded-lg bg-go-green/10 border border-go-green/20 flex items-center justify-center">

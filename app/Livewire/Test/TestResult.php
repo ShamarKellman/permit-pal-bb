@@ -19,6 +19,8 @@ class TestResult extends Component
     #[Locked]
     public ?TestSession $session = null;
 
+    public string $filter = 'all';
+
     private GenerateCategoryBreakdown $generateCategoryBreakdown;
 
     public function boot(GenerateCategoryBreakdown $generateCategoryBreakdown): void
@@ -36,7 +38,11 @@ class TestResult extends Component
 
         /** @var TestSession|null $session */
         $session = TestSession::query()
-            ->with('responses.question.category')
+            ->with([
+                'responses.question.category',
+                'responses.question.answers',
+                'responses.answer',
+            ])
             ->find($sessionId);
         $this->session = $session;
     }
@@ -70,6 +76,41 @@ class TestResult extends Component
             ],
             $this->generateCategoryBreakdown->categoryBreakdown($rawResponses)
         );
+    }
+
+    /**
+     * @return array<int, array{question_text: string, user_answer: string, correct_answer: string, is_correct: bool, explanation: string|null}>
+     */
+    #[Computed]
+    public function questionReview(): array
+    {
+        if (! $this->session) {
+            return [];
+        }
+
+        $rows = $this->session->responses->map(function (TestResponse $response): array {
+            $correctAnswer = $response->question?->answers->firstWhere('is_correct', true);
+
+            return [
+                'question_text' => $response->question->question_text ?? '',
+                'user_answer' => $response->answer->answer_text ?? '',
+                'correct_answer' => $correctAnswer->answer_text ?? '',
+                'is_correct' => $response->is_correct,
+                'explanation' => $correctAnswer?->explanation,
+            ];
+        });
+
+        return match ($this->filter) {
+            'correct' => $rows->filter(fn (array $row): bool => $row['is_correct'])->values()->all(),
+            'incorrect' => $rows->filter(fn (array $row): bool => ! $row['is_correct'])->values()->all(),
+            default => $rows->all(),
+        };
+    }
+
+    public function setFilter(string $filter): void
+    {
+        $this->filter = in_array($filter, ['all', 'correct', 'incorrect'], true) ? $filter : 'all';
+        unset($this->questionReview);
     }
 
     public function render(): View
