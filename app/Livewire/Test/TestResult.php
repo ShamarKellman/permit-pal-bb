@@ -43,6 +43,7 @@ class TestResult extends Component
                 'responses.question.answers',
                 'responses.answer',
             ])
+            ->when(auth()->check(), fn ($q) => $q->where('user_id', auth()->id()))
             ->find($sessionId);
         $this->session = $session;
     }

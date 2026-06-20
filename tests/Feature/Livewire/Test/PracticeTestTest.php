@@ -79,3 +79,16 @@ it('ignores category slug with invalid format', function () {
     expect($component->get('categoryName'))->toBeNull();
     expect($component->get('questions'))->toHaveCount(20);
 });
+
+it('rejects answer that does not belong to the current question', function () {
+    $otherQuestion = Question::factory()
+        ->has(Answer::factory()->correct()->count(1))
+        ->create();
+
+    $unrelatedAnswer = $otherQuestion->answers->first();
+
+    livewire(PracticeTest::class)
+        ->set('selectedAnswer', $unrelatedAnswer->id)
+        ->call('submitAnswer')
+        ->assertHasErrors(['selectedAnswer']);
+});

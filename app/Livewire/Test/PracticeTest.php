@@ -12,11 +12,11 @@ use App\Models\Question;
 use App\Models\TestSession;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 #[Title('Practice Test')]
@@ -28,7 +28,6 @@ class PracticeTest extends Component
     #[Locked]
     public ?string $categoryName = null;
 
-    #[Validate('required|exists:answers,id')]
     public ?int $selectedAnswer = null;
 
     #[Locked]
@@ -74,12 +73,22 @@ class PracticeTest extends Component
 
     public function submitAnswer(): void
     {
-        $this->validate();
-
         $question = $this->questions[$this->currentIndex] ?? null;
+
+        if ($question === null) {
+            return;
+        }
+
+        $this->validate([
+            'selectedAnswer' => [
+                'required',
+                Rule::exists('answers', 'id')->where('question_id', $question->id),
+            ],
+        ]);
+
         $answer = Answer::query()->find($this->selectedAnswer);
 
-        if ($question === null || $answer === null) {
+        if ($answer === null) {
             return;
         }
 
