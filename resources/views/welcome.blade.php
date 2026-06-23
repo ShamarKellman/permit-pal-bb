@@ -9,7 +9,7 @@
         <header class="fixed top-0 left-0 right-0 z-50 border-b border-zinc-800/60 bg-zinc-950/80 backdrop-blur-md">
             <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="flex items-center justify-center w-9 h-9 rounded-lg bg-road-yellow">
+                    <div class="flex items-center justify-center w-9 h-9 rounded-lg">
                         <x-app-logo-icon class="size-6 text-zinc-950" />
                     </div>
                     <span class="font-display text-xl tracking-wide hidden sm:block">Permit Pal</span>

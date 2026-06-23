@@ -7,6 +7,7 @@ use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Question;
 use App\Models\TestSession;
+use App\Models\User;
 
 use function Pest\Livewire\livewire;
 
@@ -137,6 +138,30 @@ it('questionReview shapes incorrect response correctly', function () {
             'is_correct' => false,
             'explanation' => null,
         ]);
+});
+
+it('authenticated user cannot view another users session', function () {
+    $owner = User::factory()->create();
+    $viewer = User::factory()->create();
+
+    $session = TestSession::factory()->for($owner)->create();
+    session(['last_test_session_id' => $session->id]);
+
+    $this->actingAs($viewer);
+
+    livewire(TestResult::class)
+        ->assertSet('session', null);
+});
+
+it('authenticated user can view their own session', function () {
+    $user = User::factory()->create();
+    $session = TestSession::factory()->for($user)->create();
+    session(['last_test_session_id' => $session->id]);
+
+    $this->actingAs($user);
+
+    livewire(TestResult::class)
+        ->assertSet('session.id', $session->id);
 });
 
 it('setFilter changes filter property', function () {

@@ -7,7 +7,7 @@
 <header class="border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-sm sticky top-0 z-50">
     <div class="mx-auto max-w-4xl px-6 py-4 flex items-center justify-between">
         <a href="{{ route('home') }}" wire:navigate class="flex items-center gap-2 group">
-            <div class="flex items-center justify-center w-8 h-8 rounded bg-road-yellow">
+            <div class="flex items-center justify-center w-8 h-8 rounded">
                 <x-app-logo-icon class="size-5 text-zinc-950" />
             </div>
             <span class="font-display text-lg tracking-wide text-white">Permit Pal</span>

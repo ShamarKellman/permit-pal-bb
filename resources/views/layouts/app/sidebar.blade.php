@@ -7,7 +7,7 @@
         <flux:sidebar sticky collapsible="mobile" class="border-e border-zinc-800 bg-zinc-950">
             <flux:sidebar.header class="border-b border-zinc-800 pb-4">
                 <a href="{{ route('dashboard') }}" wire:navigate class="flex items-center gap-3 px-1 py-1">
-                    <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-road-yellow shrink-0">
+                    <div class="flex items-center justify-center w-8 h-8 rounded-lg shrink-0">
                         <x-app-logo-icon class="size-5 text-zinc-950" />
                     </div>
                     <div>
@@ -53,7 +53,7 @@
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
             <div class="flex items-center gap-2 mx-auto">
-                <div class="flex items-center justify-center w-7 h-7 rounded-md bg-road-yellow">
+                <div class="flex items-center justify-center w-7 h-7 rounded-md">
                     <x-app-logo-icon class="size-4 text-zinc-950" />
                 </div>
                 <span class="font-display text-sm tracking-wide text-white">Permit Pal</span>
