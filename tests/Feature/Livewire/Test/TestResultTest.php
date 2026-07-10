@@ -196,3 +196,20 @@ it('questionReview filters to only incorrect when filter is incorrect', function
     expect($component->get('questionReview'))->toHaveCount(1)
         ->and($component->get('questionReview')[0]['is_correct'])->toBeTrue();
 });
+
+it('shows the question sign image in the review', function () {
+    $category = Category::factory()->create();
+    $question = Question::factory()->for($category)->create(['image_path' => 'signs/no-entry.svg']);
+    $answer = Answer::factory()->correct()->for($question)->create();
+
+    $session = TestSession::factory()->create();
+    $session->responses()->create([
+        'question_id' => $question->id,
+        'answer_id' => $answer->id,
+        'is_correct' => true,
+    ]);
+
+    session(['last_test_session_id' => $session->id]);
+
+    livewire(TestResult::class)->assertSeeHtml('signs/no-entry.svg');
+});
