@@ -92,3 +92,11 @@ it('rejects answer that does not belong to the current question', function () {
         ->call('submitAnswer')
         ->assertHasErrors(['selectedAnswer']);
 });
+
+it('renders a contained question image when present', function () {
+    Question::query()->update(['image_path' => 'signs/no-entry.svg']);
+
+    livewire(PracticeTest::class)
+        ->assertSeeHtml('signs/no-entry.svg')
+        ->assertSeeHtml('object-contain');
+});

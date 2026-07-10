@@ -65,3 +65,14 @@ it('resets flip when navigating to next', function () {
         ->call('next')
         ->assertSet('isFlipped', false);
 });
+
+it('shows the sign image on the card front when present', function () {
+    $category = Category::factory()->create();
+    Question::factory()->create([
+        'category_id' => $category->id,
+        'image_path' => 'signs/no-entry.svg',
+    ]);
+
+    livewire(FlashCard::class, ['categorySlug' => $category->slug])
+        ->assertSeeHtml('signs/no-entry.svg');
+});

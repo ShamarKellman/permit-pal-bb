@@ -34,7 +34,7 @@
         {{-- Question card --}}
         <div class="rounded-2xl border border-zinc-800 bg-zinc-900 p-7 shadow-xl mb-6">
             @if ($question->image_path)
-                <img src="{{ Storage::url($question->image_path) }}" alt="Question image" class="mb-5 w-full rounded-xl object-cover max-h-52">
+                <img src="{{ Storage::url($question->image_path) }}" alt="Road sign for this question" class="mb-5 mx-auto max-h-44 w-auto object-contain">
             @endif
 
             <p class="text-lg font-medium text-white leading-relaxed mb-7">{{ $question->question_text }}</p>

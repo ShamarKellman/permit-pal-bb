@@ -79,6 +79,10 @@
                             <p class="text-sm text-zinc-200 leading-relaxed">{{ $row['question_text'] }}</p>
                         </div>
 
+                        @if ($row['image_path'])
+                            <img src="{{ Storage::url($row['image_path']) }}" alt="Road sign for this question" class="ml-9 mb-3 max-h-28 w-auto object-contain">
+                        @endif
+
                         {{-- Answers --}}
                         <div class="ml-9 space-y-2">
                             {{-- User's answer --}}

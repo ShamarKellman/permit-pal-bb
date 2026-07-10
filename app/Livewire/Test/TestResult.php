@@ -80,7 +80,7 @@ class TestResult extends Component
     }
 
     /**
-     * @return array<int, array{question_text: string, user_answer: string, correct_answer: string, is_correct: bool, explanation: string|null}>
+     * @return array<int, array{question_text: string, image_path: string|null, user_answer: string, correct_answer: string, is_correct: bool, explanation: string|null}>
      */
     #[Computed]
     public function questionReview(): array
@@ -94,6 +94,7 @@ class TestResult extends Component
 
             return [
                 'question_text' => $response->question->question_text ?? '',
+                'image_path' => $response->question?->image_path,
                 'user_answer' => $response->answer->answer_text ?? '',
                 'correct_answer' => $correctAnswer->answer_text ?? '',
                 'is_correct' => $response->is_correct,
