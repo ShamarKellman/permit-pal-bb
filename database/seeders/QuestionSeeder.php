@@ -8,11 +8,15 @@ use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Question;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class QuestionSeeder extends Seeder
 {
     public function run(): void
     {
+        $this->publishSignImages();
+
         $data = $this->questions();
 
         foreach ($data as $item) {
@@ -43,6 +47,17 @@ class QuestionSeeder extends Seeder
                     'explanation' => $answerData['explanation'] ?? null,
                 ]);
             }
+        }
+    }
+
+    private function publishSignImages(): void
+    {
+        foreach (File::files(database_path('seeders/images/signs')) as $file) {
+            if ($file->getExtension() !== 'svg') {
+                continue;
+            }
+
+            Storage::disk('public')->put('signs/'.$file->getFilename(), $file->getContents());
         }
     }
 
@@ -92,6 +107,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'What does a red circular road sign with a white horizontal bar in the middle mean?',
+                'image' => 'signs/no-entry.svg',
                 'answers' => [
                     ['text' => 'Give way',    'correct' => false, 'explanation' => 'Give way signs are triangular and inverted.'],
                     ['text' => 'No entry',    'correct' => true,  'explanation' => 'A red circle with a white horizontal bar means no entry — vehicles must not enter.'],
@@ -103,6 +119,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'medium',
                 'question' => 'A circular sign with a red border and white background showing a bicycle and a car means what?',
+                'image' => 'signs/all-vehicles-prohibited.svg',
                 'answers' => [
                     ['text' => 'Cycles and cars only',         'correct' => false, 'explanation' => 'This is not a permitted vehicles sign.'],
                     ['text' => 'All vehicles are prohibited',  'correct' => true,  'explanation' => 'This sign prohibits all motor vehicles from entering.'],
@@ -114,6 +131,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'What does a circular sign with three arrows going in a circle indicate?',
+                'image' => 'signs/mini-roundabout.svg',
                 'answers' => [
                     ['text' => 'A roundabout',      'correct' => false, 'explanation' => 'A roundabout warning sign is triangular.'],
                     ['text' => 'A mini-roundabout', 'correct' => true,  'explanation' => 'A circular sign with three circling arrows marks a mini-roundabout.'],
@@ -147,6 +165,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'medium',
                 'question' => 'A triangular sign with a white background, red border and a single pedestrian walking means what?',
+                'image' => 'signs/pedestrian-ahead.svg',
                 'answers' => [
                     ['text' => 'Pedestrians only ahead',     'correct' => false, 'explanation' => 'This would be a regulatory sign, not a warning.'],
                     ['text' => 'Pedestrian crossing ahead',  'correct' => true,  'explanation' => 'A triangular sign with a pedestrian warns of a crossing ahead.'],
@@ -169,6 +188,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'medium',
                 'question' => 'What does a sign with an "H" on it represent?',
+                'image' => 'signs/hospital.svg',
                 'answers' => [
                     ['text' => 'Highway entrance', 'correct' => false, 'explanation' => 'Highway entrances use directional signs.'],
                     ['text' => 'Hydrant',           'correct' => true,  'explanation' => 'An "H" sign marks the location of a fire hydrant.'],
@@ -734,6 +754,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'A triangle with its apex pointing upward and a red border — what does it do?',
+                'image' => 'signs/warning-blank.svg',
                 'answers' => [
                     ['text' => 'Warns of hazards ahead',     'correct' => true,  'explanation' => 'A triangular sign with the apex pointing upward warns drivers of a hazard ahead.'],
                     ['text' => 'Is a give way sign',          'correct' => false, 'explanation' => 'A give way sign is a triangle with the apex pointing downward.'],
@@ -789,6 +810,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'medium',
                 'question' => 'A white triangular sign with a red border and three arrows arranged in a clockwise circle means:',
+                'image' => 'signs/roundabout-ahead.svg',
                 'answers' => [
                     ['text' => 'Mini-roundabout',    'correct' => false, 'explanation' => 'A mini-roundabout is shown by a circular sign with three arrows, not triangular.'],
                     ['text' => 'Ring road',           'correct' => false, 'explanation' => 'Ring road signs are rectangular and directional.'],
@@ -800,6 +822,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'medium',
                 'question' => 'A white triangular sign with a red border and a black cross in the middle means:',
+                'image' => 'signs/crossroads.svg',
                 'answers' => [
                     ['text' => 'Staggered road junction', 'correct' => false, 'explanation' => 'A staggered junction sign shows an offset cross.'],
                     ['text' => 'Crossroads ahead',        'correct' => true,  'explanation' => 'A triangular sign with a cross indicates a crossroads junction ahead.'],
@@ -811,6 +834,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'A sign showing a red car and a black car side by side means:',
+                'image' => 'signs/no-overtaking.svg',
                 'answers' => [
                     ['text' => 'No overtaking',                    'correct' => true,  'explanation' => 'Two cars side by side (one red, one black) is the no-overtaking sign — you must not pass other moving vehicles.'],
                     ['text' => 'Overtake only when clear',         'correct' => false, 'explanation' => 'There is no sign specifically permitting overtaking when clear.'],
@@ -1629,6 +1653,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'What does a circular sign with a red border showing a left-turn arrow crossed out mean?',
+                'image' => 'signs/no-left-turn.svg',
                 'answers' => [
                     ['text' => 'No left turn',   'correct' => true,  'explanation' => 'A circular red-border sign with a crossed-out left-turn arrow prohibits vehicles from turning left.'],
                     ['text' => 'No right turn',  'correct' => false, 'explanation' => 'No right turn would show a right-turn arrow crossed out.'],
@@ -1640,6 +1665,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'What does a circular sign with a red border showing a right-turn arrow crossed out mean?',
+                'image' => 'signs/no-right-turn.svg',
                 'answers' => [
                     ['text' => 'No right turn',  'correct' => true,  'explanation' => 'A circular red-border sign with a crossed-out right-turn arrow prohibits vehicles from turning right.'],
                     ['text' => 'No left turn',   'correct' => false, 'explanation' => 'No left turn would show a left-turn arrow crossed out.'],
@@ -1651,6 +1677,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'What does a circular sign with a red border showing a U-shaped arrow crossed out mean?',
+                'image' => 'signs/no-u-turn.svg',
                 'answers' => [
                     ['text' => 'No U turns',     'correct' => true,  'explanation' => 'A circular red-border sign with a U-shaped arrow crossed out prohibits U-turns.'],
                     ['text' => 'No overtaking',  'correct' => false, 'explanation' => 'No overtaking shows two cars side by side, not a U-shaped arrow.'],
@@ -1662,6 +1689,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'medium',
                 'question' => 'What does a circular sign with a red border showing both a motorcycle above a car mean?',
+                'image' => 'signs/no-motor-vehicles.svg',
                 'answers' => [
                     ['text' => 'No motor vehicles',   'correct' => true,  'explanation' => 'A circular red-border sign showing a motorcycle above a car prohibits all motor vehicles from entering.'],
                     ['text' => 'Motor vehicles only', 'correct' => false, 'explanation' => 'A motor vehicles only sign would be blue, not red-bordered.'],
@@ -1673,6 +1701,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'What does a triangular warning sign with a T-shape inside mean?',
+                'image' => 'signs/t-junction.svg',
                 'answers' => [
                     ['text' => 'T-junction ahead',    'correct' => true,  'explanation' => 'A triangular sign with a T-shape warns of a T-junction ahead — the main road meets a side road.'],
                     ['text' => 'Crossroads ahead',    'correct' => false, 'explanation' => 'Crossroads ahead shows a cross (+) shape inside the triangle.'],
@@ -1684,6 +1713,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'medium',
                 'question' => 'A triangular warning sign with an offset cross (one arm shifted to the side) indicates:',
+                'image' => 'signs/staggered-junction.svg',
                 'answers' => [
                     ['text' => 'Staggered junction ahead', 'correct' => true,  'explanation' => 'An offset cross in a warning triangle indicates a staggered junction — the side roads do not align directly opposite each other.'],
                     ['text' => 'Crossroads ahead',         'correct' => false, 'explanation' => 'A crossroads sign shows a straight cross, not an offset one.'],
@@ -1695,6 +1725,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'medium',
                 'question' => 'A triangular warning sign showing traffic merging in from the right side means:',
+                'image' => 'signs/merge-right.svg',
                 'answers' => [
                     ['text' => 'Merging traffic ahead', 'correct' => true,  'explanation' => 'This sign warns that traffic from a side road or slip road will be merging into your lane from the right.'],
                     ['text' => 'Side road junction',    'correct' => false, 'explanation' => 'A side road sign indicates a junction, not necessarily merging.'],
@@ -1706,6 +1737,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'What does a triangular warning sign with a curved arrow (bend shape) inside mean?',
+                'image' => 'signs/bend-ahead.svg',
                 'answers' => [
                     ['text' => 'Bend ahead',         'correct' => true,  'explanation' => 'A triangular sign with a curved arrow warns of a bend ahead in the road.'],
                     ['text' => 'Double bend',         'correct' => false, 'explanation' => 'A double bend sign shows an S-shaped arrow that reverses direction.'],
@@ -1717,6 +1749,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'What does a triangular warning sign with an S-shaped arrow inside mean?',
+                'image' => 'signs/double-bend.svg',
                 'answers' => [
                     ['text' => 'Double bend ahead',  'correct' => true,  'explanation' => 'An S-shaped arrow in a warning triangle indicates two bends in quick succession — a double bend.'],
                     ['text' => 'Single bend ahead',  'correct' => false, 'explanation' => 'A single bend sign shows a simple curved arrow, not an S-shape.'],
@@ -1728,6 +1761,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'A triangular warning sign showing two lines converging equally from both sides indicates:',
+                'image' => 'signs/road-narrows.svg',
                 'answers' => [
                     ['text' => 'Road narrows ahead',          'correct' => true,  'explanation' => 'Two lines converging equally from both sides in a warning triangle means the road narrows from both sides ahead.'],
                     ['text' => 'Road narrows on one side',    'correct' => false, 'explanation' => 'When the road narrows on one side only, just one line converges inward.'],
@@ -1739,6 +1773,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'A triangular warning sign with a bumpy (uneven) surface symbol inside means:',
+                'image' => 'signs/uneven-road.svg',
                 'answers' => [
                     ['text' => 'Uneven road ahead',   'correct' => true,  'explanation' => 'A humpy or bumpy surface symbol in a warning triangle warns of an uneven road surface ahead — reduce speed.'],
                     ['text' => 'Road hump ahead',     'correct' => false, 'explanation' => 'A road hump sign shows a single smooth rounded hump, not a rough surface.'],
@@ -1750,6 +1785,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'medium',
                 'question' => 'What does a blue circular sign with a red diagonal stripe mean?',
+                'image' => 'signs/no-waiting.svg',
                 'answers' => [
                     ['text' => 'No waiting',               'correct' => true,  'explanation' => 'A blue circular sign with a red diagonal stripe means no waiting — you may not stop and wait on that section of road.'],
                     ['text' => 'No stopping on carriageway', 'correct' => false, 'explanation' => 'No stopping is shown by a blue circle with a red X, not a single diagonal stripe.'],
@@ -1761,6 +1797,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'medium',
                 'question' => 'What does a blue circular sign with a red X crossed through it mean?',
+                'image' => 'signs/no-stopping.svg',
                 'answers' => [
                     ['text' => 'No stopping on carriageway', 'correct' => true,  'explanation' => 'A blue circle with a red X prohibits stopping on the carriageway at any time.'],
                     ['text' => 'No waiting',                 'correct' => false, 'explanation' => 'No waiting uses a blue circle with a single red diagonal stripe, not an X.'],
@@ -1772,6 +1809,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'What does a blue circular sign with a white downward-left diagonal arrow mean?',
+                'image' => 'signs/keep-left.svg',
                 'answers' => [
                     ['text' => 'Keep left',     'correct' => true,  'explanation' => 'A blue circle with a downward-left white arrow is a mandatory instruction to keep to the left side of an obstruction (e.g. a bollard or roundabout).'],
                     ['text' => 'Turn left ahead', 'correct' => false, 'explanation' => 'Turn left ahead shows a bent left-curving arrow, not a diagonal one.'],
@@ -1783,6 +1821,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'A blue circular sign with a white upward arrow means:',
+                'image' => 'signs/ahead-only.svg',
                 'answers' => [
                     ['text' => 'Ahead only — proceed straight on', 'correct' => true,  'explanation' => 'A blue circle with a white upward arrow is a mandatory sign ordering drivers to proceed straight ahead only.'],
                     ['text' => 'One way traffic',                  'correct' => false, 'explanation' => 'One way traffic is typically a rectangular blue sign, not a circular one.'],
@@ -1794,6 +1833,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'What does a blue circular sign with a white left-curving arrow mean?',
+                'image' => 'signs/turn-left-ahead.svg',
                 'answers' => [
                     ['text' => 'Turn left ahead',  'correct' => true,  'explanation' => 'A blue circle with a white left-curving arrow is a mandatory sign ordering drivers to turn left at the next point.'],
                     ['text' => 'No left turn',     'correct' => false, 'explanation' => 'No left turn has a red border and shows a crossed-out left-turn arrow.'],
@@ -1805,6 +1845,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'What does a rectangular blue sign with a white upward arrow indicate?',
+                'image' => 'signs/one-way.svg',
                 'answers' => [
                     ['text' => 'One way traffic',   'correct' => true,  'explanation' => 'A rectangular blue sign with a white upward arrow marks a one-way street — traffic flows in one direction only.'],
                     ['text' => 'Ahead only',         'correct' => false, 'explanation' => 'Ahead only is a circular blue sign, not rectangular.'],
@@ -1816,6 +1857,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'medium',
                 'question' => 'What does a white circular sign with a single black diagonal stripe mean?',
+                'image' => 'signs/derestriction.svg',
                 'answers' => [
                     ['text' => 'End of speed limit', 'correct' => true,  'explanation' => 'A white circle with a single diagonal stripe indicates the end of a speed restriction — normal speed limits now apply.'],
                     ['text' => 'No waiting',          'correct' => false, 'explanation' => 'No waiting uses a blue circular sign with a red diagonal stripe.'],
@@ -1827,6 +1869,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'medium',
                 'question' => 'A triangular warning sign showing two lanes of traffic converging into one indicates:',
+                'image' => 'signs/lanes-merge.svg',
                 'answers' => [
                     ['text' => 'Dual carriageway ends ahead', 'correct' => true,  'explanation' => 'Two parallel lanes converging into one in a warning triangle means the dual carriageway ends — prepare to merge into a single road.'],
                     ['text' => 'Road narrows ahead',          'correct' => false, 'explanation' => 'Road narrows shows both sides of the road converging, not necessarily a dual carriageway ending.'],
@@ -1849,6 +1892,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'What does a triangular warning sign containing a traffic light symbol mean?',
+                'image' => 'signs/traffic-signals-ahead.svg',
                 'answers' => [
                     ['text' => 'Traffic signals ahead',      'correct' => true,  'explanation' => 'A warning triangle containing a traffic light symbol warns drivers that traffic signals are ahead — be prepared to stop.'],
                     ['text' => 'Traffic light is faulty',    'correct' => false, 'explanation' => 'A faulty light is not indicated by a road sign — it would be obvious from the malfunctioning signal itself.'],
@@ -1860,6 +1904,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'medium',
                 'question' => 'A triangular warning sign containing only an exclamation mark (!) means:',
+                'image' => 'signs/warning-exclamation.svg',
                 'answers' => [
                     ['text' => 'Other danger ahead — hazard not covered by another sign', 'correct' => true,  'explanation' => 'A warning triangle with only an exclamation mark indicates a danger not covered by specific signs — look out for local hazards.'],
                     ['text' => 'Speed cameras ahead',   'correct' => false, 'explanation' => 'Speed cameras have their own specific sign design.'],
@@ -1871,6 +1916,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'What does a rectangular red sign reading "REDUCE SPEED NOW" mean?',
+                'image' => 'signs/reduce-speed-now.svg',
                 'answers' => [
                     ['text' => 'You must slow down immediately',   'correct' => true,  'explanation' => '"Reduce Speed Now" is a mandatory instruction to slow down — often used before hazards, schools, or congested areas.'],
                     ['text' => 'The speed limit has changed',      'correct' => false, 'explanation' => 'A speed limit change uses a circular speed limit sign, not "Reduce Speed Now".'],
@@ -1882,6 +1928,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'A triangular warning sign showing a worker with a shovel indicates:',
+                'image' => 'signs/road-works.svg',
                 'answers' => [
                     ['text' => 'Road works ahead',      'correct' => true,  'explanation' => 'A worker with a shovel inside a warning triangle is the standard road works ahead sign — slow down and watch for workers and changed road conditions.'],
                     ['text' => 'Rough road ahead',      'correct' => false, 'explanation' => 'An uneven road sign shows bumps, not a worker figure.'],
@@ -1893,6 +1940,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'A triangular warning sign showing a car with skid marks leaving the road means:',
+                'image' => 'signs/slippery-road.svg',
                 'answers' => [
                     ['text' => 'Slippery road ahead',  'correct' => true,  'explanation' => 'A skidding car in a warning triangle warns of a slippery road surface ahead — reduce speed and drive with extra care.'],
                     ['text' => 'Accident blackspot',   'correct' => false, 'explanation' => 'Accident blackspot signs have a different specific design.'],
@@ -1904,6 +1952,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'easy',
                 'question' => 'A triangular warning sign with a single rounded hump inside means:',
+                'image' => 'signs/road-hump.svg',
                 'answers' => [
                     ['text' => 'Road hump ahead',      'correct' => true,  'explanation' => 'A rounded hump in a warning triangle indicates a road hump (speed bump) ahead — slow down to avoid damage.'],
                     ['text' => 'Uneven road ahead',    'correct' => false, 'explanation' => 'Uneven road shows multiple bumps, not a single smooth hump.'],
@@ -1915,6 +1964,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'medium',
                 'question' => 'A triangular warning sign showing a car falling off a cliff edge into water warns of:',
+                'image' => 'signs/quayside.svg',
                 'answers' => [
                     ['text' => 'Quayside or river bank ahead', 'correct' => true,  'explanation' => 'This sign warns that the road edge drops into water — a quayside, river bank, or similar hazard is nearby.'],
                     ['text' => 'Flood risk ahead',             'correct' => false, 'explanation' => 'A flood risk sign would show a flooded road, not a car falling into water.'],
@@ -2018,6 +2068,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'pedestrians-cyclists',
                 'difficulty' => 'easy',
                 'question' => 'What does the "Don\'t Walk" symbol at a pedestrian crossing mean?',
+                'image' => 'signs/dont-walk.svg',
                 'answers' => [
                     ['text' => 'Do not cross when this sign is shown',    'correct' => true,  'explanation' => 'The "Don\'t Walk" symbol (usually a raised hand or red figure) means pedestrians must not cross — wait until the Walk symbol appears.'],
                     ['text' => 'Cross quickly before traffic moves',      'correct' => false, 'explanation' => 'The "Don\'t Walk" signal means wait — do not cross.'],
@@ -2029,6 +2080,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'pedestrians-cyclists',
                 'difficulty' => 'easy',
                 'question' => 'What does the "Walk" symbol at a pedestrian crossing indicate?',
+                'image' => 'signs/walk.svg',
                 'answers' => [
                     ['text' => 'A pedestrian may cross with care',             'correct' => true,  'explanation' => 'The "Walk" symbol (usually a green walking figure) indicates pedestrians may cross — but always check traffic has stopped before stepping out.'],
                     ['text' => 'All vehicles have stopped — cross immediately', 'correct' => false, 'explanation' => 'Even with the Walk signal showing, check that all traffic has actually stopped before crossing.'],
@@ -2040,6 +2092,7 @@ class QuestionSeeder extends Seeder
                 'category' => 'pedestrians-cyclists',
                 'difficulty' => 'medium',
                 'question' => 'The "Don\'t Walk" sign at a pedestrian crossing begins to flash. What does this mean?',
+                'image' => 'signs/dont-walk.svg',
                 'answers' => [
                     ['text' => 'Do not start crossing; if already crossing, you will have time to finish safely', 'correct' => true,  'explanation' => 'A flashing "Don\'t Walk" means the lights will soon change — do not begin to cross, but if you have already started, you will have enough time to finish safely.'],
                     ['text' => 'Stop immediately in the middle of the road', 'correct' => false, 'explanation' => 'If already crossing, continue to the other side — stopping in the middle is dangerous.'],
