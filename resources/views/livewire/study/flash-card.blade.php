@@ -30,9 +30,13 @@
                 {{-- Front --}}
                 <div class="absolute inset-0 flex flex-col items-center justify-center rounded-2xl border border-zinc-700 bg-zinc-900 p-8 text-center shadow-xl"
                      style="backface-visibility: hidden; -webkit-backface-visibility: hidden">
-                    <div class="w-8 h-8 rounded-lg bg-road-yellow/10 border border-road-yellow/20 flex items-center justify-center mb-4">
-                        <svg class="w-4 h-4 text-road-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </div>
+                    @if ($this->currentQuestion->image_path)
+                        <img src="{{ Storage::url($this->currentQuestion->image_path) }}" alt="Road sign for this question" class="mb-4 max-h-24 w-auto object-contain">
+                    @else
+                        <div class="w-8 h-8 rounded-lg bg-road-yellow/10 border border-road-yellow/20 flex items-center justify-center mb-4">
+                            <svg class="w-4 h-4 text-road-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                    @endif
                     <p class="text-base font-medium text-white leading-relaxed">
                         {{ $this->currentQuestion->question_text }}
                     </p>
