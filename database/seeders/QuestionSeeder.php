@@ -188,7 +188,6 @@ class QuestionSeeder extends Seeder
                 'category' => 'road-signs',
                 'difficulty' => 'medium',
                 'question' => 'What does a sign with an "H" on it represent?',
-                'image' => 'signs/hospital.svg',
                 'answers' => [
                     ['text' => 'Highway entrance', 'correct' => false, 'explanation' => 'Highway entrances use directional signs.'],
                     ['text' => 'Hydrant',           'correct' => true,  'explanation' => 'An "H" sign marks the location of a fire hydrant.'],
