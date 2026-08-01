@@ -9,6 +9,7 @@ use App\Models\Admin;
 use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Question;
+use Illuminate\Support\Facades\Storage;
 
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Livewire\livewire;
@@ -53,4 +54,17 @@ it('can toggle active status', function () {
         ->assertHasNoFormErrors();
 
     assertDatabaseHas(Question::class, ['id' => $question->id, 'is_active' => false]);
+});
+
+it('shows existing image on the edit form', function () {
+    Storage::fake('public');
+    Storage::disk('public')->put('signs/no-entry.png', 'fake-image-contents');
+
+    $question = Question::factory()->create(['image_path' => 'signs/no-entry.png']);
+    Answer::factory()->count(2)->create(['question_id' => $question->id]);
+
+    $files = livewire(EditQuestion::class, ['record' => $question->id])
+        ->get('data.image_path');
+
+    expect(array_values($files))->toBe(['signs/no-entry.png']);
 });
